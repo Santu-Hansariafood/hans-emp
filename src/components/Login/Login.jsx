@@ -1,59 +1,70 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import axios from "axios";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = ({ onLoginSuccess }) => {
-  const [mobileNumber, setMobileNumber] = useState('');
-  const [password, setPassword] = useState('');
-  const [message, setMessage] = useState('');
+  const [mobileNumber, setMobileNumber] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:3000/employeeRegister', {
-        mobile: mobileNumber,
-        password: password,
-      });
+      const response = await axios.post(
+        "http://localhost:3000/employeeRegister",
+        {
+          mobile: mobileNumber,
+          password: password,
+        }
+      );
 
       if (response.data.success) {
         Swal.fire({
-          title: 'Success!',
-          text: 'Login successful!',
-          icon: 'success',
-          confirmButtonText: 'OK',
+          title: "Success!",
+          text: "Login successful!",
+          icon: "success",
+          confirmButtonText: "OK",
         }).then(async () => {
           try {
-            const employeeResponse = await axios.get(`http://localhost:3000/employeeRegister/mobile/${mobileNumber}`);
+            const employeeResponse = await axios.get(
+              `http://localhost:3000/employeeRegister/mobile/${mobileNumber}`
+            );
             const employeeData = employeeResponse.data[0];
 
             if (employeeData) {
               onLoginSuccess(employeeData); // Pass the employee data to the parent component
-              navigate('/employee-details', { state: { employee: employeeData } });
+              navigate("/employee-details", {
+                state: { employee: employeeData },
+              });
             } else {
-              setMessage('Employee data not found.');
+              setMessage("Employee data not found.");
             }
           } catch (error) {
-            setMessage('Failed to fetch employee data.');
+            setMessage("Failed to fetch employee data.");
           }
         });
       } else {
-        setMessage('Login failed. Please check your credentials.');
+        setMessage("Login failed. Please check your credentials.");
       }
     } catch (error) {
-      setMessage('An error occurred. Please try again later.');
+      setMessage("An error occurred. Please try again later.");
     }
   };
 
   return (
     <div className="max-w-md mx-auto mt-10 bg-white p-8 rounded-lg shadow-lg">
-      <h2 className="text-3xl font-bold mb-6 text-center text-gray-700">Login</h2>
+      <h2 className="text-3xl font-bold mb-6 text-center text-gray-700">
+        Login
+      </h2>
       {message && <p className="text-center text-red-500 mb-4">{message}</p>}
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label className="block text-gray-700 mb-2" htmlFor="mobileNumber">Mobile Number</label>
+          <label className="block text-gray-700 mb-2" htmlFor="mobileNumber">
+            Mobile Number
+          </label>
           <input
             type="text"
             id="mobileNumber"
@@ -64,7 +75,9 @@ const LoginForm = ({ onLoginSuccess }) => {
           />
         </div>
         <div>
-          <label className="block text-gray-700 mb-2" htmlFor="password">Password</label>
+          <label className="block text-gray-700 mb-2" htmlFor="password">
+            Password
+          </label>
           <input
             type="password"
             id="password"

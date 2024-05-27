@@ -20,7 +20,9 @@ const RegisterFarmerLists = () => {
   useEffect(() => {
     const fetchFarmers = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/registerFarmer");
+        const response = await axios.get(
+          "http://localhost:3000/registerFarmer"
+        );
         setFarmers(response.data.farmers);
         setTotalPages(Math.ceil(response.data.farmers.length / itemsPerPage));
       } catch (error) {
@@ -69,10 +71,13 @@ const RegisterFarmerLists = () => {
 
   return (
     <div className="max-w-7xl mx-auto mt-10 bg-white p-8 rounded-lg shadow-lg">
-      <h2 className="text-3xl font-bold mb-6 text-center text-gray-700">Register Farmer Details</h2>
+      <h2 className="text-3xl font-bold mb-6 text-center text-gray-700">
+        Register Farmer Details
+      </h2>
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-5">
         <p className="mb-4">
-          <strong>Employee Name:</strong> {employee?.firstname} {employee?.lastname}
+          <strong>Employee Name:</strong> {employee?.firstname}{" "}
+          {employee?.lastname}
         </p>
         <div className="flex items-center mt-4 sm:mt-0">
           <input
@@ -134,7 +139,9 @@ const RegisterFarmerLists = () => {
                   <td className="py-2 px-4 border-b">{farmer.accountNumber}</td>
                   <td className="py-2 px-4 border-b">{farmer.ifscNumber}</td>
                   <td className="py-2 px-4 border-b">{farmer.branchName}</td>
-                  <td className="py-2 px-4 border-b">{farmer.accountHolderName}</td>
+                  <td className="py-2 px-4 border-b">
+                    {farmer.accountHolderName}
+                  </td>
                   <td className="py-2 px-4 border-b">{farmer.bankName}</td>
                   <td className="py-2 px-4 border-b">
                     <button

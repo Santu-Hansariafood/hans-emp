@@ -1,7 +1,7 @@
-import React from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import QRCode from 'qrcode.react';
-import Swal from 'sweetalert2';
+import React from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import QRCode from "qrcode.react";
+import Swal from "sweetalert2";
 
 const EmployeeDetails = () => {
   const location = useLocation();
@@ -18,30 +18,43 @@ const EmployeeDetails = () => {
 
   const handleNext = () => {
     Swal.fire({
-      title: 'Proceed to Work Details?',
+      title: "Proceed to Work Details?",
       text: "You will be navigated to the next component.",
-      icon: 'warning',
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, proceed!',
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, proceed!",
     }).then((result) => {
       if (result.isConfirmed) {
-        navigate('/work-details', { state: { employee } });
+        navigate("/work-details", { state: { employee } });
       }
     });
   };
 
   return (
     <div className="max-w-4xl mx-auto mt-10 bg-white p-8 rounded-lg shadow-lg">
-      <h2 className="text-3xl font-bold mb-6 text-center text-gray-700">Employee Details</h2>
+      <h2 className="text-3xl font-bold mb-6 text-center text-gray-700">
+        Employee Details
+      </h2>
       <div className="flex justify-between items-center mt-4 p-4 bg-gray-100 rounded-lg">
         <div>
-          <p><strong>Employee ID:</strong> {employee._id}</p>
-          <p><strong>Employee Name:</strong> {employee.firstname} {employee.lastname}</p>
-          <p><strong>Employee Mobile:</strong> {employee.mobile}</p>
-          <p><strong>Employee Email:</strong> {employee.email}</p>
-          <p><strong>Blood Group:</strong> ++</p>
+          <p>
+            <strong>Employee ID:</strong> {employee._id}
+          </p>
+          <p>
+            <strong>Employee Name:</strong> {employee.firstname}{" "}
+            {employee.lastname}
+          </p>
+          <p>
+            <strong>Employee Mobile:</strong> {employee.mobile}
+          </p>
+          <p>
+            <strong>Employee Email:</strong> {employee.email}
+          </p>
+          <p>
+            <strong>Blood Group:</strong> ++
+          </p>
         </div>
         <div className="ml-4">
           <QRCode value={JSON.stringify(employee)} />
