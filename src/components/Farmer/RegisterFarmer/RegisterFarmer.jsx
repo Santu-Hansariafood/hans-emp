@@ -104,6 +104,7 @@ const RegisterFarmer = () => {
                 name="name"
                 value={formData.name}
                 onChange={handleInputChange}
+                placeholder="Enter Farmer Name"
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               />
             </div>
@@ -117,6 +118,7 @@ const RegisterFarmer = () => {
                 name="fatherName"
                 value={formData.fatherName}
                 onChange={handleInputChange}
+                placeholder="Enter Father Name"
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               />
             </div>
@@ -130,6 +132,7 @@ const RegisterFarmer = () => {
                 name="mobile"
                 value={formData.mobile}
                 onChange={handleInputChange}
+                placeholder="Enter Mobile Number"
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               />
             </div>
@@ -143,6 +146,7 @@ const RegisterFarmer = () => {
                 name="email"
                 value={formData.email}
                 onChange={handleInputChange}
+                placeholder="Enter Email ID"
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               />
             </div>
@@ -156,6 +160,7 @@ const RegisterFarmer = () => {
                 name="state"
                 value={formData.state}
                 onChange={handleInputChange}
+                placeholder="Enter State Name"
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               />
             </div>
@@ -169,6 +174,7 @@ const RegisterFarmer = () => {
                 name="district"
                 value={formData.district}
                 onChange={handleInputChange}
+                placeholder="Enter District Name"
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               />
             </div>
@@ -185,6 +191,7 @@ const RegisterFarmer = () => {
                 name="policeStation"
                 value={formData.policeStation}
                 onChange={handleInputChange}
+                placeholder="Enter Police Station"
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               />
             </div>
@@ -198,6 +205,7 @@ const RegisterFarmer = () => {
                 name="village"
                 value={formData.village}
                 onChange={handleInputChange}
+                placeholder="Enter Village Name"
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               />
             </div>
@@ -211,6 +219,7 @@ const RegisterFarmer = () => {
                 name="pinCode"
                 value={formData.pinCode}
                 onChange={handleInputChange}
+                placeholder="Enter Pin Code"
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               />
             </div>
@@ -224,6 +233,7 @@ const RegisterFarmer = () => {
                 name="adherNumber"
                 value={formData.adherNumber}
                 onChange={handleInputChange}
+                placeholder="Enter Adher Number"
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               />
             </div>
@@ -237,6 +247,7 @@ const RegisterFarmer = () => {
                 name="panNumber"
                 value={formData.panNumber}
                 onChange={handleInputChange}
+                placeholder="Enter PAN Number"
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               />
             </div>
@@ -250,6 +261,7 @@ const RegisterFarmer = () => {
                 name="gstNumber"
                 value={formData.gstNumber}
                 onChange={handleInputChange}
+                placeholder="Enter GST Number"
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               />
             </div>
@@ -266,6 +278,7 @@ const RegisterFarmer = () => {
                 name="accountNumber"
                 value={formData.accountNumber}
                 onChange={handleInputChange}
+                placeholder="Enter Account Number"
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               />
             </div>
@@ -279,6 +292,7 @@ const RegisterFarmer = () => {
                 name="ifscNumber"
                 value={formData.ifscNumber}
                 onChange={handleInputChange}
+                placeholder="Enter IFSC Code"
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               />
             </div>
@@ -292,6 +306,7 @@ const RegisterFarmer = () => {
                 name="branchName"
                 value={formData.branchName}
                 onChange={handleInputChange}
+                placeholder="Enter Branch Name"
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               />
             </div>
@@ -308,6 +323,7 @@ const RegisterFarmer = () => {
                 name="accountHolderName"
                 value={formData.accountHolderName}
                 onChange={handleInputChange}
+                placeholder="Enter Account Holder Name"
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               />
             </div>
@@ -321,6 +337,7 @@ const RegisterFarmer = () => {
                 name="bankName"
                 value={formData.bankName}
                 onChange={handleInputChange}
+                placeholder="Enter Bank Name"
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               />
             </div>
@@ -334,6 +351,7 @@ const RegisterFarmer = () => {
               id="profilePhoto"
               name="profilePhoto"
               onChange={handleFileChange}
+              placeholder="Chose Your Profile Photo"
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
             />
           </div>
@@ -349,6 +367,7 @@ const RegisterFarmer = () => {
               id="adherCardPhoto"
               name="adherCardPhoto"
               onChange={handleFileChange}
+              placeholder="Chose Your Adher Card Photo"
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
             />
           </div>
@@ -361,6 +380,7 @@ const RegisterFarmer = () => {
               id="panCardPhoto"
               name="panCardPhoto"
               onChange={handleFileChange}
+              placeholder="Chose Your Pancard Photo"
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
             />
           </div>
@@ -373,6 +393,7 @@ const RegisterFarmer = () => {
               id="bankCardPhoto"
               name="bankCardPhoto"
               onChange={handleFileChange}
+              placeholder="Enter Bank Passbook/Cancel Chaque"
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
             />
           </div>
@@ -385,6 +406,7 @@ const RegisterFarmer = () => {
               id="gstCardPhoto"
               name="gstCardPhoto"
               onChange={handleFileChange}
+              placeholder="Enter GST Card"
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
             />
           </div>
