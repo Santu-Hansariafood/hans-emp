@@ -5,11 +5,12 @@ import Swal from "sweetalert2";
 const WorkDetails = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { employee } = location.state || {};
+  const { employee, user } = location.state || {};
 
   const [registerFarmer, setRegisterFarmer] = useState(false);
   const [listOfFarmers, setListOfFarmers] = useState(false);
   const [godownList, setGodownList] = useState(false);
+  const [addGodown, setAddGodown] = useState(false);
 
   const handleBack = () => {
     navigate(-1);
@@ -28,6 +29,9 @@ const WorkDetails = () => {
     } else if (godownList) {
       selectedTitle = "Godown List";
       nextRoute = "/godown-list";
+    } else if (addGodown) {
+      selectedTitle = "Add Godown";
+      nextRoute = "/godown";
     } else {
       Swal.fire({
         title: "No Selection",
@@ -48,7 +52,7 @@ const WorkDetails = () => {
       confirmButtonText: "Yes, proceed!",
     }).then((result) => {
       if (result.isConfirmed) {
-        navigate(nextRoute, { state: { employee } });
+        navigate(nextRoute, { state: { employee, user } });
       }
     });
   };
@@ -66,8 +70,11 @@ const WorkDetails = () => {
               checked={registerFarmer}
               onChange={(e) => {
                 setRegisterFarmer(e.target.checked);
-                if (e.target.checked) setListOfFarmers(false);
-                if (e.target.checked) setGodownList(false);
+                if (e.target.checked) {
+                  setListOfFarmers(false);
+                  setGodownList(false);
+                  setAddGodown(false);
+                }
               }}
               className="form-checkbox"
             />
@@ -81,8 +88,11 @@ const WorkDetails = () => {
               checked={listOfFarmers}
               onChange={(e) => {
                 setListOfFarmers(e.target.checked);
-                if (e.target.checked) setRegisterFarmer(false);
-                if (e.target.checked) setGodownList(false);
+                if (e.target.checked) {
+                  setRegisterFarmer(false);
+                  setGodownList(false);
+                  setAddGodown(false);
+                }
               }}
               className="form-checkbox"
             />
@@ -96,12 +106,33 @@ const WorkDetails = () => {
               checked={godownList}
               onChange={(e) => {
                 setGodownList(e.target.checked);
-                if (e.target.checked) setRegisterFarmer(false);
-                if (e.target.checked) setListOfFarmers(false);
+                if (e.target.checked) {
+                  setRegisterFarmer(false);
+                  setListOfFarmers(false);
+                  setAddGodown(false);
+                }
               }}
               className="form-checkbox"
             />
             <span className="ml-2">Godown List</span>
+          </label>
+        </div>
+        <div>
+          <label className="inline-flex items-center">
+            <input
+              type="checkbox"
+              checked={addGodown}
+              onChange={(e) => {
+                setAddGodown(e.target.checked);
+                if (e.target.checked) {
+                  setRegisterFarmer(false);
+                  setListOfFarmers(false);
+                  setGodownList(false);
+                }
+              }}
+              className="form-checkbox"
+            />
+            <span className="ml-2">Add Godown</span>
           </label>
         </div>
       </div>

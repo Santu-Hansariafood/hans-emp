@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
 const LoginForm = ({ onLoginSuccess }) => {
   const [mobileNumber, setMobileNumber] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -35,7 +37,7 @@ const LoginForm = ({ onLoginSuccess }) => {
             const employeeData = employeeResponse.data[0];
 
             if (employeeData) {
-              onLoginSuccess(employeeData); // Pass the employee data to the parent component
+              onLoginSuccess(employeeData);
               navigate("/employee-details", {
                 state: { employee: employeeData },
               });
@@ -54,6 +56,15 @@ const LoginForm = ({ onLoginSuccess }) => {
     }
   };
 
+  const handleMobileNumberChange = (e) => {
+    const input = e.target.value.replace(/\D/g, "");
+    if (/^[6-9]/.test(input) && input.length <= 10) {
+      setMobileNumber(input);
+    } else if (input === "") {
+      setMobileNumber("");
+    }
+  };
+
   return (
     <div className="max-w-md mx-auto mt-10 bg-white p-8 rounded-lg shadow-lg">
       <h2 className="text-3xl font-bold mb-6 text-center text-gray-700">
@@ -69,8 +80,9 @@ const LoginForm = ({ onLoginSuccess }) => {
             type="text"
             id="mobileNumber"
             value={mobileNumber}
-            onChange={(e) => setMobileNumber(e.target.value)}
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+            onChange={handleMobileNumberChange}
+            placeholder="Enter Your Mobile Number"
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 appearance-none"
             required
           />
         </div>
@@ -78,14 +90,24 @@ const LoginForm = ({ onLoginSuccess }) => {
           <label className="block text-gray-700 mb-2" htmlFor="password">
             Password
           </label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-            required
-          />
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter Your Password"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+              required
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute inset-y-0 right-0 px-4 py-2 text-gray-700"
+            >
+              {showPassword ? <FiEyeOff /> : <FiEye />}
+            </button>
+          </div>
         </div>
         <button
           type="submit"
