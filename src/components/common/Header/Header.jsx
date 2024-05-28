@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import Logo from "../../../Image/Logo/logo.png";
 
 const Header = ({ isLoggedIn, userDetails, onLogout }) => {
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ const Header = ({ isLoggedIn, userDetails, onLogout }) => {
 
   return (
     <header className="bg-gray-800 text-white p-4 flex justify-between items-center">
-      <h1 className="text-2xl font-bold">Farmer Management System</h1>
+      <img src={Logo} alt="Hansaria food logo" className="h-10 w-10" />
       {isLoggedIn ? (
         <div className="flex items-center space-x-4">
           <p>Welcome, {userDetails?.firstname}</p>
