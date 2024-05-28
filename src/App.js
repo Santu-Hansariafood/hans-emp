@@ -7,6 +7,7 @@ import WorkDetails from "./components/WorkDetails/WorkDetails";
 import RegisterFarmer from "./components/Farmer/RegisterFarmer/RegisterFarmer";
 import RegisterFarmerLists from "./components/Farmer/RegisterFarmerLists/RegisterFarmerLists";
 import FarmerDetails from "./components/Farmer/FarmerDetails/FarmerDetails";
+import GodownList from "./components/Godown/GodownList/GodownList";
 import NotFound from "./components/common/Header/NotFound/NotFound";
 
 const App = () => {
@@ -64,6 +65,12 @@ const App = () => {
         <Route
           path="/farmer-details/:id"
           element={<ProtectedRoute element={<FarmerDetails />} />}
+        />
+        <Route
+          path="/godown-list"
+          element={
+            <ProtectedRoute element={<GodownList userRole={userDetails?.role} />} />
+          }
         />
         <Route path="*" element={<NotFound />} />
       </Routes>

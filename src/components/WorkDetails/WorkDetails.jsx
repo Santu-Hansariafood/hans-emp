@@ -9,6 +9,7 @@ const WorkDetails = () => {
 
   const [registerFarmer, setRegisterFarmer] = useState(false);
   const [listOfFarmers, setListOfFarmers] = useState(false);
+  const [godownList, setGodownList] = useState(false);
 
   const handleBack = () => {
     navigate(-1);
@@ -24,6 +25,9 @@ const WorkDetails = () => {
     } else if (listOfFarmers) {
       selectedTitle = "List of Farmers";
       nextRoute = "/register-farmer-lists";
+    } else if (godownList) {
+      selectedTitle = "Godown List";
+      nextRoute = "/godown-list";
     } else {
       Swal.fire({
         title: "No Selection",
@@ -63,6 +67,7 @@ const WorkDetails = () => {
               onChange={(e) => {
                 setRegisterFarmer(e.target.checked);
                 if (e.target.checked) setListOfFarmers(false);
+                if (e.target.checked) setGodownList(false);
               }}
               className="form-checkbox"
             />
@@ -77,10 +82,26 @@ const WorkDetails = () => {
               onChange={(e) => {
                 setListOfFarmers(e.target.checked);
                 if (e.target.checked) setRegisterFarmer(false);
+                if (e.target.checked) setGodownList(false);
               }}
               className="form-checkbox"
             />
             <span className="ml-2">List of Farmers</span>
+          </label>
+        </div>
+        <div>
+          <label className="inline-flex items-center">
+            <input
+              type="checkbox"
+              checked={godownList}
+              onChange={(e) => {
+                setGodownList(e.target.checked);
+                if (e.target.checked) setRegisterFarmer(false);
+                if (e.target.checked) setListOfFarmers(false);
+              }}
+              className="form-checkbox"
+            />
+            <span className="ml-2">Godown List</span>
           </label>
         </div>
       </div>

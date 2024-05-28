@@ -14,7 +14,7 @@ const LoginForm = ({ onLoginSuccess }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/employeeRegister",
+        "https://main-server-9oo9.onrender.com/employeeRegister",
         {
           mobile: mobileNumber,
           password: password,
@@ -30,7 +30,7 @@ const LoginForm = ({ onLoginSuccess }) => {
         }).then(async () => {
           try {
             const employeeResponse = await axios.get(
-              `http://localhost:3000/employeeRegister/mobile/${mobileNumber}`
+              `https://main-server-9oo9.onrender.com/employeeRegister/mobile/${mobileNumber}`
             );
             const employeeData = employeeResponse.data[0];
 
