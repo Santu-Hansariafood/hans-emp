@@ -30,15 +30,18 @@ const Godown = ({ user }) => {
     }
 
     try {
-      const response = await axios.post("https://main-server-9oo9.onrender.com/godown", {
-        name,
-        location: {
-          name: locationName,
-          landmark,
-          pin,
-          state,
-        },
-      });
+      const response = await axios.post(
+        "https://main-server-9oo9.onrender.com/godown",
+        {
+          name,
+          location: {
+            name: locationName,
+            landmark,
+            pin,
+            state,
+          },
+        }
+      );
 
       if (response.status === 201) {
         Swal.fire({
@@ -101,6 +104,7 @@ const Godown = ({ user }) => {
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               required
               disabled={user.role !== "manager"}
+              placeholder="Enter Location Name"
             />
           </div>
         </div>
@@ -117,6 +121,7 @@ const Godown = ({ user }) => {
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               required
               disabled={user.role !== "manager"}
+              placeholder="Enter Landmark"
             />
           </div>
           <div>
@@ -124,13 +129,18 @@ const Godown = ({ user }) => {
               Pin
             </label>
             <input
-              type="text"
+              type="number"
               id="pin"
+              minLength={6}
+              maxLength={6}
               value={pin}
               onChange={(e) => setPin(e.target.value)}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 ${
+                user.role !== "manager" ? "cursor-not-allowed" : ""
+              }`}
               required
               disabled={user.role !== "manager"}
+              placeholder="Enter Pin Number"
             />
           </div>
         </div>

@@ -37,8 +37,8 @@ const EmployeeDetails = () => {
       <h2 className="text-3xl font-bold mb-6 text-center text-gray-700">
         Employee Details
       </h2>
-      <div className="flex justify-between items-center mt-4 p-4 bg-gray-100 rounded-lg">
-        <div>
+      <div className="flex flex-col lg:flex-row justify-between items-center mt-4 p-4 bg-gray-100 rounded-lg">
+        <div className="mb-4 lg:mb-0">
           <p>
             <strong>Employee ID:</strong> {employee._id}
           </p>
@@ -56,7 +56,7 @@ const EmployeeDetails = () => {
             <strong>Blood Group:</strong> ++
           </p>
         </div>
-        <div className="ml-4">
+        <div className="mt-4 lg:mt-0 lg:ml-4">
           <QRCode value={JSON.stringify(employee)} />
         </div>
       </div>
