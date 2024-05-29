@@ -19,10 +19,10 @@ const Godown = ({ user }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (user.role !== "manager") {
+    if (user.role !== "manager" && user.role !== "admin") {
       Swal.fire({
         title: "Access Denied",
-        text: "Only managers can add a godown.",
+        text: "Only managers and admins can add a godown.",
         icon: "error",
         confirmButtonText: "OK",
       });
@@ -71,7 +71,7 @@ const Godown = ({ user }) => {
       <h2 className="text-3xl font-bold mb-6 text-center text-gray-700">
         Add Godown
       </h2>
-      {user.role !== "manager" && (
+      {(user.role !== "manager" && user.role !== "admin") && (
         <div className="text-center text-red-500 mb-6">
           You are not able to add the godown.
         </div>
@@ -89,7 +89,7 @@ const Godown = ({ user }) => {
               onChange={(e) => setName(e.target.value)}
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               required
-              disabled={user.role !== "manager"}
+              disabled={user.role !== "manager" && user.role !== "admin"}
               placeholder="Enter Godown Name"
             />
           </div>
@@ -104,7 +104,7 @@ const Godown = ({ user }) => {
               onChange={(e) => setLocationName(e.target.value)}
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               required
-              disabled={user.role !== "manager"}
+              disabled={user.role !== "manager" && user.role !== "admin"}
               placeholder="Enter Location Name"
             />
           </div>
@@ -121,7 +121,7 @@ const Godown = ({ user }) => {
               onChange={(e) => setLandmark(e.target.value)}
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               required
-              disabled={user.role !== "manager"}
+              disabled={user.role !== "manager" && user.role !== "admin"}
               placeholder="Enter Landmark"
             />
           </div>
@@ -137,10 +137,10 @@ const Godown = ({ user }) => {
               value={pin}
               onChange={(e) => setPin(e.target.value)}
               className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 ${
-                user.role !== "manager" ? "cursor-not-allowed" : ""
+                (user.role !== "manager" && user.role !== "admin") ? "cursor-not-allowed" : ""
               }`}
               required
-              disabled={user.role !== "manager"}
+              disabled={user.role !== "manager" && user.role !== "admin"}
               placeholder="Enter Pin Number"
             />
           </div>
@@ -156,7 +156,7 @@ const Godown = ({ user }) => {
             onChange={(e) => setState(e.target.value)}
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
             required
-            disabled={user.role !== "manager"}
+            disabled={user.role !== "manager" && user.role !== "admin"}
             placeholder="Enter State"
           />
         </div>
@@ -171,7 +171,7 @@ const Godown = ({ user }) => {
           <button
             type="submit"
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
-            disabled={user.role !== "manager"}
+            disabled={user.role !== "manager" && user.role !== "admin"}
           >
             Add Godown
           </button>

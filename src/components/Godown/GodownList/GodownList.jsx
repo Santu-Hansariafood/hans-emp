@@ -16,7 +16,7 @@ const GodownList = ({ userRole }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (userRole === "manager" || userRole === "backoffice") {
+        if (["manager", "backoffice", "admin"].includes(userRole)) {
           const godownResponse = await axios.get(
             "https://main-server-9oo9.onrender.com/godown"
           );
@@ -30,7 +30,7 @@ const GodownList = ({ userRole }) => {
     fetchData();
   }, [userRole]);
 
-  if (userRole !== "manager" && userRole !== "backoffice") {
+  if (!["manager", "backoffice", "admin"].includes(userRole)) {
     return <NoAccess />;
   }
 
@@ -233,7 +233,7 @@ const GodownList = ({ userRole }) => {
                     {collection.location.state}
                   </td>
                   <td className="py-2 px-4 border-b flex">
-                    {userRole === "manager" && (
+                    {["manager", "admin"].includes(userRole) && (
                       <button
                         onClick={() => handleEdit(collection)}
                         className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 mr-2"

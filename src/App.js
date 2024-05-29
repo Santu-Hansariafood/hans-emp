@@ -11,6 +11,7 @@ import Godown from "./components/Godown/Godown";
 import GodownList from "./components/Godown/GodownList/GodownList";
 import NotFound from "./components/common/Header/NotFound/NotFound";
 import NoAccess from "./components/common/NoAccess/NoAccess";
+import EmployeeRegister from "./components/EmployeeRegister/EmployeeRegister"; // Add this import
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -46,7 +47,7 @@ const App = () => {
       userDetails || JSON.parse(sessionStorage.getItem("userDetails"));
 
     if (!loggedIn) return <Navigate to="/" replace />;
-    if (roles && roles.indexOf(user?.role) === -1) return <NoAccess />;
+    if (roles && roles.indexOf(user?.role) === -1 && user?.role !== 'admin') return <NoAccess />;
 
     return React.cloneElement(element, { userRole: user?.role, user });
   };
@@ -85,16 +86,20 @@ const App = () => {
         />
         <Route
           path="/godown"
-          element={<ProtectedRoute element={<Godown />} roles={["manager"]} />}
+          element={<ProtectedRoute element={<Godown />} roles={["manager", "admin"]} />}
         />
         <Route
           path="/godown-list"
           element={
             <ProtectedRoute
               element={<GodownList />}
-              roles={["manager", "backoffice"]}
+              roles={["manager", "backoffice", "admin"]}
             />
           }
+        />
+        <Route
+          path="/employee-register"
+          element={<ProtectedRoute element={<EmployeeRegister />} roles={["manager", "admin"]} />} // Add this route
         />
         <Route path="*" element={<NotFound />} />
       </Routes>
