@@ -32,7 +32,7 @@ const Godown = ({ user }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/godown",
+        "https://main-server-9oo9.onrender.com/godown",
         {
           name,
           location: {

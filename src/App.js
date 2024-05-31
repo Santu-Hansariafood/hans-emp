@@ -11,19 +11,28 @@ import Godown from "./components/Godown/Godown";
 import GodownList from "./components/Godown/GodownList/GodownList";
 import NotFound from "./components/common/Header/NotFound/NotFound";
 import NoAccess from "./components/common/NoAccess/NoAccess";
-import EmployeeRegister from "./components/EmployeeRegister/EmployeeRegister"; // Add this import
+import EmployeeRegister from "./components/EmployeeRegister/EmployeeRegister";
+import Loading from "./components/common/Loading/Loading"; // Import the Loading component
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userDetails, setUserDetails] = useState(null);
+  const [isLoading, setIsLoading] = useState(true); // State to track loading
 
   useEffect(() => {
-    const loggedIn = sessionStorage.getItem("isLoggedIn") === "true";
-    const user = JSON.parse(sessionStorage.getItem("userDetails"));
-    if (loggedIn && user) {
-      setIsLoggedIn(true);
-      setUserDetails(user);
-    }
+    const fetchData = async () => {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate a delay
+      // Fetch actual data here
+      const loggedIn = sessionStorage.getItem("isLoggedIn") === "true";
+      const user = JSON.parse(sessionStorage.getItem("userDetails"));
+      if (loggedIn && user) {
+        setIsLoggedIn(true);
+        setUserDetails(user);
+      }
+      setIsLoading(false); // Set loading to false after data is fetched
+    };
+    fetchData();
   }, []);
 
   const handleLoginSuccess = (user) => {
@@ -51,6 +60,10 @@ const App = () => {
 
     return React.cloneElement(element, { userRole: user?.role, user });
   };
+
+  if (isLoading) {
+    return <Loading />; // Show loading screen while data is being fetched
+  }
 
   return (
     <BrowserRouter>

@@ -61,7 +61,7 @@ const GodownList = ({ userRole }) => {
     try {
       if (editMode) {
         await axios.put(
-          `http://localhost:3000/godown/${currentGodown._id}`,
+          `https://main-server-9oo9.onrender.com/godown/${currentGodown._id}`,
           currentGodown
         );
         const updatedCollections = collections.map((collection) =>
@@ -70,13 +70,13 @@ const GodownList = ({ userRole }) => {
         setCollections(updatedCollections);
       } else if (newGodownMode) {
         const response = await axios.post(
-          "http://localhost:3000/godown",
+          "https://main-server-9oo9.onrender.com/godown",
           currentGodown
         );
         setCollections([...collections, response.data]);
       } else if (rateEditId) {
         await axios.put(
-          `http://localhost:3000/godown/${rateEditId}`,
+          `https://main-server-9oo9.onrender.com/godown/${rateEditId}`,
           { rate: currentGodown.rate }
         );
         const updatedCollections = collections.map((collection) =>
