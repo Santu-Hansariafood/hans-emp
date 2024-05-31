@@ -9,6 +9,7 @@ const Godown = ({ user }) => {
   const [landmark, setLandmark] = useState("");
   const [pin, setPin] = useState("");
   const [state, setState] = useState("");
+  const [rate, setRate] = useState("");
 
   const navigate = useNavigate();
 
@@ -31,7 +32,7 @@ const Godown = ({ user }) => {
 
     try {
       const response = await axios.post(
-        "https://main-server-9oo9.onrender.com/godown",
+        "http://localhost:3000/godown",
         {
           name,
           location: {
@@ -40,6 +41,7 @@ const Godown = ({ user }) => {
             pin,
             state,
           },
+          rate,
         }
       );
 
@@ -55,6 +57,7 @@ const Godown = ({ user }) => {
         setLandmark("");
         setPin("");
         setState("");
+        setRate("");
       }
     } catch (error) {
       Swal.fire({
@@ -158,6 +161,21 @@ const Godown = ({ user }) => {
             required
             disabled={user.role !== "manager" && user.role !== "admin"}
             placeholder="Enter State"
+          />
+        </div>
+        <div>
+          <label className="block text-gray-700 mb-2" htmlFor="rate">
+            Rate
+          </label>
+          <input
+            type="number"
+            id="rate"
+            value={rate}
+            onChange={(e) => setRate(e.target.value)}
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+            required
+            disabled={user.role !== "manager" && user.role !== "admin"}
+            placeholder="Enter Rate"
           />
         </div>
         <div className="flex justify-between mt-4">

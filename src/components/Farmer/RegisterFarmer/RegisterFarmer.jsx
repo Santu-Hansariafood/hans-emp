@@ -26,6 +26,7 @@ const RegisterFarmer = () => {
     branchName: "",
     accountHolderName: "",
     bankName: "",
+    password: "",
   });
 
   const [files, setFiles] = useState({
@@ -53,16 +54,23 @@ const RegisterFarmer = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = new FormData();
+
     Object.keys(formData).forEach((key) => {
       data.append(key, formData[key]);
     });
+
     Object.keys(files).forEach((key) => {
-      data.append(key, files[key]);
+      if (files[key]) {
+        data.append(key, files[key]);
+      }
     });
+
+    console.log("Form data before submission:", formData);
+    console.log("Files before submission:", files);
 
     try {
       const response = await axios.post(
-        "https://main-server-9oo9.onrender.com/registerFarmer",
+        "http://localhost:3000/registerFarmer",
         data,
         {
           headers: {
@@ -104,13 +112,13 @@ const RegisterFarmer = () => {
                 name="name"
                 value={formData.name}
                 onChange={handleInputChange}
-                placeholder="Enter Farmer Name"
+                placeholder="Enter Name"
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               />
             </div>
             <div>
               <label className="block text-gray-700 mb-2" htmlFor="fatherName">
-                Father's Name
+                Father Name
               </label>
               <input
                 type="text"
@@ -146,7 +154,7 @@ const RegisterFarmer = () => {
                 name="email"
                 value={formData.email}
                 onChange={handleInputChange}
-                placeholder="Enter Email ID"
+                placeholder="Enter Email"
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               />
             </div>
@@ -160,7 +168,7 @@ const RegisterFarmer = () => {
                 name="state"
                 value={formData.state}
                 onChange={handleInputChange}
-                placeholder="Enter State Name"
+                placeholder="Enter State"
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               />
             </div>
@@ -174,7 +182,7 @@ const RegisterFarmer = () => {
                 name="district"
                 value={formData.district}
                 onChange={handleInputChange}
-                placeholder="Enter District Name"
+                placeholder="Enter District"
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               />
             </div>
@@ -205,7 +213,7 @@ const RegisterFarmer = () => {
                 name="village"
                 value={formData.village}
                 onChange={handleInputChange}
-                placeholder="Enter Village Name"
+                placeholder="Enter Village"
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               />
             </div>
@@ -239,7 +247,7 @@ const RegisterFarmer = () => {
             </div>
             <div>
               <label className="block text-gray-700 mb-2" htmlFor="panNumber">
-                PAN Number
+                Pan Number
               </label>
               <input
                 type="text"
@@ -247,7 +255,7 @@ const RegisterFarmer = () => {
                 name="panNumber"
                 value={formData.panNumber}
                 onChange={handleInputChange}
-                placeholder="Enter PAN Number"
+                placeholder="Enter Pan Number"
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               />
             </div>
@@ -292,7 +300,7 @@ const RegisterFarmer = () => {
                 name="ifscNumber"
                 value={formData.ifscNumber}
                 onChange={handleInputChange}
-                placeholder="Enter IFSC Code"
+                placeholder="Enter IFSC Number"
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               />
             </div>
@@ -341,86 +349,96 @@ const RegisterFarmer = () => {
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               />
             </div>
+            <div>
+              <label className="block text-gray-700 mb-2" htmlFor="password">
+                Password
+              </label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleInputChange}
+                placeholder="Enter Password"
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+              />
+            </div>
           </div>
-          <div className="mt-4">
-            <label className="block text-gray-700 mb-2" htmlFor="profilePhoto">
-              Profile Photo
-            </label>
-            <input
-              type="file"
-              id="profilePhoto"
-              name="profilePhoto"
-              onChange={handleFileChange}
-              placeholder="Chose Your Profile Photo"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-            />
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4">
+            <div>
+              <label className="block text-gray-700 mb-2" htmlFor="profilePhoto">
+                Profile Photo
+              </label>
+              <input
+                type="file"
+                id="profilePhoto"
+                name="profilePhoto"
+                onChange={handleFileChange}
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+              />
+            </div>
+            <div>
+              <label className="block text-gray-700 mb-2" htmlFor="adherCardPhoto">
+                Adher Card Photo
+              </label>
+              <input
+                type="file"
+                id="adherCardPhoto"
+                name="adherCardPhoto"
+                onChange={handleFileChange}
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+              />
+            </div>
+            <div>
+              <label className="block text-gray-700 mb-2" htmlFor="panCardPhoto">
+                Pan Card Photo
+              </label>
+              <input
+                type="file"
+                id="panCardPhoto"
+                name="panCardPhoto"
+                onChange={handleFileChange}
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+              />
+            </div>
+            <div>
+              <label className="block text-gray-700 mb-2" htmlFor="bankCardPhoto">
+                Bank Card Photo
+              </label>
+              <input
+                type="file"
+                id="bankCardPhoto"
+                name="bankCardPhoto"
+                onChange={handleFileChange}
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+              />
+            </div>
+            <div>
+              <label className="block text-gray-700 mb-2" htmlFor="gstCardPhoto">
+                GST Card Photo
+              </label>
+              <input
+                type="file"
+                id="gstCardPhoto"
+                name="gstCardPhoto"
+                onChange={handleFileChange}
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+              />
+            </div>
           </div>
-          <div className="mt-4">
-            <label
-              className="block text-gray-700 mb-2"
-              htmlFor="adherCardPhoto"
-            >
-              Adher Card Photo
-            </label>
-            <input
-              type="file"
-              id="adherCardPhoto"
-              name="adherCardPhoto"
-              onChange={handleFileChange}
-              placeholder="Chose Your Adher Card Photo"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-            />
-          </div>
-          <div className="mt-4">
-            <label className="block text-gray-700 mb-2" htmlFor="panCardPhoto">
-              PAN Card Photo
-            </label>
-            <input
-              type="file"
-              id="panCardPhoto"
-              name="panCardPhoto"
-              onChange={handleFileChange}
-              placeholder="Chose Your Pancard Photo"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-            />
-          </div>
-          <div className="mt-4">
-            <label className="block text-gray-700 mb-2" htmlFor="bankCardPhoto">
-              Bank Card Photo
-            </label>
-            <input
-              type="file"
-              id="bankCardPhoto"
-              name="bankCardPhoto"
-              onChange={handleFileChange}
-              placeholder="Enter Bank Passbook/Cancel Chaque"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-            />
-          </div>
-          <div className="mt-4">
-            <label className="block text-gray-700 mb-2" htmlFor="gstCardPhoto">
-              GST Card Photo
-            </label>
-            <input
-              type="file"
-              id="gstCardPhoto"
-              name="gstCardPhoto"
-              onChange={handleFileChange}
-              placeholder="Enter GST Card"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-            />
-          </div>
-          <div className="flex justify-end space-x-4 mt-6">
+
+          <div className="mt-6 flex justify-end space-x-4">
             <button
               type="button"
               onClick={handleBack}
-              className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500"
+              className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
             >
               Back
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
             >
               Register
             </button>
