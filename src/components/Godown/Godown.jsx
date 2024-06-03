@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import QualityParameters from "../QualityParameters/QualityParameters";
 
 const Godown = ({ user }) => {
   const [name, setName] = useState("");
@@ -10,6 +11,13 @@ const Godown = ({ user }) => {
   const [pin, setPin] = useState("");
   const [state, setState] = useState("");
   const [rate, setRate] = useState("");
+  const [quality, setQuality] = useState([
+    { parameter: "Moisture", accepted: "10%", upto: "12%" },
+    { parameter: "Broken", accepted: "12%", upto: "15%" },
+    { parameter: "F.M.", accepted: "2%", upto: "3%" },
+    { parameter: "Damage", accepted: "12%", upto: "15%" },
+    { parameter: "Small Gain", accepted: "2%", upto: "3%" },
+  ]);
 
   const navigate = useNavigate();
 
@@ -42,6 +50,7 @@ const Godown = ({ user }) => {
             state,
           },
           rate,
+          quality,
         }
       );
 
@@ -58,6 +67,13 @@ const Godown = ({ user }) => {
         setPin("");
         setState("");
         setRate("");
+        setQuality([
+          { parameter: "Moisture", accepted: "10%", upto: "12%" },
+          { parameter: "Broken", accepted: "12%", upto: "15%" },
+          { parameter: "F.M.", accepted: "2%", upto: "3%" },
+          { parameter: "Damage", accepted: "12%", upto: "15%" },
+          { parameter: "Small Gain", accepted: "2%", upto: "3%" },
+        ]);
       }
     } catch (error) {
       Swal.fire({
@@ -74,7 +90,7 @@ const Godown = ({ user }) => {
       <h2 className="text-3xl font-bold mb-6 text-center text-gray-700">
         Add Godown
       </h2>
-      {(user.role !== "manager" && user.role !== "admin") && (
+      {user.role !== "manager" && user.role !== "admin" && (
         <div className="text-center text-red-500 mb-6">
           You are not able to add the godown.
         </div>
@@ -140,7 +156,9 @@ const Godown = ({ user }) => {
               value={pin}
               onChange={(e) => setPin(e.target.value)}
               className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 ${
-                (user.role !== "manager" && user.role !== "admin") ? "cursor-not-allowed" : ""
+                user.role !== "manager" && user.role !== "admin"
+                  ? "cursor-not-allowed"
+                  : ""
               }`}
               required
               disabled={user.role !== "manager" && user.role !== "admin"}
@@ -178,6 +196,11 @@ const Godown = ({ user }) => {
             placeholder="Enter Rate"
           />
         </div>
+        <QualityParameters
+          parameters={quality}
+          setParameters={setQuality}
+          disabled={user.role !== "manager" && user.role !== "admin"}
+        />
         <div className="flex justify-between mt-4">
           <button
             type="button"

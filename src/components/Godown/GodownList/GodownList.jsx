@@ -12,6 +12,7 @@ const GodownList = ({ userRole }) => {
   const [currentGodown, setCurrentGodown] = useState(null);
   const [rateEditId, setRateEditId] = useState(null);
   const [newGodownMode, setNewGodownMode] = useState(false);
+  const [qualityEditMode, setQualityEditMode] = useState(false);
   const navigate = useNavigate();
 
   const itemsPerPage = 10;
@@ -80,13 +81,25 @@ const GodownList = ({ userRole }) => {
           { rate: currentGodown.rate }
         );
         const updatedCollections = collections.map((collection) =>
-          collection._id === rateEditId ? { ...collection, rate: currentGodown.rate } : collection
+          collection._id === rateEditId
+            ? { ...collection, rate: currentGodown.rate }
+            : collection
+        );
+        setCollections(updatedCollections);
+      } else if (qualityEditMode) {
+        await axios.put(
+          `https://main-server-9oo9.onrender.com/godown/${currentGodown._id}`,
+          { quality: currentGodown.quality }
+        );
+        const updatedCollections = collections.map((collection) =>
+          collection._id === currentGodown._id ? currentGodown : collection
         );
         setCollections(updatedCollections);
       }
       setEditMode(false);
       setNewGodownMode(false);
       setRateEditId(null);
+      setQualityEditMode(false);
       setCurrentGodown(null);
     } catch (error) {
       console.error("Error saving godown", error);
@@ -98,6 +111,13 @@ const GodownList = ({ userRole }) => {
       name: "",
       location: { name: "", landmark: "", pin: "", state: "" },
       rate: 0,
+      quality: [
+        { parameter: "Moisture", accepted: "10%", upto: "12%" },
+        { parameter: "Broken", accepted: "12%", upto: "15%" },
+        { parameter: "F.M.", accepted: "2%", upto: "3%" },
+        { parameter: "Damage", accepted: "12%", upto: "15%" },
+        { parameter: "Small Gain", accepted: "2%", upto: "3%" },
+      ],
     });
     setNewGodownMode(true);
   };
@@ -109,6 +129,17 @@ const GodownList = ({ userRole }) => {
 
   const handleRateChange = (event) => {
     setCurrentGodown({ ...currentGodown, rate: event.target.value });
+  };
+
+  const handleQualityEdit = (collection) => {
+    setQualityEditMode(true);
+    setCurrentGodown(collection);
+  };
+
+  const handleQualityChange = (index, field, value) => {
+    const newQuality = [...currentGodown.quality];
+    newQuality[index][field] = value;
+    setCurrentGodown({ ...currentGodown, quality: newQuality });
   };
 
   const handleNextPage = () => {
@@ -133,10 +164,16 @@ const GodownList = ({ userRole }) => {
         Godown List
       </h2>
 
-      {(editMode || newGodownMode || rateEditId) && (
+      {(editMode || newGodownMode || rateEditId || qualityEditMode) && (
         <div className="mb-6">
           <h3 className="text-2xl font-bold mb-4">
-            {editMode ? "Edit Godown" : newGodownMode ? "Add New Godown" : "Edit Rate"}
+            {editMode
+              ? "Edit Godown"
+              : newGodownMode
+              ? "Add New Godown"
+              : rateEditId
+              ? "Edit Rate"
+              : "Edit Quality Parameters"}
           </h3>
           <div className="space-y-4">
             {(editMode || newGodownMode) && (
@@ -147,7 +184,10 @@ const GodownList = ({ userRole }) => {
                     type="text"
                     value={currentGodown.name}
                     onChange={(e) =>
-                      setCurrentGodown({ ...currentGodown, name: e.target.value })
+                      setCurrentGodown({
+                        ...currentGodown,
+                        name: e.target.value,
+                      })
                     }
                     className="w-full px-3 py-2 border rounded-lg"
                   />
@@ -220,157 +260,180 @@ const GodownList = ({ userRole }) => {
                     className="w-full px-3 py-2 border rounded-lg"
                   />
                 </div>
+                <div>
+                  <label className="block mb-1 font-medium">Rate:</label>
+                  <input
+                    type="number"
+                    value={currentGodown.rate}
+                    onChange={(e) =>
+                      setCurrentGodown({
+                        ...currentGodown,
+                        rate: e.target.value,
+                      })
+                    }
+                    className="w-full px-3 py-2 border rounded-lg"
+                  />
+                </div>
               </>
             )}
-            <div>
-              <label className="block mb-1 font-medium">Rate:</label>
-              <input
-                type="number"
-                value={currentGodown.rate}
-                onChange={handleRateChange}
-                className="w-full px-3 py-2 border rounded-lg"
-              />
-            </div>
-            <div className="mt-4 flex justify-between">
-              <button
-                onClick={handleSave}
-                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
-              >
-                Save
-              </button>
-              <button
-                onClick={() => {
-                  setEditMode(false);
-                  setNewGodownMode(false);
-                  setRateEditId(null);
-                }}
-                className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
-              >
-                Cancel
-              </button>
-            </div>
+            {qualityEditMode && (
+              <div>
+                <label className="block mb-1 font-medium">
+                  Quality Parameters:
+                </label>
+                {currentGodown.quality?.map((q, index) => (
+                  <div key={index} className="flex space-x-4 mb-2">
+                    <input
+                      type="text"
+                      value={q.parameter}
+                      onChange={(e) =>
+                        handleQualityChange(index, "parameter", e.target.value)
+                      }
+                      className="w-full px-3 py-2 border rounded-lg"
+                      placeholder="Parameter"
+                    />
+                    <input
+                      type="text"
+                      value={q.accepted}
+                      onChange={(e) =>
+                        handleQualityChange(index, "accepted", e.target.value)
+                      }
+                      className="w-full px-3 py-2 border rounded-lg"
+                      placeholder="Accepted"
+                    />
+                    <input
+                      type="text"
+                      value={q.upto}
+                      onChange={(e) =>
+                        handleQualityChange(index, "upto", e.target.value)
+                      }
+                      className="w-full px-3 py-2 border rounded-lg"
+                      placeholder="Upto"
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+          <div className="mt-6 space-x-4">
+            <button
+              onClick={handleSave}
+              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+            >
+              Save
+            </button>
+            <button
+              onClick={() => {
+                setEditMode(false);
+                setNewGodownMode(false);
+                setRateEditId(null);
+                setQualityEditMode(false);
+                setCurrentGodown(null);
+              }}
+              className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
+            >
+              Cancel
+            </button>
           </div>
         </div>
       )}
 
-      <div className="mb-4 flex justify-between items-center">
-        <input
-          type="text"
-          value={searchTerm}
-          onChange={handleSearch}
-          placeholder="Search by Godown Name"
-          className="w-full px-3 py-2 border rounded-lg"
-        />
-        {/* <button
-          onClick={handleAddNew}
-          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ml-4"
-        >
-          <CiCirclePlus title="Add New Godown" />
-        </button> */}
+      <div className="mb-6">
+        <div className="flex justify-between items-center">
+          <input
+            type="text"
+            placeholder="Search godowns..."
+            value={searchTerm}
+            onChange={handleSearch}
+            className="w-full px-4 py-2 border rounded-lg"
+          />
+          <button
+            onClick={handleAddNew}
+            className="ml-4 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+          >
+            <CiCirclePlus className="inline-block mr-1" /> Add New Godown
+          </button>
+        </div>
       </div>
-      <div>
-        <table className="min-w-full bg-white border">
-          <thead>
-            <tr>
-              <th className="py-2 px-4 border-b">Name</th>
-              <th className="py-2 px-4 border-b">Location</th>
-              <th className="py-2 px-4 border-b">Landmark</th>
-              <th className="py-2 px-4 border-b">Pin</th>
-              <th className="py-2 px-4 border-b">State</th>
-              <th className="py-2 px-4 border-b">Rate</th>
-              <th className="py-2 px-4 border-b">Actions</th>
+
+      <table className="min-w-full bg-white border border-gray-300">
+        <thead>
+          <tr>
+            <th className="px-6 py-3 border-b">Name</th>
+            <th className="px-6 py-3 border-b">Location</th>
+            <th className="px-6 py-3 border-b">Rate</th>
+            <th className="px-6 py-3 border-b">Quality Parameters</th>
+            <th className="px-6 py-3 border-b">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {currentCollections.map((collection) => (
+            <tr key={collection._id}>
+              <td className="px-6 py-4 border-b">{collection.name}</td>
+              <td className="px-6 py-4 border-b">
+                {collection.location.name}, {collection.location.landmark},{" "}
+                {collection.location.pin}, {collection.location.state}
+              </td>
+              <td className="px-6 py-4 border-b">
+                {rateEditId === collection._id ? (
+                  <input
+                    type="number"
+                    value={currentGodown.rate}
+                    onChange={handleRateChange}
+                    className="w-full px-3 py-2 border rounded-lg"
+                  />
+                ) : (
+                  collection.rate
+                )}
+              </td>
+              <td className="px-6 py-4 border-b">
+                {collection.quality?.map((q, index) => (
+                  <div key={index}>
+                    <strong>{q.parameter}:</strong> Accepted - {q.accepted},
+                    Upto - {q.upto}
+                  </div>
+                ))}
+              </td>
+              <td className="px-6 py-4 border-b">
+                <button
+                  onClick={() => handleEdit(collection)}
+                  className="text-blue-500 hover:text-blue-700"
+                >
+                  <CiEdit className="inline-block mr-1" /> Edit
+                </button>
+                <button
+                  onClick={() => handleRateEdit(collection)}
+                  className="text-green-500 hover:text-green-700 ml-4"
+                >
+                  Edit Rate
+                </button>
+                <button
+                  onClick={() => handleQualityEdit(collection)}
+                  className="text-yellow-500 hover:text-yellow-700 ml-4"
+                >
+                  Edit Quality
+                </button>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {currentCollections.length > 0 ? (
-              currentCollections.map((collection, index) => (
-                <tr key={index}>
-                  <td className="py-2 px-4 border-b">{collection.name}</td>
-                  <td className="py-2 px-4 border-b">
-                    {collection.location.name}
-                  </td>
-                  <td className="py-2 px-4 border-b">
-                    {collection.location.landmark}
-                  </td>
-                  <td className="py-2 px-4 border-b">
-                    {collection.location.pin}
-                  </td>
-                  <td className="py-2 px-4 border-b">
-                    {collection.location.state}
-                  </td>
-                  <td className="py-2 px-4 border-b">
-                    {rateEditId === collection._id ? (
-                      <input
-                        type="number"
-                        value={currentGodown.rate}
-                        onChange={handleRateChange}
-                        className="w-full px-3 py-2 border rounded-lg"
-                      />
-                    ) : (
-                      collection.rate
-                    )}
-                  </td>
-                  <td className="py-2 px-4 border-b flex">
-                    {["manager", "admin"].includes(userRole) && (
-                      <button
-                        onClick={() => handleEdit(collection)}
-                        className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-2 rounded transition duration-300 mr-2"
-                      >
-                        <CiEdit title="Edit Godown" />
-                      </button>
-                    )}
-                    {rateEditId !== collection._id && (
-                      <button
-                        onClick={() => handleRateEdit(collection)}
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded transition duration-300 ml-2"
-                      >
-                        <CiCirclePlus title="Edit Rate" />
-                      </button>
-                    )}
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="7" className="py-2 px-4 text-center">
-                  No collections available.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
-      <div className="mt-4 flex justify-between items-center">
-        <div>
-          <button
-            onClick={handleBack}
-            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
-          >
-            Back
-          </button>
-        </div>
-        <div className="flex space-x-4">
-          <button
-            onClick={handlePreviousPage}
-            disabled={currentPage === 1}
-            className={`bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ${
-              currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
-            }`}
-          >
-            Previous
-          </button>
-          <button
-            onClick={handleNextPage}
-            disabled={indexOfLastItem >= filteredCollections.length}
-            className={`bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ${
-              indexOfLastItem >= filteredCollections.length
-                ? "opacity-50 cursor-not-allowed"
-                : ""
-            }`}
-          >
-            Next
-          </button>
-        </div>
+          ))}
+        </tbody>
+      </table>
+
+      <div className="flex justify-between items-center mt-4">
+        <button
+          onClick={handlePreviousPage}
+          disabled={currentPage === 1}
+          className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 disabled:opacity-50"
+        >
+          Previous
+        </button>
+        <button
+          onClick={handleNextPage}
+          disabled={indexOfLastItem >= filteredCollections.length}
+          className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 disabled:opacity-50"
+        >
+          Next
+        </button>
       </div>
     </div>
   );
