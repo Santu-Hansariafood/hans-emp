@@ -165,6 +165,10 @@ const PurchaseBill = () => {
     }
   };
 
+  const handleBack = () => {
+    navigate(-1);
+  };
+
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Purchase Bill</h1>
@@ -210,10 +214,17 @@ const PurchaseBill = () => {
           totalClaimAmount={claimAmount}
         />
         <FarmerDetails farmerData={farmerData} />
-        <div className="mt-4">
+        <div className="mt-10">
+          <button
+            type="button"
+            onClick={handleBack}
+            className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-4"
+          >
+            Back
+          </button>
           <button
             type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4"
           >
             Generate Bill
           </button>
