@@ -14,6 +14,7 @@ const PurchaseBill = () => {
 
   const [lorryNumber, setLorryNumber] = useState("");
   const [productName] = useState("Maize");
+  const [company, setCompany] = useState("");
   const [totalBag, setTotalBag] = useState("");
   const [grossWeight, setGrossWeight] = useState("");
   const [tareWeight, setTareWeight] = useState("");
@@ -133,6 +134,7 @@ const PurchaseBill = () => {
         ifscNumber: farmerData.ifscNumber,
       },
       totalUnloadingCost,
+      company, // Add company to the bill data
     };
 
     console.log("Bill Data:", billData);
@@ -177,6 +179,8 @@ const PurchaseBill = () => {
           lorryNumber={lorryNumber}
           setLorryNumber={setLorryNumber}
           productName={productName}
+          company={company}
+          setCompany={setCompany}
         />
         <WeightDetails
           totalBag={totalBag}
