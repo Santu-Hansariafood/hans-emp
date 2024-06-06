@@ -11,6 +11,7 @@ const WorkDetails = () => {
   const [listOfFarmers, setListOfFarmers] = useState(false);
   const [godownList, setGodownList] = useState(false);
   const [addGodown, setAddGodown] = useState(false);
+  const [bill, setBill] = useState(false);
 
   const handleBack = () => {
     navigate(-1);
@@ -32,6 +33,9 @@ const WorkDetails = () => {
     } else if (addGodown) {
       selectedTitle = "Add Godown";
       nextRoute = "/godown";
+    } else if (bill) {
+      selectedTitle = "bill";
+      nextRoute = "/bill";
     } else {
       Swal.fire({
         title: "No Selection",
@@ -74,6 +78,7 @@ const WorkDetails = () => {
                   setListOfFarmers(false);
                   setGodownList(false);
                   setAddGodown(false);
+                  setBill(false);
                 }
               }}
               className="form-checkbox"
@@ -92,6 +97,7 @@ const WorkDetails = () => {
                   setRegisterFarmer(false);
                   setGodownList(false);
                   setAddGodown(false);
+                  setBill(false);
                 }
               }}
               className="form-checkbox"
@@ -110,6 +116,7 @@ const WorkDetails = () => {
                   setRegisterFarmer(false);
                   setListOfFarmers(false);
                   setAddGodown(false);
+                  setBill(false);
                 }
               }}
               className="form-checkbox"
@@ -128,11 +135,31 @@ const WorkDetails = () => {
                   setRegisterFarmer(false);
                   setListOfFarmers(false);
                   setGodownList(false);
+                  setBill(false);
                 }
               }}
               className="form-checkbox"
             />
             <span className="ml-2">Add Godown</span>
+          </label>
+        </div>
+        <div>
+          <label className="inline-flex items-center">
+            <input
+              type="checkbox"
+              checked={bill}
+              onChange={(e) => {
+                setBill(e.target.checked);
+                if (e.target.checked) {
+                  setRegisterFarmer(false);
+                  setListOfFarmers(false);
+                  setGodownList(false);
+                  setAddGodown(false);
+                }
+              }}
+              className="form-checkbox"
+            />
+            <span className="ml-2">Bill</span>
           </label>
         </div>
       </div>

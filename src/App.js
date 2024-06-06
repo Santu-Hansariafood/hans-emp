@@ -13,6 +13,9 @@ import NotFound from "./components/common/Header/NotFound/NotFound";
 import NoAccess from "./components/common/NoAccess/NoAccess";
 import EmployeeRegister from "./components/EmployeeRegister/EmployeeRegister";
 import Loading from "./components/common/Loading/Loading";
+import Bill from "./components/bill/Bill";
+import PurchaseBill from "./components/bill/PurchaseBill/PurchaseBill";
+import DisplayBill from "./components/bill/DisplayBill/DisplayBill";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -21,7 +24,7 @@ const App = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      await new Promise(resolve => setTimeout(resolve, 3000));
+      await new Promise((resolve) => setTimeout(resolve, 3000));
       const loggedIn = sessionStorage.getItem("isLoggedIn") === "true";
       const user = JSON.parse(sessionStorage.getItem("userDetails"));
       if (loggedIn && user) {
@@ -54,7 +57,8 @@ const App = () => {
       userDetails || JSON.parse(sessionStorage.getItem("userDetails"));
 
     if (!loggedIn) return <Navigate to="/" replace />;
-    if (roles && roles.indexOf(user?.role) === -1 && user?.role !== 'admin') return <NoAccess />;
+    if (roles && roles.indexOf(user?.role) === -1 && user?.role !== "admin")
+      return <NoAccess />;
 
     return React.cloneElement(element, { userRole: user?.role, user });
   };
@@ -97,7 +101,9 @@ const App = () => {
         />
         <Route
           path="/godown"
-          element={<ProtectedRoute element={<Godown />} roles={["manager", "admin"]} />}
+          element={
+            <ProtectedRoute element={<Godown />} roles={["manager", "admin"]} />
+          }
         />
         <Route
           path="/godown-list"
@@ -110,7 +116,39 @@ const App = () => {
         />
         <Route
           path="/employee-register"
-          element={<ProtectedRoute element={<EmployeeRegister />} roles={["manager", "admin"]} />}
+          element={
+            <ProtectedRoute
+              element={<EmployeeRegister />}
+              roles={["manager", "admin"]}
+            />
+          }
+        />
+        <Route
+          path="/bill"
+          element={
+            <ProtectedRoute
+              element={<Bill />}
+              roles={["manager", "admin", "fieldstaff"]}
+            />
+          }
+        />
+        <Route
+          path="/purchase-bill"
+          element={
+            <ProtectedRoute
+              element={<PurchaseBill />}
+              roles={["manager", "admin", "fieldstaff"]}
+            />
+          }
+        />
+        <Route
+          path="/display-bill"
+          element={
+            <ProtectedRoute
+              element={<DisplayBill />}
+              roles={["manager", "admin", "fieldstaff"]}
+            />
+          }
         />
         <Route path="*" element={<NotFound />} />
       </Routes>

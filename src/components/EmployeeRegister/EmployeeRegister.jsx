@@ -36,7 +36,7 @@ const EmployeeRegister = () => {
     };
 
     try {
-      const response = await axios.post("https://main-server-9oo9.onrender.com/employeeRegister", data);
+      const response = await axios.post("https://main-server-9oo9.onrender.com/empRegister", data);
 
       if (response.data.success) {
         Swal.fire({
