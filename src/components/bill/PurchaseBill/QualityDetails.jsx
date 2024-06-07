@@ -8,14 +8,27 @@ const QualityDetails = ({
 }) => {
   const handleQualityChange = (index, field, value) => {
     const newQualityParams = [...qualityParams];
+
+    if (field === "claim" && value.includes(":")) {
+      const parts = value.split(":");
+      if (parts.length === 2) {
+        parts[1] = parts[1].startsWith(".") ? `0${parts[1]}` : parts[1];
+        value = `${parts[0]}:${parts[1]}`;
+      }
+    }
+
     newQualityParams[index][field] = value;
 
     const basic = parseFloat(newQualityParams[index]["basic"]);
     const actual = parseFloat(newQualityParams[index]["actual"]);
 
     if (!isNaN(basic) && !isNaN(actual)) {
-      newQualityParams[index]["excess"] = actual - basic;
-      const claimRatio = parseFloat(newQualityParams[index]["claim"].split(":")[1]);
+      newQualityParams[index]["excess"] = (actual - basic).toFixed(2);
+
+      const claimRatio = parseFloat(
+        newQualityParams[index]["claim"].split(":")[1]
+      );
+
       newQualityParams[index]["claimPercentage"] = (
         newQualityParams[index]["excess"] * claimRatio
       ).toFixed(2);
@@ -71,8 +84,8 @@ const QualityDetails = ({
             }
             required
             className="col-span-1 p-2 border border-gray-300 rounded-md"
-            pattern="\d+:\d+"
-            title="Enter ratio in format 1:1, 1:15, etc."
+            pattern="\d+:(0\.\d+|\d+)"
+            title="Enter ratio in format 1:0.5, 1:1.5, etc."
           />
           <input
             type="number"
