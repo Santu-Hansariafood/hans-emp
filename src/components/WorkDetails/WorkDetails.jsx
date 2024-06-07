@@ -34,7 +34,7 @@ const WorkDetails = () => {
       selectedTitle = "Add Godown";
       nextRoute = "/godown";
     } else if (bill) {
-      selectedTitle = "bill";
+      selectedTitle = "Generate Bill";
       nextRoute = "/bill";
     } else {
       Swal.fire({
@@ -159,7 +159,7 @@ const WorkDetails = () => {
               }}
               className="form-checkbox"
             />
-            <span className="ml-2">Bill</span>
+            <span className="ml-2">Generate Bill</span>
           </label>
         </div>
       </div>

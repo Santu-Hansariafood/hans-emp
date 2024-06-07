@@ -57,7 +57,7 @@ const Bill = () => {
 
   return (
     <div className="max-w-md mx-auto mt-10 bg-white p-8 rounded-lg shadow-lg">
-      <h2 className="text-3xl font-bold mb-6 text-center text-gray-700">Bill</h2>
+      <h2 className="text-3xl font-bold mb-6 text-center text-gray-700">Purchase Bill</h2>
       <div className="mb-6">
         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="mobileNumber">
           Mobile Number

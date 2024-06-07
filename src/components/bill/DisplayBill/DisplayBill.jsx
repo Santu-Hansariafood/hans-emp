@@ -1,143 +1,127 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
-import Logobill from "../../../Image/Hansaria-Logo.png"
-import QRCode from 'qrcode.react';
 
 const DisplayBill = () => {
   const location = useLocation();
-  const { billData } = location.state || {};
   const navigate = useNavigate();
+  const { billData } = location.state || {};
 
-  const [billDetails, setBillDetails] = useState(null);
-
-  useEffect(() => {
-    const fetchBillDetails = async () => {
-      try {
-        const response = await fetch(`http://localhost:3000/bill/${billData._id}`);
-        const data = await response.json();
-        setBillDetails(data);
-      } catch (error) {
-        Swal.fire('Error', 'Failed to fetch bill details', 'error');
-      }
-    };
-
-    if (billData && billData._id) {
-      fetchBillDetails();
-    }
-  }, [billData]);
-
-  if (!billDetails) {
-    return <div>Loading...</div>;
+  if (!billData) {
+    return <div>No bill data available</div>;
   }
 
   return (
     <div className="container mx-auto p-4">
-      <header className="flex items-center justify-between mb-4">
-        <img src={Logobill} alt="Company Logo" className="h-12" />
-        <div className="text-center flex-grow">
-          <h1 className="text-5xl font-bold">Hansaria Food Private Limited</h1>
-          <p>_______________________________Broker and Commission Agent</p>
+      {/* Header */}
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-2xl font-bold">{billData.companyName}</h1>
+        <h1 className="text-2xl font-bold">Purchase Voucher</h1>
+        <div className="text-right">
+          
+          <p>Phone: {billData.phoneNumber}</p>
         </div>
-      </header>
-      
-      <table className="table-auto w-full border-collapse border border-gray-300 mb-4">
+      </div>
+
+      {/* Table for bill details */}
+      <table className="w-full mb-8">
         <tbody>
+          {/* First row */}
           <tr>
-            <td className="border border-gray-300 px-4 py-2">
-              <strong>Bill Number:</strong> {billDetails.orderId}
+            <td className="border px-4 py-2">
+              <p className="font-bold">Purchased by</p>
+              <p>Company: {billData.company}</p>
             </td>
-            <td className="border border-gray-300 px-4 py-2 text-center"></td>
-            <td className="border border-gray-300 px-4 py-2 text-right">
-              <strong>Date:</strong> {new Date(billDetails.date).toLocaleDateString()}
+            <td className="border px-4 py-2">
+              <p className="font-bold">Purchased from</p>
+              <p>Farmer Name: {billData.farmerName}</p>
+              <p>Address: {billData.farmerAddress}</p>
             </td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 px-4 py-2" colSpan="2">
-              <strong>Farmer Name:</strong> {billDetails.farmerName}
-              <br />
-              <strong>Farmer Address:</strong> {billDetails.farmerAddress}
-            </td>
-            <td className="border border-gray-300 px-4 py-2 text-right">
-              <strong>Mobile Number:</strong> {billDetails.mobileNumber}
-            </td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 px-4 py-2 text-center" colSpan="3">
-              <strong>Vehicle Number:</strong> {billDetails.lorryNumber}
-            </td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 px-4 py-2">
-              <strong>Product Name:</strong> Maize
-            </td>
-            <td className="border border-gray-300 px-4 py-2"></td>
-            <td className="border border-gray-300 px-4 py-2"></td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 px-4 py-2">
-              <strong>Quality Parameters:</strong>
-              <ul>
-                <li>Moisture: {billDetails.qualityParams[0]}</li>
-                <li>Broken: {billDetails.qualityParams[1]}</li>
-                <li>FM: {billDetails.qualityParams[2]}</li>
-                <li>Small Grain: {billDetails.qualityParams[3]}</li>
-                <li>Water Damage: {billDetails.qualityParams[4]}</li>
-              </ul>
-            </td>
-            <td className="border border-gray-300 px-4 py-2">
-              <strong>Loading Weight:</strong> {billDetails.loading}
-            </td>
-            <td className="border border-gray-300 px-4 py-2">
-              <strong>Total Bag:</strong> {billDetails.totalBag}
-            </td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 px-4 py-2">
-              <strong>Claim:</strong> {billDetails.claim}
-            </td>
-            <td className="border border-gray-300 px-4 py-2"></td>
-            <td className="border border-gray-300 px-4 py-2">
-              <strong>Unloading Cost:</strong> {billDetails.unloadingCost}
-              <br />
-              <strong>Bag Price:</strong> {billDetails.bagPrice}
+            <td className="border px-4 py-2">
+              <p className="font-bold">Purchased details</p>
+              <p>Date: {billData.date}</p>
+              <p>Lorry Number: {billData.lorryNumber}</p>
+              <p>Challan Number: {billData.orderId}</p>
             </td>
           </tr>
         </tbody>
       </table>
-      <div className="flex justify-between items-start">
-        <div>
-          <strong>Farmer Account Details:</strong>
-          <div className="ml-4">
-            <div>
-              <strong>Account Holder Name:</strong> {billDetails.farmerAccountDetails.accountHolderName}
-            </div>
-            <div>
-              <strong>Bank Name:</strong> {billDetails.farmerAccountDetails.bankName}
-            </div>
-            <div>
-              <strong>Branch Name:</strong> {billDetails.farmerAccountDetails.branchName}
-            </div>
-            <div>
-              <strong>Account Number:</strong> {billDetails.farmerAccountDetails.accountNumber}
-            </div>
-            <div>
-              <strong>IFSC Number:</strong> {billDetails.farmerAccountDetails.ifscNumber}
-            </div>
-          </div>
-        </div>
-        <div>
-          <QRCode value={JSON.stringify(billDetails)} />
-        </div>
+
+      {/* Product details table */}
+      <table className="w-full mb-8">
+        <thead>
+          <tr>
+            <th className="border px-4 py-2">Product Name</th>
+            <th className="border px-4 py-2">HSN Code</th>
+            <th className="border px-4 py-2">Weight</th>
+            <th className="border px-4 py-2">Rate</th>
+            <th className="border px-4 py-2">Gross Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td className="border px-4 py-2">Maize</td>
+            <td className="border px-4 py-2"></td>
+            <td className="border px-4 py-2">{billData.weight}</td>
+            <td className="border px-4 py-2">{billData.rate}</td>
+            <td className="border px-4 py-2">{billData.grossAmount}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      {/* Additional details */}
+      
+      <div className="mb-4">
+        <h3 className="text-lg font-bold">Weight Details</h3>
+        <p>Total Bags: {billData.totalBag}</p>
+        <p>Gross Weight: {billData.grossWeight}</p>
+        <p>Tare Weight: {billData.tareWeight}</p>
+        <p>Net Weight: {billData.netWeight}</p>
+        <p>Delta Weight: {billData.deltaWeight}</p>
+        <p>Payment Weight: {billData.paymentWeight}</p>
+        <p>Rate: {billData.rate}</p>
+        <p>Unloading Cost: {billData.unloadingCost}</p>
+        <p>Total Unloading Cost: {billData.totalUnloadingCost}</p>
+        <p>Claim Amount: {billData.claim}</p>
+        <p>Net Amount: {billData.netAmount}</p>
+        <p>Payable Amount: {billData.payableAmount}</p>
       </div>
-      <div className='pt-5'>
+      <div className="mb-4">
+        <h3 className="text-lg font-bold">Quality Parameters</h3>
+        <div className="grid grid-cols-7 gap-4 mb-4 font-bold">
+          <div className="col-span-1">Quality Parameter</div>
+          <div className="col-span-1">Claim</div>
+          <div className="col-span-1">Basic</div>
+          <div className="col-span-1">Actual</div>
+          <div className="col-span-1">Excess</div>
+          <div className="col-span-1">Claim %</div>
+          <div className="col-span-1">Claim Amount</div>
+        </div>
+        {billData.qualityParams.map((param, index) => (
+          <div key={index} className="grid grid-cols-7 gap-4 mb-4">
+            <div className="col-span-1">{param.label}</div>
+            <div className="col-span-1">{param.claim}</div>
+            <div className="col-span-1">{param.basic}</div>
+            <div className="col-span-1">{param.actual}</div>
+            <div className="col-span-1">{param.excess}</div>
+            <div className="col-span-1">{param.claimPercentage}</div>
+            <div className="col-span-1">{param.claimAmount}</div>
+          </div>
+        ))}
+      </div>
+      <div className="mb-4">
+        <h3 className="text-lg font-bold">Farmer Account Details</h3>
+        <p>Account Holder Name: {billData.farmerAccountDetails.accountHolderName}</p>
+        <p>Bank Name: {billData.farmerAccountDetails.bankName}</p>
+        <p>Branch Name: {billData.farmerAccountDetails.branchName}</p>
+        <p>Account Number: {billData.farmerAccountDetails.accountNumber}</p>
+        <p>IFSC Number: {billData.farmerAccountDetails.ifscNumber}</p>
+      </div>
       <button
         onClick={() => navigate(-1)}
-        className="mb-4 bg-blue-500 text-white py-2 px-4 rounded"
+        className="bg-gray-500 text-white px-4 py-2 rounded-md"
       >
         Back
       </button>
-      </div>
     </div>
   );
 };

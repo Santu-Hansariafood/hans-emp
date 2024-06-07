@@ -33,7 +33,7 @@ const PurchaseBill = () => {
   const [grossPayment, setGrossPayment] = useState("");
   const [totalClaimCost, setTotalClaimCost] = useState(0);
   const [totalUnloadingCost, setTotalUnloadingCost] = useState(0);
-  const [totalExpense, setTotalExpense] = useState(0);
+  const [totalExpense, setTotalExpense] = useState();
   const [qualityParams, setQualityParams] = useState([
     {
       label: "Moisture",
@@ -122,6 +122,8 @@ const PurchaseBill = () => {
       bagPrice,
       payableAmount,
       netAmount,
+      payableAmount,
+      netAmount,
       mobileNumber,
       farmerId,
       farmerName: farmerData.name,
@@ -134,7 +136,7 @@ const PurchaseBill = () => {
         ifscNumber: farmerData.ifscNumber,
       },
       totalUnloadingCost,
-      company, // Add company to the bill data
+      company,
     };
 
     console.log("Bill Data:", billData);

@@ -7,10 +7,10 @@ const CostDetails = ({
   grossPayment,
   totalClaimAmount
 }) => {
-  const [unloadingCost, setUnloadingCost] = useState(0);
-  const [totalBagCost, setTotalBagCost] = useState(0);
+  const [unloadingCost, setUnloadingCost] = useState();
+  const [totalBagCost, setTotalBagCost] = useState();
   const [claimAmount, setClaimAmount] = useState(totalClaimAmount);
-  const [netPayment, setNetPayment] = useState(0);
+  const [netPayment, setNetPayment] = useState();
 
   useEffect(() => {
     setClaimAmount(totalClaimAmount);
