@@ -1,5 +1,5 @@
-import React from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const DisplayBill = () => {
   const location = useLocation();
@@ -10,118 +10,229 @@ const DisplayBill = () => {
     return <div>No bill data available</div>;
   }
 
+  const numberToWords = (num) => {
+    const a = [
+      "",
+      "one",
+      "two",
+      "three",
+      "four",
+      "five",
+      "six",
+      "seven",
+      "eight",
+      "nine",
+      "ten",
+      "eleven",
+      "twelve",
+      "thirteen",
+      "fourteen",
+      "fifteen",
+      "sixteen",
+      "seventeen",
+      "eighteen",
+      "nineteen",
+    ];
+    const b = [
+      "",
+      "",
+      "twenty",
+      "thirty",
+      "forty",
+      "fifty",
+      "sixty",
+      "seventy",
+      "eighty",
+      "ninety",
+    ];
+
+    const inWords = (n) => {
+      if (n < 20) return a[n];
+      const digit = n % 10;
+      if (n < 100) return b[Math.floor(n / 10)] + (digit ? "-" + a[digit] : "");
+      if (n < 1000)
+        return (
+          a[Math.floor(n / 100)] +
+          " hundred" +
+          (n % 100 === 0 ? "" : " and " + inWords(n % 100))
+        );
+      return (
+        inWords(Math.floor(n / 1000)) +
+        " thousand" +
+        (n % 1000 !== 0 ? " " + inWords(n % 1000) : "")
+      );
+    };
+
+    return inWords(num);
+  };
+
+  const netAmount = parseFloat(billData.netAmount).toFixed(2);
+  const [integerPart, decimalPart] = netAmount.split(".");
+  const netAmountInWords = `${numberToWords(
+    parseInt(integerPart)
+  )} point ${numberToWords(parseInt(decimalPart))}`;
+
+  const handlePrint = () => {
+    window.print();
+  };
+
+  const handleBack =()=>{
+    navigate(-1);
+  }
+
   return (
     <div className="container mx-auto p-4">
-      {/* Header */}
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold">{billData.companyName}</h1>
-        <h1 className="text-2xl font-bold">Purchase Voucher</h1>
-        <div className="text-right">
-          
-          <p>Phone: {billData.phoneNumber}</p>
-        </div>
-      </div>
+      <h1 className="text-2xl font-bold mb-4 text-center">Purchase Bill</h1>
 
-      {/* Table for bill details */}
-      <table className="w-full mb-8">
-        <tbody>
-          {/* First row */}
-          <tr>
-            <td className="border px-4 py-2">
-              <p className="font-bold">Purchased by</p>
-              <p>Company: {billData.company}</p>
-            </td>
-            <td className="border px-4 py-2">
-              <p className="font-bold">Purchased from</p>
-              <p>Farmer Name: {billData.farmerName}</p>
-              <p>Address: {billData.farmerAddress}</p>
-            </td>
-            <td className="border px-4 py-2">
-              <p className="font-bold">Purchased details</p>
-              <p>Date: {billData.date}</p>
-              <p>Lorry Number: {billData.lorryNumber}</p>
-              <p>Challan Number: {billData.orderId}</p>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      {/* Product details table */}
-      <table className="w-full mb-8">
+      <table className="table-auto w-full mb-4 border-collapse border border-gray-400">
         <thead>
           <tr>
-            <th className="border px-4 py-2">Product Name</th>
-            <th className="border px-4 py-2">HSN Code</th>
-            <th className="border px-4 py-2">Weight</th>
-            <th className="border px-4 py-2">Rate</th>
-            <th className="border px-4 py-2">Gross Amount</th>
+            <th className="border border-gray-400 p-2">Company</th>
+            <th className="border border-gray-400 p-2">Farmer Details</th>
+            <th className="border border-gray-400 p-2">Date & Bill No</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td className="border px-4 py-2">Maize</td>
-            <td className="border px-4 py-2"></td>
-            <td className="border px-4 py-2">{billData.weight}</td>
-            <td className="border px-4 py-2">{billData.rate}</td>
-            <td className="border px-4 py-2">{billData.grossAmount}</td>
+            <td className="border border-gray-400 p-2">{billData.company}</td>
+            <td className="border border-gray-400 p-2">
+              <p>
+                <strong>Name:</strong> {billData.farmerName}
+              </p>
+              <p>
+                <strong>Address:</strong> {billData.farmerAddress}
+              </p>
+              <p>
+                <strong>Mobile Number:</strong> {billData.mobileNumber}
+              </p>
+            </td>
+            <td className="border border-gray-400 p-2">
+              <p>
+                <strong>Date:</strong> {new Date().toLocaleDateString()}
+              </p>
+              <p>
+                <strong>Bill No:</strong>{" "}
+                {Math.floor(100000 + Math.random() * 900000)}
+              </p>
+            </td>
           </tr>
         </tbody>
       </table>
 
-      {/* Additional details */}
-      
-      <div className="mb-4">
-        <h3 className="text-lg font-bold">Weight Details</h3>
-        <p>Total Bags: {billData.totalBag}</p>
-        <p>Gross Weight: {billData.grossWeight}</p>
-        <p>Tare Weight: {billData.tareWeight}</p>
-        <p>Net Weight: {billData.netWeight}</p>
-        <p>Delta Weight: {billData.deltaWeight}</p>
-        <p>Payment Weight: {billData.paymentWeight}</p>
-        <p>Rate: {billData.rate}</p>
-        <p>Unloading Cost: {billData.unloadingCost}</p>
-        <p>Total Unloading Cost: {billData.totalUnloadingCost}</p>
-        <p>Claim Amount: {billData.claim}</p>
-        <p>Net Amount: {billData.netAmount}</p>
-        <p>Payable Amount: {billData.payableAmount}</p>
+      <table className="table-auto w-full mb-4 border-collapse border border-gray-400">
+        <thead>
+          <tr>
+            <th className="border border-gray-400 p-2">Total Bags</th>
+            <th className="border border-gray-400 p-2">Gross Weight</th>
+            <th className="border border-gray-400 p-2">Tare Weight</th>
+            <th className="border border-gray-400 p-2">Net Weight</th>
+            <th className="border border-gray-400 p-2">Delta Weight</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td className="border border-gray-400 p-2">{billData.totalBag}</td>
+            <td className="border border-gray-400 p-2">
+              {billData.grossWeight}
+            </td>
+            <td className="border border-gray-400 p-2">
+              {billData.tareWeight}
+            </td>
+            <td className="border border-gray-400 p-2">{billData.netWeight}</td>
+            <td className="border border-gray-400 p-2">
+              {billData.deltaWeight}
+            </td>
+          </tr>
+          <tr>
+            <th className="border border-gray-400 p-2">Payment Weight</th>
+            <th className="border border-gray-400 p-2">Rate</th>
+            <th colSpan="3" className="border border-gray-400 p-2"></th>
+          </tr>
+          <tr>
+            <td className="border border-gray-400 p-2">
+              {billData.paymentWeight}
+            </td>
+            <td className="border border-gray-400 p-2">{billData.rate}</td>
+            <td colSpan="3" className="border border-gray-400 p-2"></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table className="table-auto w-full mb-4 border-collapse border border-gray-400">
+        <thead>
+          <tr>
+            <th className="border border-gray-400 p-2">Quality Parameter</th>
+            <th className="border border-gray-400 p-2">Basic</th>
+            <th className="border border-gray-400 p-2">Actual</th>
+            <th className="border border-gray-400 p-2">Excess</th>
+            <th className="border border-gray-400 p-2">Claim Percentage</th>
+            <th className="border border-gray-400 p-2">Claim Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          {billData.qualityParams.map((param, index) => (
+            <tr key={index}>
+              <td className="border border-gray-400 p-2">
+                <strong>{param.label}</strong>
+              </td>
+              <td className="border border-gray-400 p-2">{param.basic}</td>
+              <td className="border border-gray-400 p-2">{param.actual}</td>
+              <td className="border border-gray-400 p-2">{param.excess}</td>
+              <td className="border border-gray-400 p-2">
+                {param.claimPercentage}
+              </td>
+              <td className="border border-gray-400 p-2">
+                {param.claimAmount}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <div className="border p-4 mb-4">
+        <h2 className="text-xl font-bold mb-2">Net Amount</h2>
+        <p>
+          {netAmount} 
+          <br/>
+          ({netAmountInWords} only)
+        </p>
       </div>
-      <div className="mb-4">
-        <h3 className="text-lg font-bold">Quality Parameters</h3>
-        <div className="grid grid-cols-7 gap-4 mb-4 font-bold">
-          <div className="col-span-1">Quality Parameter</div>
-          <div className="col-span-1">Claim</div>
-          <div className="col-span-1">Basic</div>
-          <div className="col-span-1">Actual</div>
-          <div className="col-span-1">Excess</div>
-          <div className="col-span-1">Claim %</div>
-          <div className="col-span-1">Claim Amount</div>
-        </div>
-        {billData.qualityParams.map((param, index) => (
-          <div key={index} className="grid grid-cols-7 gap-4 mb-4">
-            <div className="col-span-1">{param.label}</div>
-            <div className="col-span-1">{param.claim}</div>
-            <div className="col-span-1">{param.basic}</div>
-            <div className="col-span-1">{param.actual}</div>
-            <div className="col-span-1">{param.excess}</div>
-            <div className="col-span-1">{param.claimPercentage}</div>
-            <div className="col-span-1">{param.claimAmount}</div>
-          </div>
-        ))}
+      <div className="border p-4 mb-4">
+        <h2 className="text-xl font-bold mb-2">Bank Details</h2>
+        <p>
+          <strong>Account Holder Name:</strong>{" "}
+          {billData.farmerAccountDetails.accountHolderName}
+        </p>
+        <p>
+          <strong>Bank Name:</strong> {billData.farmerAccountDetails.bankName}
+        </p>
+        <p>
+          <strong>Branch Name:</strong>{" "}
+          {billData.farmerAccountDetails.branchName}
+        </p>
+        <p>
+          <strong>Account Number:</strong>{" "}
+          {billData.farmerAccountDetails.accountNumber}
+        </p>
+        <p>
+          <strong>IFSC Number:</strong>{" "}
+          {billData.farmerAccountDetails.ifscNumber}
+        </p>
       </div>
-      <div className="mb-4">
-        <h3 className="text-lg font-bold">Farmer Account Details</h3>
-        <p>Account Holder Name: {billData.farmerAccountDetails.accountHolderName}</p>
-        <p>Bank Name: {billData.farmerAccountDetails.bankName}</p>
-        <p>Branch Name: {billData.farmerAccountDetails.branchName}</p>
-        <p>Account Number: {billData.farmerAccountDetails.accountNumber}</p>
-        <p>IFSC Number: {billData.farmerAccountDetails.ifscNumber}</p>
+      <div className="flex justify-between">
+        <button
+          className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+          onClick={handleBack}
+        >
+          Back
+        </button>
+        <button
+          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+          onClick={handlePrint}
+        >
+          Print
+        </button>
       </div>
-      <button
-        onClick={() => navigate(-1)}
-        className="bg-gray-500 text-white px-4 py-2 rounded-md"
-      >
-        Back
-      </button>
     </div>
   );
 };
