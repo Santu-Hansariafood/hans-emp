@@ -5,7 +5,7 @@ const CostDetails = ({
   setTotalExpense,
   totalExpense,
   grossPayment,
-  totalClaimAmount
+  totalClaimAmount,
 }) => {
   const [unloadingCost, setUnloadingCost] = useState();
   const [totalBagCost, setTotalBagCost] = useState();
@@ -20,7 +20,13 @@ const CostDetails = ({
     const totalUnloading = unloadingCost + totalBagCost;
     setTotalUnloadingCost(totalUnloading.toFixed(2));
     setTotalExpense((totalUnloading + parseFloat(claimAmount)).toFixed(2));
-  }, [unloadingCost, totalBagCost, claimAmount, setTotalUnloadingCost, setTotalExpense]);
+  }, [
+    unloadingCost,
+    totalBagCost,
+    claimAmount,
+    setTotalUnloadingCost,
+    setTotalExpense,
+  ]);
 
   useEffect(() => {
     const netPay = parseFloat(grossPayment) - parseFloat(totalExpense);

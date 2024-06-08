@@ -4,7 +4,8 @@ const QualityDetails = ({
   qualityParams,
   setQualityParams,
   grossPayment,
-  setClaimAmount,
+  setTotalClaim,
+  totalClaim
 }) => {
   const handleQualityChange = (index, field, value) => {
     const newQualityParams = [...qualityParams];
@@ -47,18 +48,12 @@ const QualityDetails = ({
     params.forEach((param) => {
       totalClaimAmount += parseFloat(param["claimAmount"]) || 0;
     });
-    setClaimAmount(totalClaimAmount.toFixed(2));
+    setTotalClaim(totalClaimAmount.toFixed(2));
   };
 
   useEffect(() => {
     calculateClaim(qualityParams);
   }, [qualityParams, grossPayment]);
-
-  const totalClaimAmount = qualityParams
-    .reduce((total, param) => {
-      return total + (parseFloat(param.claimAmount) || 0);
-    }, 0)
-    .toFixed(2);
 
   return (
     <div>
@@ -130,7 +125,7 @@ const QualityDetails = ({
       <div className="grid grid-cols-7 gap-4 mb-4 font-bold">
         <div className="col-span-5"></div>
         <div className="col-span-1">Claim Amount For Quality</div>
-        <div className="col-span-1">{totalClaimAmount}</div>
+        <div className="col-span-1">{totalClaim}</div>
       </div>
     </div>
   );
