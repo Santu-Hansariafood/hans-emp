@@ -56,10 +56,22 @@ const DisplayBill = () => {
           " hundred" +
           (n % 100 === 0 ? "" : " and " + inWords(n % 100))
         );
+      if (n < 100000)
+        return (
+          inWords(Math.floor(n / 1000)) +
+          " thousand" +
+          (n % 1000 !== 0 ? " " + inWords(n % 1000) : "")
+        );
+      if (n < 10000000)
+        return (
+          inWords(Math.floor(n / 100000)) +
+          " lakh" +
+          (n % 100000 !== 0 ? " " + inWords(n % 100000) : "")
+        );
       return (
-        inWords(Math.floor(n / 1000)) +
-        " thousand" +
-        (n % 1000 !== 0 ? " " + inWords(n % 1000) : "")
+        inWords(Math.floor(n / 10000000)) +
+        " crore" +
+        (n % 10000000 !== 0 ? " " + inWords(n % 10000000) : "")
       );
     };
 
@@ -70,15 +82,15 @@ const DisplayBill = () => {
   const [integerPart, decimalPart] = netAmount.split(".");
   const netAmountInWords = `${numberToWords(
     parseInt(integerPart)
-  )} point ${numberToWords(parseInt(decimalPart))}`;
+  )} rupees and ${numberToWords(parseInt(decimalPart))} paise`;
 
   const handlePrint = () => {
     window.print();
   };
 
-  const handleBack =()=>{
+  const handleBack = () => {
     navigate(-1);
-  }
+  };
 
   return (
     <div className="container mx-auto p-4">
@@ -192,9 +204,9 @@ const DisplayBill = () => {
       <div className="border p-4 mb-4">
         <h2 className="text-xl font-bold mb-2">Net Amount</h2>
         <p>
-          {netAmount} 
-          <br/>
-          ({netAmountInWords} only)
+          {netAmount}
+          <br />
+          <span className="italic">({netAmountInWords} only)</span>
         </p>
       </div>
       <div className="border p-4 mb-4">
