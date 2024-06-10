@@ -1,5 +1,29 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import hfLogo from "../../../Image/Hansaria-Logo.png"
+import AGLogo from "../../../Image/agririse-logo.webp"
+const companyData = {
+  "Hansaria Food Private Limited": {
+    address: "1234 Main St, City, Country",
+    logo: hfLogo,
+  },
+  "Agri Rise Private Limited": {
+    address: "5678 Second St, City, Country",
+    logo: AGLogo,
+  },
+  "Shambhu Trading Co.": {
+    address: "5678 Second St, City, Country",
+    logo: "/images/companyB-logo.png",
+  },
+  "Balaji Enterprise": {
+    address: "5678 Second St, City, Country",
+    logo: "/images/companyB-logo.png",
+  },
+  "Shivansh Trading Co": {
+    address: "5678 Second St, City, Country",
+    logo: "/images/companyB-logo.png",
+  },
+};
 
 const DisplayBill = () => {
   const location = useLocation();
@@ -94,6 +118,8 @@ const DisplayBill = () => {
     navigate(-1);
   };
 
+  const companyInfo = companyData[billData.company] || {};
+
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4 text-center">Purchase Bill</h1>
@@ -108,7 +134,11 @@ const DisplayBill = () => {
         </thead>
         <tbody>
           <tr>
-            <td className="border border-gray-400 p-2">{billData.company}</td>
+            <td className="border border-gray-400 p-2">
+              <img src={companyInfo.logo} alt="Company Logo" className="h-16 mb-2" />
+              <p className="font-bold">{billData.company}</p>
+              <p>{companyInfo.address}</p>
+            </td>
             <td className="border border-gray-400 p-2">
               <p>
                 <strong>Name:</strong> {billData.farmerName}
@@ -173,7 +203,9 @@ const DisplayBill = () => {
           </tr>
         </tbody>
       </table>
-<h2 className="text-center p-2 text-xl font-bold">Quality Claim For Product</h2>
+      <h2 className="text-center p-2 text-xl font-bold">
+        Quality Claim For Product
+      </h2>
       <table className="table-auto w-full mb-4 border-collapse border border-gray-400">
         <thead>
           <tr>
