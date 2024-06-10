@@ -12,6 +12,7 @@ const WorkDetails = () => {
   const [godownList, setGodownList] = useState(false);
   const [addGodown, setAddGodown] = useState(false);
   const [bill, setBill] = useState(false);
+  const [registerEmployee, setRegisterEmployee] = useState(false);
 
   const handleBack = () => {
     navigate(-1);
@@ -36,6 +37,18 @@ const WorkDetails = () => {
     } else if (bill) {
       selectedTitle = "Generate Bill";
       nextRoute = "/bill";
+    } else if (registerEmployee) {
+      if (user.role !== "admin") {
+        Swal.fire({
+          title: "Access Denied",
+          text: "Only admin can register employees.",
+          icon: "error",
+          confirmButtonColor: "#3085d6",
+        });
+        return;
+      }
+      selectedTitle = "Register Employee";
+      nextRoute = "/employee-register";
     } else {
       Swal.fire({
         title: "No Selection",
@@ -79,6 +92,7 @@ const WorkDetails = () => {
                   setGodownList(false);
                   setAddGodown(false);
                   setBill(false);
+                  setRegisterEmployee(false);
                 }
               }}
               className="form-checkbox"
@@ -98,6 +112,7 @@ const WorkDetails = () => {
                   setGodownList(false);
                   setAddGodown(false);
                   setBill(false);
+                  setRegisterEmployee(false);
                 }
               }}
               className="form-checkbox"
@@ -117,6 +132,7 @@ const WorkDetails = () => {
                   setListOfFarmers(false);
                   setAddGodown(false);
                   setBill(false);
+                  setRegisterEmployee(false);
                 }
               }}
               className="form-checkbox"
@@ -136,6 +152,7 @@ const WorkDetails = () => {
                   setListOfFarmers(false);
                   setGodownList(false);
                   setBill(false);
+                  setRegisterEmployee(false);
                 }
               }}
               className="form-checkbox"
@@ -155,11 +172,32 @@ const WorkDetails = () => {
                   setListOfFarmers(false);
                   setGodownList(false);
                   setAddGodown(false);
+                  setRegisterEmployee(false);
                 }
               }}
               className="form-checkbox"
             />
             <span className="ml-2">Generate Bill</span>
+          </label>
+        </div>
+        <div>
+          <label className="inline-flex items-center">
+            <input
+              type="checkbox"
+              checked={registerEmployee}
+              onChange={(e) => {
+                setRegisterEmployee(e.target.checked);
+                if (e.target.checked) {
+                  setRegisterFarmer(false);
+                  setListOfFarmers(false);
+                  setGodownList(false);
+                  setAddGodown(false);
+                  setBill(false);
+                }
+              }}
+              className="form-checkbox"
+            />
+            <span className="ml-2">Register Employee</span>
           </label>
         </div>
       </div>

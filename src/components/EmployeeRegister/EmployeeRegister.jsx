@@ -13,8 +13,6 @@ const EmployeeRegister = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Basic validation
     if (password !== confirmPassword) {
       Swal.fire({
         title: "Error",

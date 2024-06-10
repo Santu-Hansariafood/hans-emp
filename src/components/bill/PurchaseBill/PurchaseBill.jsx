@@ -104,26 +104,35 @@ const PurchaseBill = () => {
   }, [farmerId]);
 
   useEffect(() => {
-    const calculatedTotalClaim = qualityParams.reduce(
-      (total, param) => total + parseFloat(param.claimAmount || 0),
+    const parsedPaymentWeight = Number(paymentWeight);
+    const parsedRate = Number(rate);
+    const parsedTotalUnloadingCost = Number(totalUnloadingCost);
+    const parsedBagPrice = Number(bagPrice);
+    const parsedTotalClaim = qualityParams.reduce(
+      (total, param) => total + Number(param.claimAmount || 0),
       0
     );
-    setTotalClaim(calculatedTotalClaim);
 
-    const calculatedGrossPayment = parseFloat(paymentWeight) * parseFloat(rate);
-    setGrossPayment(calculatedGrossPayment);
+    setTotalClaim(parsedTotalClaim);
 
-    const calculatedNetPayment = calculatedGrossPayment - calculatedTotalClaim;
-    setNetPayment(calculatedNetPayment);
+    if (isNaN(parsedPaymentWeight) || isNaN(parsedRate)) {
+      setGrossPayment(0);
+    } else {
+      const calculatedGrossPayment = parsedPaymentWeight * parsedRate;
+      setGrossPayment(calculatedGrossPayment);
 
-    const calculatedTotalExpense =
-      parseFloat(totalUnloadingCost) + parseFloat(bagPrice) + parseFloat(calculatedTotalClaim);
-    setTotalExpense(calculatedTotalExpense);
+      const calculatedNetPayment = calculatedGrossPayment - parsedTotalClaim;
+      setNetPayment(calculatedNetPayment);
 
-    const calculatedNetAmount = calculatedNetPayment - calculatedTotalExpense;
-    setNetAmount(calculatedNetAmount);
+      const calculatedTotalExpense =
+        parsedTotalUnloadingCost + parsedBagPrice + parsedTotalClaim;
+      setTotalExpense(calculatedTotalExpense);
 
-    setPayableAmount(calculatedNetAmount);
+      const calculatedNetAmount = calculatedNetPayment - calculatedTotalExpense;
+      setNetAmount(calculatedNetAmount);
+
+      setPayableAmount(calculatedNetAmount);
+    }
   }, [qualityParams, paymentWeight, rate, totalUnloadingCost, bagPrice]);
 
   const handleSubmit = async (e) => {
@@ -173,6 +182,7 @@ const PurchaseBill = () => {
         Swal.fire("Error", "Failed to create bill", "error");
       }
     } catch (error) {
+      console.error("Error creating bill:", error);
       Swal.fire("Error", "Failed to create bill", "error");
     }
   };
@@ -221,7 +231,6 @@ const PurchaseBill = () => {
           setTotalClaim={setTotalClaim}
           totalClaim={totalClaim}
         />
-
         <CostDetails
           setTotalUnloadingCost={setTotalUnloadingCost}
           setTotalExpense={setTotalExpense}
@@ -230,18 +239,22 @@ const PurchaseBill = () => {
           totalClaimAmount={totalClaim}
         />
         <FarmerDetails farmerData={farmerData} />
-        <div className="flex justify-end">
-          <button
-            type="button"
-            className="btn btn-secondary mr-2"
-            onClick={handleBack}
-          >
-            Back
-          </button>
-          <button type="submit" className="btn btn-primary">
-            Create Bill
-          </button>
-        </div>
+        <div className="flex justify-end space-x-4 mt-6">
+  <button
+    type="button"
+    className="bg-gray-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-gray-700 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-75"
+    onClick={handleBack}
+  >
+    Back
+  </button>
+  <button
+    type="submit"
+    className="bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
+  >
+    Create Bill
+  </button>
+</div>
+
       </form>
     </div>
   );

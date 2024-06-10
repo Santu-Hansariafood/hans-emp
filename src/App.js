@@ -119,7 +119,7 @@ const App = () => {
           element={
             <ProtectedRoute
               element={<EmployeeRegister />}
-              roles={["manager", "admin"]}
+              roles={["admin"]}
             />
           }
         />
