@@ -11,6 +11,7 @@ const WorkDetails = ({ user, userRole }) => {
   const [addGodown, setAddGodown] = useState(false);
   const [bill, setBill] = useState(false);
   const [registerEmployee, setRegisterEmployee] = useState(false);
+  const [billList, setBillList] = useState(false); // New state for Bill List
 
   const handleBack = () => {
     navigate(-1);
@@ -47,6 +48,9 @@ const WorkDetails = ({ user, userRole }) => {
       }
       selectedTitle = "Register Employee";
       nextRoute = "/employee-register";
+    } else if (billList) {
+      selectedTitle = "Bill List";
+      nextRoute = "/bill-list";
     } else {
       Swal.fire({
         title: "No Selection",
@@ -71,7 +75,7 @@ const WorkDetails = ({ user, userRole }) => {
       }
     });
   };
-
+  
   return (
     <div className="max-w-md mx-auto mt-10 bg-white p-8 rounded-lg shadow-lg">
       <h2 className="text-3xl font-bold mb-6 text-center text-gray-700">
@@ -176,6 +180,27 @@ const WorkDetails = ({ user, userRole }) => {
               className="form-checkbox"
             />
             <span className="ml-2">Generate Bill</span>
+          </label>
+        </div>
+        <div>
+          <label className="inline-flex items-center">
+            <input
+              type="checkbox"
+              checked={billList}
+              onChange={(e) => {
+                setBillList(e.target.checked);
+                if (e.target.checked) {
+                  setRegisterFarmer(false);
+                  setListOfFarmers(false);
+                  setGodownList(false);
+                  setAddGodown(false);
+                  setBill(false);
+                  setRegisterEmployee(false);
+                }
+              }}
+              className="form-checkbox"
+            />
+            <span className="ml-2">Show Bill List</span>
           </label>
         </div>
         <div>

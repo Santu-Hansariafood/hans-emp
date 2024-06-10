@@ -16,6 +16,7 @@ import Loading from "./components/common/Loading/Loading";
 import Bill from "./components/bill/Bill";
 import PurchaseBill from "./components/bill/PurchaseBill/PurchaseBill";
 import DisplayBill from "./components/bill/DisplayBill/DisplayBill";
+import BillList from "./components/bill/BillList/BillList";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -146,6 +147,15 @@ const App = () => {
           element={
             <ProtectedRoute
               element={<DisplayBill />}
+              roles={["manager", "admin", "fieldstaff"]}
+            />
+          }
+        />
+        <Route
+          path="/bill-list"
+          element={
+            <ProtectedRoute
+              element={<BillList />}
               roles={["manager", "admin", "fieldstaff"]}
             />
           }
