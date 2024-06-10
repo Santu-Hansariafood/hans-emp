@@ -25,7 +25,7 @@ const Bill = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:3000/checkMobileNumber/${mobileNumber}`);
+      const response = await fetch(`https://main-server-9oo9.onrender.com/checkMobileNumber/${mobileNumber}`);
       const data = await response.json();
 
       if (data.exists) {

@@ -86,7 +86,7 @@ const PurchaseBill = () => {
     const fetchFarmerData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/registerFarmer-purchasebill/${farmerId}`
+          `https://main-server-9oo9.onrender.com/registerFarmer-purchasebill/${farmerId}`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch farmer data");
@@ -171,7 +171,7 @@ const PurchaseBill = () => {
     console.log("Bill Data:", billData);
 
     try {
-      const response = await axios.post("http://localhost:3000/bill", billData);
+      const response = await axios.post("https://main-server-9oo9.onrender.com/bill", billData);
 
       if (response.status === 200) {
         Swal.fire("Success", "Bill created successfully", "success");
