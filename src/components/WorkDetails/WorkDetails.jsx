@@ -1,11 +1,9 @@
 import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
-const WorkDetails = () => {
+const WorkDetails = ({ user, userRole }) => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const { employee, user } = location.state || {};
 
   const [registerFarmer, setRegisterFarmer] = useState(false);
   const [listOfFarmers, setListOfFarmers] = useState(false);
@@ -38,7 +36,7 @@ const WorkDetails = () => {
       selectedTitle = "Generate Bill";
       nextRoute = "/bill";
     } else if (registerEmployee) {
-      if (user.role !== "admin") {
+      if (userRole !== "admin") {
         Swal.fire({
           title: "Access Denied",
           text: "Only admin can register employees.",
@@ -69,7 +67,7 @@ const WorkDetails = () => {
       confirmButtonText: "Yes, proceed!",
     }).then((result) => {
       if (result.isConfirmed) {
-        navigate(nextRoute, { state: { employee, user } });
+        navigate(nextRoute, { state: { user } });
       }
     });
   };

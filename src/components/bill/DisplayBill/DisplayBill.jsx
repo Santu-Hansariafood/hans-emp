@@ -84,6 +84,8 @@ const DisplayBill = () => {
     parseInt(integerPart)
   )} rupees and ${numberToWords(parseInt(decimalPart))} paise`;
 
+  const grossPayment = billData.paymentWeight * billData.rate;
+
   const handlePrint = () => {
     window.print();
   };
@@ -158,6 +160,7 @@ const DisplayBill = () => {
           <tr>
             <th className="border border-gray-400 p-2">Payment Weight</th>
             <th className="border border-gray-400 p-2">Rate</th>
+            <th className="border border-gray-400 p-2">Gross Payment</th>
             <th colSpan="3" className="border border-gray-400 p-2"></th>
           </tr>
           <tr>
@@ -165,11 +168,12 @@ const DisplayBill = () => {
               {billData.paymentWeight}
             </td>
             <td className="border border-gray-400 p-2">{billData.rate}</td>
+            <td className="border border-gray-400 p-2">{grossPayment}</td>
             <td colSpan="3" className="border border-gray-400 p-2"></td>
           </tr>
         </tbody>
       </table>
-
+<h2 className="text-center p-2 text-xl font-bold">Quality Claim For Product</h2>
       <table className="table-auto w-full mb-4 border-collapse border border-gray-400">
         <thead>
           <tr>
