@@ -179,7 +179,7 @@ const WorkDetails = ({ user, userRole }) => {
               }}
               className="form-checkbox"
             />
-            <span className="ml-2">Generate Bill</span>
+            <span className="ml-2">Purchase Bill</span>
           </label>
         </div>
         <div>
