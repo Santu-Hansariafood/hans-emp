@@ -1,7 +1,9 @@
-import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
 import hfLogo from "../../../Image/Hansaria-Logo.png";
 import AGLogo from "../../../Image/agririse-logo.webp";
+
 const companyData = {
   "Hansaria Food Private Limited": {
     address: "1234 Main St, City, Country",
@@ -25,10 +27,32 @@ const companyData = {
   },
 };
 
-const DisplayBill = () => {
-  const location = useLocation();
+const DisplayBillByList = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
-  const { billData } = location.state || {};
+  const [billData, setBillData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchBillData = async () => {
+      try {
+        const response = await axios.get(
+          `https://main-server-9oo9.onrender.com/bill/${id}`
+        );
+        setBillData(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching bill data:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchBillData();
+  }, [id]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   if (!billData) {
     return <div>No bill data available</div>;
@@ -289,4 +313,4 @@ const DisplayBill = () => {
   );
 };
 
-export default DisplayBill;
+export default DisplayBillByList;

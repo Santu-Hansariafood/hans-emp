@@ -17,6 +17,8 @@ import Bill from "./components/bill/Bill";
 import PurchaseBill from "./components/bill/PurchaseBill/PurchaseBill";
 import DisplayBill from "./components/bill/DisplayBill/DisplayBill";
 import BillList from "./components/bill/BillList/BillList";
+import DisplayBillByList from "./components/bill/DisplayBill/DisplayBillByList";
+import EditDisplayBill from "./components/bill/DisplayBill/EditDisplayBill"; // Import the new component
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -118,10 +120,7 @@ const App = () => {
         <Route
           path="/employee-register"
           element={
-            <ProtectedRoute
-              element={<EmployeeRegister />}
-              roles={["admin"]}
-            />
+            <ProtectedRoute element={<EmployeeRegister />} roles={["admin"]} />
           }
         />
         <Route
@@ -148,6 +147,24 @@ const App = () => {
             <ProtectedRoute
               element={<DisplayBill />}
               roles={["manager", "admin", "fieldstaff"]}
+            />
+          }
+        />
+        <Route
+          path="/display-bill-list/:id"
+          element={
+            <ProtectedRoute
+              element={<DisplayBillByList />}
+              roles={["manager", "admin", "fieldstaff"]}
+            />
+          }
+        />
+        <Route
+          path="/edit-bill/:id"
+          element={
+            <ProtectedRoute
+              element={<EditDisplayBill />}
+              roles={["manager", "admin"]}
             />
           }
         />

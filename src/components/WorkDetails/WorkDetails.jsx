@@ -75,7 +75,7 @@ const WorkDetails = ({ user, userRole }) => {
       }
     });
   };
-  
+
   return (
     <div className="max-w-md mx-auto mt-10 bg-white p-8 rounded-lg shadow-lg">
       <h2 className="text-3xl font-bold mb-6 text-center text-gray-700">
