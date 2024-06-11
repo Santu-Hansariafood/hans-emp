@@ -18,7 +18,7 @@ import PurchaseBill from "./components/bill/PurchaseBill/PurchaseBill";
 import DisplayBill from "./components/bill/DisplayBill/DisplayBill";
 import BillList from "./components/bill/BillList/BillList";
 import DisplayBillByList from "./components/bill/DisplayBill/DisplayBillByList";
-import EditDisplayBill from "./components/bill/DisplayBill/EditDisplayBill"; // Import the new component
+import EditDisplayBill from "./components/bill/DisplayBill/EditDisplayBill";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

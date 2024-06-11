@@ -11,7 +11,7 @@ const WorkDetails = ({ user, userRole }) => {
   const [addGodown, setAddGodown] = useState(false);
   const [bill, setBill] = useState(false);
   const [registerEmployee, setRegisterEmployee] = useState(false);
-  const [billList, setBillList] = useState(false); // New state for Bill List
+  const [billList, setBillList] = useState(false);
 
   const handleBack = () => {
     navigate(-1);

@@ -3,8 +3,11 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { FaRegEye, FaEdit, FaTrash, FaSearch } from "react-icons/fa";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const BillList = () => {
+  const navigate = useNavigate();
+
   const [bills, setBills] = useState([]);
   const [filteredBills, setFilteredBills] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -74,6 +77,10 @@ const BillList = () => {
     });
   };
 
+  const handleBack = () => {
+    navigate(-1);
+  };
+
   return (
     <div className="container mx-auto">
       <div className="flex justify-end mt-4 mr-2 mb-4">
@@ -89,7 +96,7 @@ const BillList = () => {
         <table className="table-auto w-full">
           <thead>
             <tr>
-                <th className="border p-2">Bill No</th>
+              <th className="border p-2">Bill No</th>
               <th className="border p-2">Lorry Number</th>
               <th className="border p-2">Farmer Name</th>
               <th className="border p-2">Mobile Number</th>
@@ -150,6 +157,14 @@ const BillList = () => {
             {index + 1}
           </button>
         ))}
+      </div>
+      <div className="flex justify-between">
+        <button
+          className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+          onClick={handleBack}
+        >
+          Back
+        </button>
       </div>
     </div>
   );
