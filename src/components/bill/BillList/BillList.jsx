@@ -89,6 +89,7 @@ const BillList = () => {
         <table className="table-auto w-full">
           <thead>
             <tr>
+                <th className="border p-2">Bill No</th>
               <th className="border p-2">Lorry Number</th>
               <th className="border p-2">Farmer Name</th>
               <th className="border p-2">Mobile Number</th>
@@ -99,6 +100,7 @@ const BillList = () => {
           <tbody>
             {currentBills.map((bill) => (
               <tr key={bill._id}>
+                <td className="border p-2">{bill.billNumber}</td>
                 <td className="border p-2">{bill.lorryNumber}</td>
                 <td className="border p-2">{bill.farmerName}</td>
                 <td className="border p-2">{bill.mobileNumber}</td>

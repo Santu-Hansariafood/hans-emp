@@ -157,7 +157,7 @@ const EditDisplayBill = () => {
               </p>
               <p>
                 <strong>Bill No:</strong>{" "}
-                {Math.floor(100000 + Math.random() * 900000)}
+                {billData.billNumber}
               </p>
             </td>
           </tr>
