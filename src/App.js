@@ -19,6 +19,8 @@ import DisplayBill from "./components/bill/DisplayBill/DisplayBill";
 import BillList from "./components/bill/BillList/BillList";
 import DisplayBillByList from "./components/bill/DisplayBill/DisplayBillByList";
 import EditDisplayBill from "./components/bill/DisplayBill/EditDisplayBill";
+import NewCompany from "./components/Company/NewCompany/NewCompany";
+import CompanyList from "./components/Company/CompanyList/CompanyList";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -174,6 +176,24 @@ const App = () => {
             <ProtectedRoute
               element={<BillList />}
               roles={["manager", "admin", "fieldstaff"]}
+            />
+          }
+        />
+        <Route
+          path="/new-company"
+          element={
+            <ProtectedRoute
+              element={<NewCompany />}
+              roles={["manager", "admin"]}
+            />
+          }
+        />
+        <Route
+          path="/company-list"
+          element={
+            <ProtectedRoute
+              element={<CompanyList />}
+              roles={["manager", "admin"]}
             />
           }
         />
