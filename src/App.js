@@ -21,6 +21,7 @@ import DisplayBillByList from "./components/bill/DisplayBill/DisplayBillByList";
 import EditDisplayBill from "./components/bill/DisplayBill/EditDisplayBill";
 import NewCompany from "./components/Company/NewCompany/NewCompany";
 import CompanyList from "./components/Company/CompanyList/CompanyList";
+import EmployeeList from "./components/EmployeeList/EmployeeList";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -123,6 +124,15 @@ const App = () => {
           path="/employee-register"
           element={
             <ProtectedRoute element={<EmployeeRegister />} roles={["admin"]} />
+          }
+        />
+        <Route
+          path="/employee-list"
+          element={
+            <ProtectedRoute
+              element={<EmployeeList />}
+              roles={["manager", "admin"]}
+            />
           }
         />
         <Route

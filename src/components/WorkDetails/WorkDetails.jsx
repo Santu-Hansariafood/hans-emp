@@ -14,8 +14,9 @@ const WorkDetails = ({ user, userRole }) => {
     { id: "bill", label: "Purchase Bill", checked: false },
     { id: "billList", label: "Show Bill List", checked: false },
     { id: "registerEmployee", label: "Register Employee", checked: false },
+    { id: "employeeList", label: "Employee List", checked: false }, // New option for Employee List
     { id: "addCompany", label: "Add Company", checked: false },
-    { id: "companyMaster", label: "Company Master", checked: false }
+    { id: "companyMaster", label: "Company Master", checked: false },
   ]);
 
   const handleBack = () => {
@@ -23,7 +24,7 @@ const WorkDetails = ({ user, userRole }) => {
   };
 
   const handleNext = () => {
-    const selectedOption = options.find(option => option.checked);
+    const selectedOption = options.find((option) => option.checked);
     if (!selectedOption) {
       Swal.fire({
         title: "No Selection",
@@ -66,6 +67,18 @@ const WorkDetails = ({ user, userRole }) => {
       case "billList":
         nextRoute = "/bill-list";
         break;
+      case "employeeList":
+        if (userRole !== "admin" && userRole !== "manager") {
+          Swal.fire({
+            title: "Access Denied",
+            text: "Only admin and manager can view the employee list.",
+            icon: "error",
+            confirmButtonColor: "#3085d6",
+          });
+          return;
+        }
+        nextRoute = "/employee-list";
+        break;
       case "addCompany":
         nextRoute = "/new-company";
         break;
@@ -92,9 +105,13 @@ const WorkDetails = ({ user, userRole }) => {
   };
 
   const handleChange = (id) => {
-    setOptions(options.map(option => 
-      option.id === id ? { ...option, checked: true } : { ...option, checked: false }
-    ));
+    setOptions(
+      options.map((option) =>
+        option.id === id
+          ? { ...option, checked: true }
+          : { ...option, checked: false }
+      )
+    );
   };
 
   return (
@@ -102,10 +119,7 @@ const WorkDetails = ({ user, userRole }) => {
       <h2 className="text-3xl font-bold mb-6 text-center text-gray-700">
         Work Details
       </h2>
-      <WorkOptions 
-        options={options} 
-        handleChange={handleChange} 
-      />
+      <WorkOptions options={options} handleChange={handleChange} />
       <div className="mt-6 flex justify-between">
         <button
           onClick={handleBack}
