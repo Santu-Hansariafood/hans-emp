@@ -14,9 +14,11 @@ const WorkDetails = ({ user, userRole }) => {
     { id: "bill", label: "Purchase Bill", checked: false },
     { id: "billList", label: "Show Bill List", checked: false },
     { id: "registerEmployee", label: "Register Employee", checked: false },
-    { id: "employeeList", label: "Employee List", checked: false }, // New option for Employee List
+    { id: "employeeList", label: "Employee List", checked: false },
     { id: "addCompany", label: "Add Company", checked: false },
     { id: "companyMaster", label: "Company Master", checked: false },
+    { id: "buyerList", label: "Buyer List", checked: false },
+    { id: "newBuyer", label: "Add Buyer", checked: false },
   ]);
 
   const handleBack = () => {
@@ -84,6 +86,12 @@ const WorkDetails = ({ user, userRole }) => {
         break;
       case "companyMaster":
         nextRoute = "/company-list";
+        break;
+      case "buyerList":
+        nextRoute = "/buyer-list";
+        break;
+      case "newBuyer":
+        nextRoute = "/new-buyer";
         break;
       default:
         return;
