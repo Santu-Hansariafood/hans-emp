@@ -1,8 +1,5 @@
 import React from "react";
-import { FaRegEye } from "react-icons/fa";
-import { CiEdit } from "react-icons/ci";
-import { MdDeleteForever } from "react-icons/md";
-import BuyerActions from "./BuyerActions";
+import BuyerActions from "../BuyerActions/BuyerActions";
 
 const BuyerTable = ({ buyers, handleView, handleEdit, handleDelete }) => {
   return (
