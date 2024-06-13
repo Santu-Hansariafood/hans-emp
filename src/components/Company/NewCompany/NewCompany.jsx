@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-const NewCompany = ({ onNext, onBack }) => {
+const NewCompany = () => {
   const [companyName, setCompanyName] = useState("");
   const [location, setLocation] = useState("");
   const [billingAddress, setBillingAddress] = useState("");
@@ -26,7 +26,7 @@ const NewCompany = ({ onNext, onBack }) => {
           icon: "success",
           confirmButtonText: "OK",
         }).then(() => {
-          navigate("/company-list"); // Redirect to the company list after successful submission
+          navigate("/company-list");
         });
       }
     } catch (error) {
@@ -38,6 +38,10 @@ const NewCompany = ({ onNext, onBack }) => {
         confirmButtonText: "OK",
       });
     }
+  };
+
+  const handleBack = () => {
+    navigate(-1);
   };
 
   return (
@@ -99,7 +103,7 @@ const NewCompany = ({ onNext, onBack }) => {
         <div className="flex justify-between">
           <button
             type="button"
-            onClick={onBack}
+            onClick={handleBack}
             className="bg-gray-300 text-gray-700 py-2 px-4 rounded hover:bg-gray-400 focus:outline-none focus:bg-gray-400"
           >
             Back
