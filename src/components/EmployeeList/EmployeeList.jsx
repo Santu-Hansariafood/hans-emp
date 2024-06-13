@@ -20,7 +20,7 @@ const EmployeeList = () => {
   const fetchEmployees = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3000/employeeRegister"
+        "https://main-server-9oo9.onrender.com/employeeRegister"
       );
       setEmployees(response.data);
     } catch (error) {
@@ -66,7 +66,7 @@ const EmployeeList = () => {
         };
         try {
           await axios.put(
-            `http://localhost:3000/employeeRegister/${employee._id}`,
+            `https://main-server-9oo9.onrender.com/employeeRegister/${employee._id}`,
             updatedEmployee
           );
           Swal.fire(
@@ -99,7 +99,7 @@ const EmployeeList = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`http://localhost:3000/employeeRegister/${id}`);
+          await axios.delete(`https://main-server-9oo9.onrender.com/employeeRegister/${id}`);
           setEmployees(employees.filter((employee) => employee._id !== id));
           Swal.fire(
             "Deleted!",

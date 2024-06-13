@@ -19,7 +19,7 @@ const BuyerList = () => {
 
   const fetchBuyers = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/buyer");
+      const response = await axios.get("https://main-server-9oo9.onrender.com/buyer");
       setBuyers(response.data);
     } catch (error) {
       console.error("Error fetching buyers:", error);
@@ -97,7 +97,7 @@ const BuyerList = () => {
         };
         try {
           await axios.put(
-            `http://localhost:3000/buyer/${buyer._id}`,
+            `https://main-server-9oo9.onrender.com/buyer/${buyer._id}`,
             updatedBuyer
           );
           Swal.fire(
@@ -130,7 +130,7 @@ const BuyerList = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`http://localhost:3000/buyer/${id}`);
+          await axios.delete(`https://main-server-9oo9.onrender.com/buyer/${id}`);
           setBuyers(buyers.filter((buyer) => buyer._id !== id));
           Swal.fire(
             "Deleted!",

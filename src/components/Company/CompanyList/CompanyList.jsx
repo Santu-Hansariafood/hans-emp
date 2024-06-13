@@ -19,7 +19,7 @@ const CompanyList = () => {
 
   const fetchCompanies = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/companies');
+      const response = await axios.get('https://main-server-9oo9.onrender.com/companies');
       setCompanies(response.data);
     } catch (error) {
       console.error('Error fetching companies:', error);
@@ -61,7 +61,7 @@ const CompanyList = () => {
           gstNo: document.getElementById('swal-input4').value,
         };
         try {
-          await axios.put(`http://localhost:3000/companies/${company._id}`, updatedCompany);
+          await axios.put(`https://main-server-9oo9.onrender.com/companies/${company._id}`, updatedCompany);
           Swal.fire('Updated!', `Company with ID: ${company._id} has been updated.`, 'success');
           fetchCompanies();
         } catch (error) {
@@ -83,7 +83,7 @@ const CompanyList = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`http://localhost:3000/companies/${id}`);
+          await axios.delete(`https://main-server-9oo9.onrender.com/companies/${id}`);
           Swal.fire('Deleted!', `Company with ID: ${id} has been deleted.`, 'success');
           setCompanies(companies.filter(company => company._id !== id));
         } catch (error) {
