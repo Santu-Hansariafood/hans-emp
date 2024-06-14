@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import { FaRegEye } from "react-icons/fa";
-import { CiEdit } from "react-icons/ci";
-import { MdDeleteForever } from "react-icons/md";
+import BuyerTable from "./BuyerTable/BuyerTable";
+import SearchBar from "./SearchBar/SearchBar";
+import Pagination from "./Pagination/Pagination";
 
 const BuyerList = () => {
   const [buyers, setBuyers] = useState([]);
@@ -55,22 +55,72 @@ const BuyerList = () => {
     Swal.fire({
       title: "Edit Buyer",
       html: `
-        <input type="text" id="swal-input1" class="swal2-input" placeholder="Name" value="${buyer.name}">
-        <input type="text" id="swal-input2" class="swal2-input" placeholder="Mobile" value="${buyer.mobile}">
-        <input type="text" id="swal-input3" class="swal2-input" placeholder="Email" value="${buyer.email}">
-        <input type="text" id="swal-input4" class="swal2-input" placeholder="Company Name" value="${buyer.companyName}">
-        <input type="text" id="swal-input5" class="swal2-input" placeholder="Location" value="${buyer.location}">
-        <input type="text" id="swal-input6" class="swal2-input" placeholder="GST No" value="${buyer.gstNo}">
-        <input type="text" id="swal-input7" class="swal2-input" placeholder="Billing Address" value="${buyer.billingAddress}">
-        <input type="text" id="swal-input8" class="swal2-input" placeholder="Shipping Address" value="${buyer.shippingAddress}">
-        <input type="text" id="swal-input9" class="swal2-input" placeholder="Mapped Financer" value="${buyer.mappedFinancer}">
-        <input type="text" id="swal-input10" class="swal2-input" placeholder="State" value="${buyer.state}">
-        <input type="text" id="swal-input11" class="swal2-input" placeholder="PAN No" value="${buyer.panNo}">
-        <input type="text" id="swal-input12" class="swal2-input" placeholder="Products" value="${buyer.products}">
-        <input type="text" id="swal-input13" class="swal2-input" placeholder="Biding Locations" value="${buyer.bidingLocations}">
-        <input type="text" id="swal-input14" class="swal2-input" placeholder="City Origins" value="${buyer.cityOrigins}">
-        <input type="text" id="swal-input15" class="swal2-input" placeholder="Other Companies" value="${buyer.otherCompanies}">
-        <input type="text" id="swal-input16" class="swal2-input" placeholder="Consignees" value="${buyer.consignees}">
+        <div class="grid grid-cols-2 gap-4">
+          <div class="col-span-1">
+            <label for="swal-input1" class="block text-sm font-medium text-gray-700">Name</label>
+            <input type="text" id="swal-input1" class="swal2-input mt-1 block w-full" value="${buyer.name}">
+          </div>
+          <div class="col-span-1">
+            <label for="swal-input2" class="block text-sm font-medium text-gray-700">Mobile</label>
+            <input type="text" id="swal-input2" class="swal2-input mt-1 block w-full" value="${buyer.mobile}">
+          </div>
+          <div class="col-span-1">
+            <label for="swal-input3" class="block text-sm font-medium text-gray-700">Email</label>
+            <input type="text" id="swal-input3" class="swal2-input mt-1 block w-full" value="${buyer.email}">
+          </div>
+          <div class="col-span-1">
+            <label for="swal-input4" class="block text-sm font-medium text-gray-700">Company Name</label>
+            <input type="text" id="swal-input4" class="swal2-input mt-1 block w-full" value="${buyer.companyName}">
+          </div>
+          <div class="col-span-1">
+            <label for="swal-input5" class="block text-sm font-medium text-gray-700">Location</label>
+            <input type="text" id="swal-input5" class="swal2-input mt-1 block w-full" value="${buyer.location}">
+          </div>
+          <div class="col-span-1">
+            <label for="swal-input6" class="block text-sm font-medium text-gray-700">GST No</label>
+            <input type="text" id="swal-input6" class="swal2-input mt-1 block w-full" value="${buyer.gstNo}">
+          </div>
+          <div class="col-span-1">
+            <label for="swal-input7" class="block text-sm font-medium text-gray-700">Billing Address</label>
+            <input type="text" id="swal-input7" class="swal2-input mt-1 block w-full" value="${buyer.billingAddress}">
+          </div>
+          <div class="col-span-1">
+            <label for="swal-input8" class="block text-sm font-medium text-gray-700">Shipping Address</label>
+            <input type="text" id="swal-input8" class="swal2-input mt-1 block w-full" value="${buyer.shippingAddress}">
+          </div>
+          <div class="col-span-1">
+            <label for="swal-input9" class="block text-sm font-medium text-gray-700">Mapped Financer</label>
+            <input type="text" id="swal-input9" class="swal2-input mt-1 block w-full" value="${buyer.mappedFinancer}">
+          </div>
+          <div class="col-span-1">
+            <label for="swal-input10" class="block text-sm font-medium text-gray-700">State</label>
+            <input type="text" id="swal-input10" class="swal2-input mt-1 block w-full" value="${buyer.state}">
+          </div>
+          <div class="col-span-1">
+            <label for="swal-input11" class="block text-sm font-medium text-gray-700">PAN No</label>
+            <input type="text" id="swal-input11" class="swal2-input mt-1 block w-full" value="${buyer.panNo}">
+          </div>
+          <div class="col-span-1">
+            <label for="swal-input12" class="block text-sm font-medium text-gray-700">Products</label>
+            <input type="text" id="swal-input12" class="swal2-input mt-1 block w-full" value="${buyer.products}">
+          </div>
+          <div class="col-span-1">
+            <label for="swal-input13" class="block text-sm font-medium text-gray-700">Biding Locations</label>
+            <input type="text" id="swal-input13" class="swal2-input mt-1 block w-full" value="${buyer.bidingLocations}">
+          </div>
+          <div class="col-span-1">
+            <label for="swal-input14" class="block text-sm font-medium text-gray-700">City Origins</label>
+            <input type="text" id="swal-input14" class="swal2-input mt-1 block w-full" value="${buyer.cityOrigins}">
+          </div>
+          <div class="col-span-1">
+            <label for="swal-input15" class="block text-sm font-medium text-gray-700">Other Companies</label>
+            <input type="text" id="swal-input15" class="swal2-input mt-1 block w-full" value="${buyer.otherCompanies}">
+          </div>
+          <div class="col-span-1">
+            <label for="swal-input16" class="block text-sm font-medium text-gray-700">Consignees</label>
+            <input type="text" id="swal-input16" class="swal2-input mt-1 block w-full" value="${buyer.consignees}">
+          </div>
+        </div>
       `,
       focusConfirm: false,
       showCancelButton: true,
@@ -181,89 +231,22 @@ const BuyerList = () => {
     <div className="container mx-auto mt-10 px-4 sm:px-6 lg:px-8">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-bold">Buyer List</h2>
-        <input
-          type="text"
-          placeholder="Search by name or company"
-          className="border rounded py-2 px-3"
-          onChange={handleSearch}
-        />
+        <SearchBar handleSearch={handleSearch} />
       </div>
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white border border-gray-300">
-          <thead>
-            <tr>
-              <th className="py-2 px-4 border-b">Name</th>
-              <th className="py-2 px-4 border-b">Mobile</th>
-              <th className="py-2 px-4 border-b">Email</th>
-              <th className="py-2 px-4 border-b">Company Name</th>
-              <th className="py-2 px-4 border-b">Location</th>
-              <th className="py-2 px-4 border-b">GST No</th>
-              <th className="py-2 px-4 border-b">Billing Address</th>
-              <th className="py-2 px-4 border-b">Shipping Address</th>
-              <th className="py-2 px-4 border-b">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {paginatedBuyers.map((buyer) => (
-              <tr key={buyer._id}>
-                <td className="py-2 px-4 border-b">{buyer.name}</td>
-                <td className="py-2 px-4 border-b">{buyer.mobile}</td>
-                <td className="py-2 px-4 border-b">{buyer.email}</td>
-                <td className="py-2 px-4 border-b">{buyer.companyName}</td>
-                <td className="py-2 px-4 border-b">{buyer.location}</td>
-                <td className="py-2 px-4 border-b">{buyer.gstNo}</td>
-                <td className="py-2 px-4 border-b">{buyer.billingAddress}</td>
-                <td className="py-2 px-4 border-b">{buyer.shippingAddress}</td>
-                <td className="py-2 px-4 border-b flex space-x-2">
-                  <button
-                    onClick={() => handleView(buyer)}
-                    className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600"
-                  >
-                    <FaRegEye title="View" />
-                  </button>
-                  <button
-                    onClick={() => handleEdit(buyer)}
-                    className="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600"
-                  >
-                    <CiEdit title="Edit" />
-                  </button>
-                  <button
-                    onClick={() => handleDelete(buyer._id)}
-                    className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-                  >
-                    <MdDeleteForever title="Delete" />
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <div className="flex justify-between items-center mt-4">
-        <div className="flex space-x-2">
-          <button
-            onClick={() => navigate(-1)}
-            className="bg-gray-500 text-white px-4 py-2 rounded"
-          >
-            Back
-          </button>
-          <button
-            onClick={handlePreviousPage}
-            disabled={currentPage === 1}
-            className="bg-gray-500 text-white px-4 py-2 rounded disabled:opacity-50"
-          >
-            Previous
-          </button>
-        </div>
-        <span>Page {currentPage}</span>
-        <button
-          onClick={handleNextPage}
-          disabled={currentPage * pageSize >= filteredBuyers.length}
-          className="bg-gray-500 text-white px-4 py-2 rounded disabled:opacity-50"
-        >
-          Next
-        </button>
-      </div>
+      <BuyerTable
+        buyers={paginatedBuyers}
+        handleView={handleView}
+        handleEdit={handleEdit}
+        handleDelete={handleDelete}
+      />
+      <Pagination
+        currentPage={currentPage}
+        totalItems={filteredBuyers.length}
+        pageSize={pageSize}
+        handlePreviousPage={handlePreviousPage}
+        handleNextPage={handleNextPage}
+        navigate={navigate}
+      />
     </div>
   );
 };

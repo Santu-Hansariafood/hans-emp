@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
+import InputField from "./InputField/InputField";
+import FileInput from "./FileInput/FileInput";
+import FormSection from "./FormSection/FormSection";
 
 const RegisterFarmer = () => {
   const location = useLocation();
@@ -101,334 +104,164 @@ const RegisterFarmer = () => {
           {employee?.lastname}
         </p>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            <div>
-              <label className="block text-gray-700 mb-2" htmlFor="name">
-                Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                placeholder="Enter Name"
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
-            </div>
-            <div>
-              <label className="block text-gray-700 mb-2" htmlFor="fatherName">
-                Father Name
-              </label>
-              <input
-                type="text"
-                id="fatherName"
-                name="fatherName"
-                value={formData.fatherName}
-                onChange={handleInputChange}
-                placeholder="Enter Father Name"
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
-            </div>
-            <div>
-              <label className="block text-gray-700 mb-2" htmlFor="mobile">
-                Mobile
-              </label>
-              <input
-                type="text"
-                id="mobile"
-                name="mobile"
-                value={formData.mobile}
-                onChange={handleInputChange}
-                placeholder="Enter Mobile Number"
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
-            </div>
-            <div>
-              <label className="block text-gray-700 mb-2" htmlFor="email">
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                placeholder="Enter Email"
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
-            </div>
-            <div>
-              <label className="block text-gray-700 mb-2" htmlFor="state">
-                State
-              </label>
-              <input
-                type="text"
-                id="state"
-                name="state"
-                value={formData.state}
-                onChange={handleInputChange}
-                placeholder="Enter State"
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
-            </div>
-            <div>
-              <label className="block text-gray-700 mb-2" htmlFor="district">
-                District
-              </label>
-              <input
-                type="text"
-                id="district"
-                name="district"
-                value={formData.district}
-                onChange={handleInputChange}
-                placeholder="Enter District"
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
-            </div>
-            <div>
-              <label
-                className="block text-gray-700 mb-2"
-                htmlFor="policeStation"
-              >
-                Police Station
-              </label>
-              <input
-                type="text"
-                id="policeStation"
-                name="policeStation"
-                value={formData.policeStation}
-                onChange={handleInputChange}
-                placeholder="Enter Police Station"
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
-            </div>
-            <div>
-              <label className="block text-gray-700 mb-2" htmlFor="village">
-                Village
-              </label>
-              <input
-                type="text"
-                id="village"
-                name="village"
-                value={formData.village}
-                onChange={handleInputChange}
-                placeholder="Enter Village"
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
-            </div>
-            <div>
-              <label className="block text-gray-700 mb-2" htmlFor="pinCode">
-                Pin Code
-              </label>
-              <input
-                type="text"
-                id="pinCode"
-                name="pinCode"
-                value={formData.pinCode}
-                onChange={handleInputChange}
-                placeholder="Enter Pin Code"
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
-            </div>
-            <div>
-              <label className="block text-gray-700 mb-2" htmlFor="adherNumber">
-                Adher Number
-              </label>
-              <input
-                type="text"
-                id="adherNumber"
-                name="adherNumber"
-                value={formData.adherNumber}
-                onChange={handleInputChange}
-                placeholder="Enter Adher Number"
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
-            </div>
-            <div>
-              <label className="block text-gray-700 mb-2" htmlFor="panNumber">
-                Pan Number
-              </label>
-              <input
-                type="text"
-                id="panNumber"
-                name="panNumber"
-                value={formData.panNumber}
-                onChange={handleInputChange}
-                placeholder="Enter Pan Number"
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
-            </div>
-            <div>
-              <label className="block text-gray-700 mb-2" htmlFor="gstNumber">
-                GST Number
-              </label>
-              <input
-                type="text"
-                id="gstNumber"
-                name="gstNumber"
-                value={formData.gstNumber}
-                onChange={handleInputChange}
-                placeholder="Enter GST Number"
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
-            </div>
-            <div>
-              <label
-                className="block text-gray-700 mb-2"
-                htmlFor="accountNumber"
-              >
-                Account Number
-              </label>
-              <input
-                type="text"
-                id="accountNumber"
-                name="accountNumber"
-                value={formData.accountNumber}
-                onChange={handleInputChange}
-                placeholder="Enter Account Number"
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
-            </div>
-            <div>
-              <label className="block text-gray-700 mb-2" htmlFor="ifscNumber">
-                IFSC Number
-              </label>
-              <input
-                type="text"
-                id="ifscNumber"
-                name="ifscNumber"
-                value={formData.ifscNumber}
-                onChange={handleInputChange}
-                placeholder="Enter IFSC Number"
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
-            </div>
-            <div>
-              <label className="block text-gray-700 mb-2" htmlFor="branchName">
-                Branch Name
-              </label>
-              <input
-                type="text"
-                id="branchName"
-                name="branchName"
-                value={formData.branchName}
-                onChange={handleInputChange}
-                placeholder="Enter Branch Name"
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
-            </div>
-            <div>
-              <label
-                className="block text-gray-700 mb-2"
-                htmlFor="accountHolderName"
-              >
-                Account Holder Name
-              </label>
-              <input
-                type="text"
-                id="accountHolderName"
-                name="accountHolderName"
-                value={formData.accountHolderName}
-                onChange={handleInputChange}
-                placeholder="Enter Account Holder Name"
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
-            </div>
-            <div>
-              <label className="block text-gray-700 mb-2" htmlFor="bankName">
-                Bank Name
-              </label>
-              <input
-                type="text"
-                id="bankName"
-                name="bankName"
-                value={formData.bankName}
-                onChange={handleInputChange}
-                placeholder="Enter Bank Name"
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
-            </div>
-            <div>
-              <label className="block text-gray-700 mb-2" htmlFor="password">
-                Password
-              </label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                value={formData.password}
-                onChange={handleInputChange}
-                placeholder="Enter Password"
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4">
-            <div>
-              <label className="block text-gray-700 mb-2" htmlFor="profilePhoto">
-                Profile Photo
-              </label>
-              <input
-                type="file"
-                id="profilePhoto"
-                name="profilePhoto"
-                onChange={handleFileChange}
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
-            </div>
-            <div>
-              <label className="block text-gray-700 mb-2" htmlFor="adherCardPhoto">
-                Adher Card Photo
-              </label>
-              <input
-                type="file"
-                id="adherCardPhoto"
-                name="adherCardPhoto"
-                onChange={handleFileChange}
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
-            </div>
-            <div>
-              <label className="block text-gray-700 mb-2" htmlFor="panCardPhoto">
-                Pan Card Photo
-              </label>
-              <input
-                type="file"
-                id="panCardPhoto"
-                name="panCardPhoto"
-                onChange={handleFileChange}
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
-            </div>
-            <div>
-              <label className="block text-gray-700 mb-2" htmlFor="bankCardPhoto">
-                Bank Card Photo
-              </label>
-              <input
-                type="file"
-                id="bankCardPhoto"
-                name="bankCardPhoto"
-                onChange={handleFileChange}
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
-            </div>
-            <div>
-              <label className="block text-gray-700 mb-2" htmlFor="gstCardPhoto">
-                GST Card Photo
-              </label>
-              <input
-                type="file"
-                id="gstCardPhoto"
-                name="gstCardPhoto"
-                onChange={handleFileChange}
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
-            </div>
-          </div>
-
-          <div className="mt-6 flex justify-end space-x-4">
+          <FormSection>
+            <InputField
+              id="name"
+              label="Name"
+              value={formData.name}
+              onChange={handleInputChange}
+              placeholder="Enter Name"
+            />
+            <InputField
+              id="fatherName"
+              label="Father Name"
+              value={formData.fatherName}
+              onChange={handleInputChange}
+              placeholder="Enter Father Name"
+            />
+            <InputField
+              id="mobile"
+              label="Mobile"
+              value={formData.mobile}
+              onChange={handleInputChange}
+              placeholder="Enter Mobile Number"
+            />
+            <InputField
+              id="email"
+              label="Email"
+              type="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              placeholder="Enter Email"
+            />
+            <InputField
+              id="state"
+              label="State"
+              value={formData.state}
+              onChange={handleInputChange}
+              placeholder="Enter State"
+            />
+            <InputField
+              id="district"
+              label="District"
+              value={formData.district}
+              onChange={handleInputChange}
+              placeholder="Enter District"
+            />
+            <InputField
+              id="policeStation"
+              label="Police Station"
+              value={formData.policeStation}
+              onChange={handleInputChange}
+              placeholder="Enter Police Station"
+            />
+            <InputField
+              id="village"
+              label="Village"
+              value={formData.village}
+              onChange={handleInputChange}
+              placeholder="Enter Village"
+            />
+            <InputField
+              id="pinCode"
+              label="Pin Code"
+              value={formData.pinCode}
+              onChange={handleInputChange}
+              placeholder="Enter Pin Code"
+            />
+            <InputField
+              id="adherNumber"
+              label="Adher Number"
+              value={formData.adherNumber}
+              onChange={handleInputChange}
+              placeholder="Enter Adher Number"
+            />
+            <InputField
+              id="panNumber"
+              label="Pan Number"
+              value={formData.panNumber}
+              onChange={handleInputChange}
+              placeholder="Enter Pan Number"
+            />
+            <InputField
+              id="gstNumber"
+              label="GST Number"
+              value={formData.gstNumber}
+              onChange={handleInputChange}
+              placeholder="Enter GST Number"
+            />
+            <InputField
+              id="accountNumber"
+              label="Account Number"
+              value={formData.accountNumber}
+              onChange={handleInputChange}
+              placeholder="Enter Account Number"
+            />
+            <InputField
+              id="ifscNumber"
+              label="IFSC Number"
+              value={formData.ifscNumber}
+              onChange={handleInputChange}
+              placeholder="Enter IFSC Number"
+            />
+            <InputField
+              id="branchName"
+              label="Branch Name"
+              value={formData.branchName}
+              onChange={handleInputChange}
+              placeholder="Enter Branch Name"
+            />
+            <InputField
+              id="accountHolderName"
+              label="Account Holder Name"
+              value={formData.accountHolderName}
+              onChange={handleInputChange}
+              placeholder="Enter Account Holder Name"
+            />
+            <InputField
+              id="bankName"
+              label="Bank Name"
+              value={formData.bankName}
+              onChange={handleInputChange}
+              placeholder="Enter Bank Name"
+            />
+            <InputField
+              id="password"
+              label="Password"
+              type="password"
+              value={formData.password}
+              onChange={handleInputChange}
+              placeholder="Enter Password"
+            />
+          </FormSection>
+          <FormSection>
+            <FileInput
+              id="profilePhoto"
+              label="Profile Photo"
+              onChange={handleFileChange}
+            />
+            <FileInput
+              id="adherCardPhoto"
+              label="Adher Card Photo"
+              onChange={handleFileChange}
+            />
+            <FileInput
+              id="panCardPhoto"
+              label="Pan Card Photo"
+              onChange={handleFileChange}
+            />
+            <FileInput
+              id="bankCardPhoto"
+              label="Bank Card Photo"
+              onChange={handleFileChange}
+            />
+            <FileInput
+              id="gstCardPhoto"
+              label="GST Card Photo"
+              onChange={handleFileChange}
+            />
+          </FormSection>
+          <div className="mt-6 flex justify-center space-x-4">
             <button
               type="button"
               onClick={handleBack}
