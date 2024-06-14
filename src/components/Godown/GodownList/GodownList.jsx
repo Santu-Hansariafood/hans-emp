@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { CiEdit, CiCirclePlus } from "react-icons/ci";
 import NoAccess from "../../common/NoAccess/NoAccess";
+import GodownTable from "./GodownTable/GodownTable";
+import EditGodownForm from "./EditGodownForm/EditGodownForm";
+import SearchAndAdd from "./SearchAndAdd/SearchAndAdd";
+import Pagination from "./Pagination/Pagination";
 
 const GodownList = ({ userRole }) => {
   const [collections, setCollections] = useState([]);
@@ -41,17 +44,6 @@ const GodownList = ({ userRole }) => {
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
-
-  const filteredCollections = collections.filter((collection) =>
-    collection.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentCollections = filteredCollections.slice(
-    indexOfFirstItem,
-    indexOfLastItem
-  );
 
   const handleEdit = (collection) => {
     setCurrentGodown(collection);
@@ -143,7 +135,7 @@ const GodownList = ({ userRole }) => {
   };
 
   const handleNextPage = () => {
-    if (indexOfLastItem < filteredCollections.length) {
+    if (currentPage < Math.ceil(filteredCollections.length / itemsPerPage)) {
       setCurrentPage(currentPage + 1);
     }
   };
@@ -158,283 +150,71 @@ const GodownList = ({ userRole }) => {
     navigate(-1);
   };
 
+  const filteredCollections = collections.filter((collection) =>
+    collection.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentCollections = filteredCollections.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
+  const title = "Godown List";
   return (
     <div className="container mx-auto mt-10 bg-white p-8 rounded-lg shadow-lg pt-10">
       <h2 className="text-3xl font-bold mb-6 text-center text-gray-700">
-        Godown List
+        {title}
       </h2>
 
       {(editMode || newGodownMode || rateEditId || qualityEditMode) && (
-        <div className="mb-6">
-          <h3 className="text-2xl font-bold mb-4">
-            {editMode
-              ? "Edit Godown"
-              : newGodownMode
-              ? "Add New Godown"
-              : rateEditId
-              ? "Edit Rate"
-              : "Edit Quality Parameters"}
-          </h3>
-          <div className="space-y-4">
-            {(editMode || newGodownMode) && (
-              <>
-                <div>
-                  <label className="block mb-1 font-medium">Name:</label>
-                  <input
-                    type="text"
-                    value={currentGodown.name}
-                    onChange={(e) =>
-                      setCurrentGodown({
-                        ...currentGodown,
-                        name: e.target.value,
-                      })
-                    }
-                    className="w-full px-3 py-2 border rounded-lg"
-                  />
-                </div>
-                <div>
-                  <label className="block mb-1 font-medium">Location:</label>
-                  <input
-                    type="text"
-                    value={currentGodown.location.name}
-                    onChange={(e) =>
-                      setCurrentGodown({
-                        ...currentGodown,
-                        location: {
-                          ...currentGodown.location,
-                          name: e.target.value,
-                        },
-                      })
-                    }
-                    className="w-full px-3 py-2 border rounded-lg"
-                  />
-                </div>
-                <div>
-                  <label className="block mb-1 font-medium">Landmark:</label>
-                  <input
-                    type="text"
-                    value={currentGodown.location.landmark}
-                    onChange={(e) =>
-                      setCurrentGodown({
-                        ...currentGodown,
-                        location: {
-                          ...currentGodown.location,
-                          landmark: e.target.value,
-                        },
-                      })
-                    }
-                    className="w-full px-3 py-2 border rounded-lg"
-                  />
-                </div>
-                <div>
-                  <label className="block mb-1 font-medium">Pin:</label>
-                  <input
-                    type="text"
-                    value={currentGodown.location.pin}
-                    onChange={(e) =>
-                      setCurrentGodown({
-                        ...currentGodown,
-                        location: {
-                          ...currentGodown.location,
-                          pin: e.target.value,
-                        },
-                      })
-                    }
-                    className="w-full px-3 py-2 border rounded-lg"
-                  />
-                </div>
-                <div>
-                  <label className="block mb-1 font-medium">State:</label>
-                  <input
-                    type="text"
-                    value={currentGodown.location.state}
-                    onChange={(e) =>
-                      setCurrentGodown({
-                        ...currentGodown,
-                        location: {
-                          ...currentGodown.location,
-                          state: e.target.value,
-                        },
-                      })
-                    }
-                    className="w-full px-3 py-2 border rounded-lg"
-                  />
-                </div>
-                <div>
-                  <label className="block mb-1 font-medium">Rate:</label>
-                  <input
-                    type="number"
-                    value={currentGodown.rate}
-                    onChange={(e) =>
-                      setCurrentGodown({
-                        ...currentGodown,
-                        rate: e.target.value,
-                      })
-                    }
-                    className="w-full px-3 py-2 border rounded-lg"
-                  />
-                </div>
-              </>
-            )}
-            {qualityEditMode && (
-              <div>
-                <label className="block mb-1 font-medium">
-                  Quality Parameters:
-                </label>
-                {currentGodown.quality?.map((q, index) => (
-                  <div key={index} className="flex space-x-4 mb-2">
-                    <input
-                      type="text"
-                      value={q.parameter}
-                      onChange={(e) =>
-                        handleQualityChange(index, "parameter", e.target.value)
-                      }
-                      className="w-full px-3 py-2 border rounded-lg"
-                      placeholder="Parameter"
-                    />
-                    <input
-                      type="text"
-                      value={q.accepted}
-                      onChange={(e) =>
-                        handleQualityChange(index, "accepted", e.target.value)
-                      }
-                      className="w-full px-3 py-2 border rounded-lg"
-                      placeholder="Accepted"
-                    />
-                    <input
-                      type="text"
-                      value={q.upto}
-                      onChange={(e) =>
-                        handleQualityChange(index, "upto", e.target.value)
-                      }
-                      className="w-full px-3 py-2 border rounded-lg"
-                      placeholder="Upto"
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-          <div className="mt-6 space-x-4">
-            <button
-              onClick={handleSave}
-              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-            >
-              Save
-            </button>
-            <button
-              onClick={() => {
-                setEditMode(false);
-                setNewGodownMode(false);
-                setRateEditId(null);
-                setQualityEditMode(false);
-                setCurrentGodown(null);
-              }}
-              className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
+        <EditGodownForm
+          editMode={editMode}
+          newGodownMode={newGodownMode}
+          rateEditId={rateEditId}
+          qualityEditMode={qualityEditMode}
+          currentGodown={currentGodown}
+          setCurrentGodown={setCurrentGodown}
+          handleSave={handleSave}
+          handleRateChange={handleRateChange}
+          handleQualityChange={handleQualityChange}
+          setEditMode={setEditMode}
+          setNewGodownMode={setNewGodownMode}
+          setRateEditId={setRateEditId}
+          setQualityEditMode={setQualityEditMode}
+        />
       )}
 
-      <div className="mb-6">
-        <div className="flex justify-between items-center">
-          <input
-            type="text"
-            placeholder="Search godowns..."
-            value={searchTerm}
-            onChange={handleSearch}
-            className="w-full px-4 py-2 border rounded-lg"
-          />
-          <button
-            onClick={handleAddNew}
-            className="ml-4 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
-          >
-            <CiCirclePlus className="inline-block mr-1" /> Add New Godown
-          </button>
-        </div>
-      </div>
+      <SearchAndAdd
+        searchTerm={searchTerm}
+        handleSearch={handleSearch}
+        handleAddNew={handleAddNew}
+      />
 
-      <table className="min-w-full bg-white border border-gray-300">
-        <thead>
-          <tr>
-            <th className="px-6 py-3 border-b">Name</th>
-            <th className="px-6 py-3 border-b">Location</th>
-            <th className="px-6 py-3 border-b">Rate</th>
-            <th className="px-6 py-3 border-b">Quality Parameters</th>
-            <th className="px-6 py-3 border-b">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {currentCollections.map((collection) => (
-            <tr key={collection._id}>
-              <td className="px-6 py-4 border-b">{collection.name}</td>
-              <td className="px-6 py-4 border-b">
-                {collection.location.name}, {collection.location.landmark},{" "}
-                {collection.location.pin}, {collection.location.state}
-              </td>
-              <td className="px-6 py-4 border-b">
-                {rateEditId === collection._id ? (
-                  <input
-                    type="number"
-                    value={currentGodown.rate}
-                    onChange={handleRateChange}
-                    className="w-full px-3 py-2 border rounded-lg"
-                  />
-                ) : (
-                  collection.rate
-                )}
-              </td>
-              <td className="px-6 py-4 border-b">
-                {collection.quality?.map((q, index) => (
-                  <div key={index}>
-                    <strong>{q.parameter}:</strong> Accepted - {q.accepted},
-                    Upto - {q.upto}
-                  </div>
-                ))}
-              </td>
-              <td className="px-6 py-4 border-b">
-                <button
-                  onClick={() => handleEdit(collection)}
-                  className="text-blue-500 hover:text-blue-700"
-                >
-                  <CiEdit className="inline-block mr-1" /> Edit
-                </button>
-                <button
-                  onClick={() => handleRateEdit(collection)}
-                  className="text-green-500 hover:text-green-700 ml-4"
-                >
-                  Edit Rate
-                </button>
-                <button
-                  onClick={() => handleQualityEdit(collection)}
-                  className="text-yellow-500 hover:text-yellow-700 ml-4"
-                >
-                  Edit Quality
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <GodownTable
+        currentCollections={currentCollections}
+        handleEdit={handleEdit}
+        handleRateEdit={handleRateEdit}
+        handleQualityEdit={handleQualityEdit}
+        rateEditId={rateEditId}
+        currentGodown={currentGodown}
+        handleRateChange={handleRateChange}
+      />
 
-      <div className="flex justify-between items-center mt-4">
-        <button
-          onClick={handlePreviousPage}
-          disabled={currentPage === 1}
-          className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 disabled:opacity-50"
-        >
-          Previous
-        </button>
-        <button
-          onClick={handleNextPage}
-          disabled={indexOfLastItem >= filteredCollections.length}
-          className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 disabled:opacity-50"
-        >
-          Next
-        </button>
-      </div>
+      <Pagination
+        currentPage={currentPage}
+        handleNextPage={handleNextPage}
+        handlePreviousPage={handlePreviousPage}
+        filteredCollections={filteredCollections}
+        itemsPerPage={itemsPerPage}
+      />
+
+      <button
+        onClick={handleBack}
+        className="mt-4 px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
+      >
+        Back
+      </button>
     </div>
   );
 };

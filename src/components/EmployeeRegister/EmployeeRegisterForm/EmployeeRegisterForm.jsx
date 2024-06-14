@@ -115,7 +115,7 @@ const EmployeeRegisterForm = () => {
           label="Role"
           value={role}
           onChange={(e) => setRole(e.target.value)}
-          options={["Admin", "Manager", "Field", "Back"]}
+          options={["admin", "manager", "field", "back"]}
         />
         <FormInput
           id="password"
