@@ -18,7 +18,9 @@ const Pagination = ({
       </button>
       <button
         onClick={handleNextPage}
-        disabled={currentPage >= Math.ceil(filteredCollections.length / itemsPerPage)}
+        disabled={
+          currentPage >= Math.ceil(filteredCollections.length / itemsPerPage)
+        }
         className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 disabled:opacity-50"
       >
         Next
