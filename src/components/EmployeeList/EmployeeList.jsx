@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import { FaRegEye } from "react-icons/fa";
-import { CiEdit } from "react-icons/ci";
-import { MdDeleteForever } from "react-icons/md";
+import EmployeeTable from "./EmployeeTable/EmployeeTable";
+import Pagination from "./Pagination/Pagination";
+import SearchBar from "./SearchBar/SearchBar";
 
 const EmployeeList = () => {
   const [employees, setEmployees] = useState([]);
@@ -150,83 +150,26 @@ const EmployeeList = () => {
     <div className="container mx-auto mt-10 px-4 sm:px-6 lg:px-8">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-bold">Employee List</h2>
-        <input
-          type="text"
-          placeholder="Search by name"
-          className="border rounded py-2 px-3"
-          onChange={handleSearch}
-        />
+        <SearchBar handleSearch={handleSearch} />
       </div>
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white border border-gray-300">
-          <thead>
-            <tr>
-              <th className="py-2 px-4 border-b">Employee ID</th>
-              <th className="py-2 px-4 border-b">First Name</th>
-              <th className="py-2 px-4 border-b">Last Name</th>
-              <th className="py-2 px-4 border-b">Role</th>
-              <th className="py-2 px-4 border-b">Email</th>
-              <th className="py-2 px-4 border-b">Mobile</th>
-              <th className="py-2 px-4 border-b">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {paginatedEmployees.map((employee) => (
-              <tr key={employee._id}>
-                <td className="py-2 px-4 border-b">{employee.employeeId}</td>
-                <td className="py-2 px-4 border-b">{employee.firstname}</td>
-                <td className="py-2 px-4 border-b">{employee.lastname}</td>
-                <td className="py-2 px-4 border-b">{employee.role}</td>
-                <td className="py-2 px-4 border-b">{employee.email}</td>
-                <td className="py-2 px-4 border-b">{employee.mobile}</td>
-                <td className="py-2 px-4 border-b flex space-x-2">
-                  <button
-                    onClick={() => handleView(employee)}
-                    className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600"
-                  >
-                    <FaRegEye title="View" />
-                  </button>
-                  <button
-                    onClick={() => handleEdit(employee)}
-                    className="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600"
-                  >
-                    <CiEdit title="Edit" />
-                  </button>
-                  <button
-                    onClick={() => handleDelete(employee._id)}
-                    className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-                  >
-                    <MdDeleteForever title="Delete" />
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <EmployeeTable
+        employees={paginatedEmployees}
+        handleView={handleView}
+        handleEdit={handleEdit}
+        handleDelete={handleDelete}
+      />
+      <Pagination
+        currentPage={currentPage}
+        handlePreviousPage={handlePreviousPage}
+        handleNextPage={handleNextPage}
+        isNextDisabled={currentPage * pageSize >= filteredEmployees.length}
+      />
       <div className="flex justify-between items-center mt-4">
-        <div className="flex space-x-2">
-          <button
-            onClick={() => navigate(-1)}
-            className="bg-gray-500 text-white px-4 py-2 rounded"
-          >
-            Back
-          </button>
-          <button
-            onClick={handlePreviousPage}
-            disabled={currentPage === 1}
-            className="bg-gray-500 text-white px-4 py-2 rounded disabled:opacity-50"
-          >
-            Previous
-          </button>
-        </div>
-        <span>Page {currentPage}</span>
         <button
-          onClick={handleNextPage}
-          disabled={currentPage * pageSize >= filteredEmployees.length}
-          className="bg-gray-500 text-white px-4 py-2 rounded disabled:opacity-50"
+          onClick={() => navigate(-1)}
+          className="bg-gray-500 text-white px-4 py-2 rounded"
         >
-          Next
+          Back
         </button>
       </div>
     </div>
