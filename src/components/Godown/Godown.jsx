@@ -1,16 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import QualityParameters from "../QualityParameters/QualityParameters";
+import statesData from "../../data/state.json"; // Assuming state.json is in the same directory
 
 const Godown = ({ user }) => {
   const [name, setName] = useState("");
   const [locationName, setLocationName] = useState("");
   const [landmark, setLandmark] = useState("");
   const [pin, setPin] = useState("");
-  const [state, setState] = useState("");
+  const [selectedState, setSelectedState] = useState("");
   const [rate, setRate] = useState("");
+  const [totalCapacity, setTotalCapacity] = useState("");
   const [quality, setQuality] = useState([
     { parameter: "Moisture", accepted: "10%", upto: "12%" },
     { parameter: "Broken", accepted: "12%", upto: "15%" },
@@ -40,16 +42,17 @@ const Godown = ({ user }) => {
 
     try {
       const response = await axios.post(
-        "https://main-server-9oo9.onrender.com/godown",
+        "http://localhost:3000/godown",
         {
           name,
           location: {
             name: locationName,
             landmark,
             pin,
-            state,
+            state: selectedState,
           },
           rate,
+          totalCapacity,
           quality,
         }
       );
@@ -65,8 +68,9 @@ const Godown = ({ user }) => {
         setLocationName("");
         setLandmark("");
         setPin("");
-        setState("");
+        setSelectedState("");
         setRate("");
+        setTotalCapacity("");
         setQuality([
           { parameter: "Moisture", accepted: "10%", upto: "12%" },
           { parameter: "Broken", accepted: "12%", upto: "15%" },
@@ -170,16 +174,22 @@ const Godown = ({ user }) => {
           <label className="block text-gray-700 mb-2" htmlFor="state">
             State
           </label>
-          <input
-            type="text"
+          <select
             id="state"
-            value={state}
-            onChange={(e) => setState(e.target.value)}
+            value={selectedState}
+            onChange={(e) => setSelectedState(e.target.value)}
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
             required
             disabled={user.role !== "manager" && user.role !== "admin"}
-            placeholder="Enter State"
-          />
+            placeholder="Select State"
+          >
+            <option value="">Select State</option>
+            {statesData.map((state) => (
+              <option key={state.id} value={state.name}>
+                {state.name}
+              </option>
+            ))}
+          </select>
         </div>
         <div>
           <label className="block text-gray-700 mb-2" htmlFor="rate">
@@ -196,6 +206,21 @@ const Godown = ({ user }) => {
             placeholder="Enter Rate"
           />
         </div>
+        <div>
+          <label className="block text-gray-700 mb-2" htmlFor="totalCapacity">
+            Total Capacity (in quintals)
+          </label>
+          <input
+            type="number"
+            id="totalCapacity"
+            value={totalCapacity}
+            onChange={(e) => setTotalCapacity(e.target.value)}
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+            required
+            disabled={user.role !== "manager" && user.role !== "admin"}
+            placeholder="Enter Total Capacity"
+          />
+        </div>
         <QualityParameters
           parameters={quality}
           setParameters={setQuality}
@@ -206,20 +231,21 @@ const Godown = ({ user }) => {
             type="button"
             onClick={handleBack}
             className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
-          >
-            Back
-          </button>
-          <button
-            type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
-            disabled={user.role !== "manager" && user.role !== "admin"}
-          >
-            Add Godown
-          </button>
-        </div>
-      </form>
-    </div>
-  );
-};
-
-export default Godown;
+            >
+              Back
+            </button>
+            <button
+              type="submit"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+              disabled={user.role !== "manager" && user.role !== "admin"}
+            >
+              Add Godown
+            </button>
+          </div>
+        </form>
+      </div>
+    );
+  };
+  
+  export default Godown;
+  
