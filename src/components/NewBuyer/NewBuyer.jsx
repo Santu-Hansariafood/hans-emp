@@ -36,7 +36,7 @@ const NewBuyer = () => {
   useEffect(() => {
     const fetchCompanies = async () => {
       try {
-        const response = await axios.get("https://main-server-9oo9.onrender.com/companies");
+        const response = await axios.get("http://localhost:3000/api/buyerCompanies");
         setCompanies(response.data);
       } catch (error) {
         console.error("Error fetching companies:", error);

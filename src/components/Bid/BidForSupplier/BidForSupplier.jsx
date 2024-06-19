@@ -1,38 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import Select from "react-select";
+import axios from "axios";
 import "react-datetime/css/react-datetime.css";
 
 const BidForSupplier = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const selectedGodownFromState = location.state?.selectedGodown;
+
   const [formData, setFormData] = useState({
-    supplier: "",
-    company: "",
-    origin: "",
-    product: "",
+    godown: selectedGodownFromState ? selectedGodownFromState._id : null,
+    location: selectedGodownFromState ? selectedGodownFromState.location : {},
     quantity: "",
-    unit: "",
-    rateForBid: "",
+    unit: "Quintol", // Default to "Quintol"
+    rateForBid: selectedGodownFromState ? selectedGodownFromState.rate : "",
     date: moment().format("YYYY-MM-DD"),
     startTime: "",
     endTime: "",
     paymentTerms: "",
     delivery: "",
   });
+  const [godowns, setGodowns] = useState([]);
 
-  const suppliers = [
-    { value: "Supplier1", label: "Supplier1" },
-    { value: "Supplier2", label: "Supplier2" },
-    { value: "Supplier3", label: "Supplier3" },
-  ];
-
-  const companies = [
-    { value: "Company1", label: "Company1" },
-    { value: "Company2", label: "Company2" },
-    { value: "Company3", label: "Company3" },
-  ];
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/godown")
+      .then((response) => {
+        setGodowns(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching godowns:", error);
+      });
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,7 +42,19 @@ const BidForSupplier = () => {
   };
 
   const handleSelectChange = (selectedOption, actionMeta) => {
-    setFormData({ ...formData, [actionMeta.name]: selectedOption.value });
+    if (actionMeta.name === "godown") {
+      const selectedGodown = godowns.find(
+        (g) => g._id === selectedOption.value
+      );
+      setFormData({
+        ...formData,
+        [actionMeta.name]: selectedOption.value,
+        location: selectedGodown.location,
+        rateForBid: selectedGodown.rate,
+      });
+    } else {
+      setFormData({ ...formData, [actionMeta.name]: selectedOption.value });
+    }
   };
 
   const handleDateChange = (date) => {
@@ -55,7 +69,7 @@ const BidForSupplier = () => {
     Swal.fire({
       title: "Select Time",
       html: `
-        <input type="time" id="swal-input-time" class="swal2-input" step="60">
+        <input type="time" id="swal-input-time" class="swal2-input" style="position: absolute; right: 10px;" step="60">
       `,
       showCancelButton: true,
       confirmButtonText: "Set Time",
@@ -91,12 +105,47 @@ const BidForSupplier = () => {
     }
 
     Swal.fire({
-      title: "Bid Submitted!",
-      text: "Your bid has been successfully submitted.",
-      icon: "success",
-      confirmButtonText: "OK",
+      title: "Are you sure?",
+      text: "Do you want to submit the bid?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, submit it!",
+      cancelButtonText: "No, cancel!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Call your submit logic here
+        // Example:
+        // axios.post('your-endpoint', formData)
+        //   .then(response => {
+        //     Swal.fire({
+        //       title: "Bid Submitted!",
+        //       text: "Your bid has been successfully submitted.",
+        //       icon: "success",
+        //       confirmButtonText: "OK",
+        //     });
+        //   })
+        //   .catch(error => {
+        //     console.error("Error submitting bid:", error);
+        //     Swal.fire({
+        //       title: "Error",
+        //       text: "There was an issue submitting your bid. Please try again.",
+        //       icon: "error",
+        //       confirmButtonText: "OK",
+        //     });
+        //   });
+
+        Swal.fire({
+          title: "Bid Submitted!",
+          text: "Your bid has been successfully submitted.",
+          icon: "success",
+          confirmButtonText: "OK",
+        });
+      }
     });
   };
+
+  const selectedGodown =
+    formData.godown && godowns.find((g) => g._id === formData.godown);
 
   return (
     <div className="max-w-4xl mx-auto mt-10 p-6 bg-white shadow-md rounded-md">
@@ -110,111 +159,107 @@ const BidForSupplier = () => {
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           <div>
-            <label className="block mb-1 font-bold">Select Supplier</label>
+            <label className="block mb-1 font-bold">Select Godown</label>
             <Select
-              name="supplier"
-              options={suppliers}
+              name="godown"
+              value={
+                godowns.find((g) => g._id === formData.godown) && {
+                  value: formData.godown,
+                  label: selectedGodown?.name || "",
+                }
+              }
               onChange={handleSelectChange}
-              className="w-full"
-              placeholder="Choose Supplier..."
+              options={godowns.map((godown) => ({
+                value: godown._id,
+                label: godown.name,
+              }))}
+              placeholder="Select Godown"
+              className="basic-multi-select"
+              classNamePrefix="select"
+              isSearchable
             />
           </div>
           <div>
-            <label className="block mb-1 font-bold">Company</label>
-            <Select
-              name="company"
-              options={companies}
-              onChange={handleSelectChange}
-              className="w-full"
-              placeholder="Choose Company..."
+            <label className="block mb-1 font-bold">Location</label>
+            <input
+              type="text"
+              name="location"
+              value={`${formData.location.name}, ${formData.location.landmark}, ${formData.location.pin}, ${formData.location.state}`}
+              readOnly
+              className="w-full p-2 border border-gray-300 rounded"
+              placeholder="Godown location"
             />
-          </div>
-          <div>
-            <label className="block mb-1 font-bold">Select Origin</label>
-            <select
-              name="origin"
-              value={formData.origin}
-              onChange={handleChange}
-              className="w-full border border-gray-300 rounded p-2"
-            >
-              <option value="">Choose Origin...</option>
-              {/* Add options dynamically */}
-            </select>
-          </div>
-          <div>
-            <label className="block mb-1 font-bold">Select Product</label>
-            <select
-              name="product"
-              value={formData.product}
-              onChange={handleChange}
-              className="w-full border border-gray-300 rounded p-2"
-            >
-              <option value="">Choose Product...</option>
-              {/* Add options dynamically */}
-            </select>
           </div>
           <div>
             <label className="block mb-1 font-bold">Quantity</label>
             <input
-              type="text"
+              type="number"
               name="quantity"
               value={formData.quantity}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded p-2"
-              placeholder="Quantity"
+              className="w-full p-2 border border-gray-300 rounded"
+              placeholder="Enter Quantity"
             />
           </div>
           <div>
             <label className="block mb-1 font-bold">Unit</label>
-            <input
-              type="text"
+            <select
               name="unit"
               value={formData.unit}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded p-2"
-              placeholder="Unit"
-            />
+              className="w-full p-2 border border-gray-300 rounded"
+            >
+              <option value="Quintol">Quintol</option>
+              <option value="Tons">Tons</option>
+            </select>
           </div>
           <div>
-            <label className="block mb-1 font-bold">Rate For Bid (Rs.)</label>
+            <label className="block mb-1 font-bold">Rate for Bid</label>
             <input
-              type="text"
+              type="number"
               name="rateForBid"
               value={formData.rateForBid}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded p-2"
-              placeholder="Rate For Bid"
+              className="w-full p-2 border border-gray-300 rounded"
+              placeholder="Enter Rate for Bid"
             />
           </div>
           <div>
-            <label className="block mb-1 font-bold">Date (DD-MM-YYYY)</label>
+            <label className="block mb-1 font-bold">Date</label>
             <input
               type="date"
               name="date"
               value={formData.date}
               onChange={(e) => handleDateChange(moment(e.target.value))}
-              className="w-full border border-gray-300 rounded p-2"
+              className="w-full p-2 border border-gray-300 rounded"
+              placeholder="Select Date"
             />
           </div>
           <div>
-            <label className="block mb-1 font-bold">Start Time (HH:MM)</label>
-            <button
-              type="button"
+            <label className="block mb-1 font-bold">Start Time</label>
+            <input
+              type="text"
+              name="startTime"
+              value={formData.startTime}
+              onChange={handleChange}
               onClick={() => handleTimeInput("startTime")}
-              className="w-full bg-gray-200 border border-gray-300 rounded p-2 text-left"
-            >
-              {formData.startTime || "Select Start Time"}
-            </button>
+              className="w-full p-2 border border-gray-300 rounded"
+              readOnly
+              placeholder="Select Start Time"
+            />
           </div>
           <div>
-            <label className="block mb-1 font-bold">End Time (HH:MM)</label>
-            <button
-              type="button"
+            <label className="block mb-1 font-bold">End Time</label>
+            <input
+              type="text"
+              name="endTime"
+              value={formData.endTime}
+              onChange={handleChange}
               onClick={() => handleTimeInput("endTime")}
-              className="w-full bg-gray-200 border border-gray-300 rounded p-2 text-left"
-            >
-              {formData.endTime || "Select End Time"}
-            </button>
+              className="w-full p-2 border border-gray-300 rounded"
+              readOnly
+              placeholder="Select End Time"
+            />
           </div>
           <div>
             <label className="block mb-1 font-bold">Payment Terms</label>
@@ -223,7 +268,7 @@ const BidForSupplier = () => {
               name="paymentTerms"
               value={formData.paymentTerms}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded p-2"
+              className="w-full p-2 border border-gray-300 rounded"
               placeholder="Enter Payment Terms"
             />
           </div>
@@ -234,24 +279,17 @@ const BidForSupplier = () => {
               name="delivery"
               value={formData.delivery}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded p-2"
-              placeholder="Enter days for delivery"
+              className="w-full p-2 border border-gray-300 rounded"
+              placeholder="Enter Delivery Details"
             />
           </div>
         </div>
-        <div className="flex justify-center space-x-4 mt-6">
-          <button
-            type="button"
-            onClick={() => navigate(-1)}
-            className="bg-gray-500 text-white px-4 py-2 rounded"
-          >
-            Back
-          </button>
+        <div className="mt-6">
           <button
             type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded"
+            className="bg-green-500 text-white px-4 py-2 rounded"
           >
-            Make Bid
+            Submit Bid
           </button>
         </div>
       </form>

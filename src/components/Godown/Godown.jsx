@@ -3,7 +3,8 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import QualityParameters from "../QualityParameters/QualityParameters";
-import statesData from "../../data/state.json"; // Assuming state.json is in the same directory
+import statesData from "../../data/state.json";
+import NoAccess from "../common/NoAccess/NoAccess";
 
 const Godown = ({ user }) => {
   const [name, setName] = useState("");
@@ -41,21 +42,18 @@ const Godown = ({ user }) => {
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost:3000/godown",
-        {
-          name,
-          location: {
-            name: locationName,
-            landmark,
-            pin,
-            state: selectedState,
-          },
-          rate,
-          totalCapacity,
-          quality,
-        }
-      );
+      const response = await axios.post("http://localhost:3000/api/godowns", {
+        name,
+        location: {
+          name: locationName,
+          landmark,
+          pin,
+          state: selectedState,
+        },
+        rate,
+        totalCapacity,
+        quality,
+      });
 
       if (response.status === 201) {
         Swal.fire({
@@ -95,9 +93,7 @@ const Godown = ({ user }) => {
         Add Godown
       </h2>
       {user.role !== "manager" && user.role !== "admin" && (
-        <div className="text-center text-red-500 mb-6">
-          You are not able to add the godown.
-        </div>
+        <NoAccess/>
       )}
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -231,21 +227,20 @@ const Godown = ({ user }) => {
             type="button"
             onClick={handleBack}
             className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
-            >
-              Back
-            </button>
-            <button
-              type="submit"
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
-              disabled={user.role !== "manager" && user.role !== "admin"}
-            >
-              Add Godown
-            </button>
-          </div>
-        </form>
-      </div>
-    );
-  };
-  
-  export default Godown;
-  
+          >
+            Back
+          </button>
+          <button
+            type="submit"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+            disabled={user.role !== "manager" && user.role !== "admin"}
+          >
+            Add Godown
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+};
+
+export default Godown;

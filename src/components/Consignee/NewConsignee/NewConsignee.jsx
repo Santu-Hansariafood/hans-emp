@@ -22,7 +22,7 @@ const NewConsignee = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/buyer")
+      .get("http://localhost:3000/api/buyers")
       .then((response) => {
         const options = response.data.map((buyer) => ({
           value: buyer.companyName,
@@ -67,7 +67,7 @@ const NewConsignee = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:3000/consignee", consignees);
+      await axios.post("http://localhost:3000/api/consignees", consignees);
       Swal.fire({
         title: "Success!",
         text: "Consignee details saved successfully.",
