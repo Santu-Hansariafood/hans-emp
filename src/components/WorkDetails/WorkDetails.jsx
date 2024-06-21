@@ -23,6 +23,7 @@ const WorkDetails = ({ user, userRole }) => {
     { id: "bidForBuyer", label: "Buyer Bid", checked: false },
     { id: "addNewConsignee", label: "New Consignee", checked: false },
     { id: "consigneeTable", label: "Consignee List", checked: false },
+    { id: "supplier-bid-master", label: "Supplier Bid Master", checked: false },
   ]);
 
   const handleBack = () => {
@@ -109,7 +110,9 @@ const WorkDetails = ({ user, userRole }) => {
       case "consigneeTable":
         nextRoute = "/consignee-table";
         break;
-        
+      case "supplier-bid-master":
+        nextRoute = "/supplier-bid-master";
+        break;
       default:
         return;
     }
@@ -140,11 +143,31 @@ const WorkDetails = ({ user, userRole }) => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 bg-white p-8 rounded-lg shadow-lg">
+    <div className="max-w-4xl mx-auto mt-10 bg-white p-8 rounded-lg shadow-lg">
       <h2 className="text-3xl font-bold mb-6 text-center text-gray-700">
         Work Details
       </h2>
-      <WorkOptions options={options} handleChange={handleChange} />
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {options.map((option) => (
+          <div
+            key={option.id}
+            className={`p-4 border rounded-lg ${
+              option.checked ? "bg-blue-100" : "bg-white"
+            } cursor-pointer`}
+            onClick={() => handleChange(option.id)}
+          >
+            <label className="cursor-pointer">
+              <input
+                type="checkbox"
+                checked={option.checked}
+                onChange={() => handleChange(option.id)}
+                className="mr-2"
+              />
+              {option.label}
+            </label>
+          </div>
+        ))}
+      </div>
       <div className="mt-6 flex justify-between">
         <button
           onClick={handleBack}
