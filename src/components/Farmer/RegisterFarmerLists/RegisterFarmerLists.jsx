@@ -25,7 +25,7 @@ const RegisterFarmerLists = () => {
     const fetchFarmers = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/farmers"
+          "http://localhost:3000/api/farmers/registerFarmer"
         );
         setFarmers(response.data.farmers);
         setTotalPages(Math.ceil(response.data.farmers.length / itemsPerPage));

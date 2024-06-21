@@ -15,7 +15,7 @@ const BidForSupplier = () => {
     godown: selectedGodownFromState ? selectedGodownFromState._id : null,
     location: selectedGodownFromState ? selectedGodownFromState.location : {},
     quantity: "",
-    unit: "Quintol", // Default to "Quintol"
+    unit: "Quintol", 
     rateForBid: selectedGodownFromState ? selectedGodownFromState.rate : "",
     date: moment().format("YYYY-MM-DD"),
     startTime: "",
@@ -27,7 +27,7 @@ const BidForSupplier = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/godown")
+      .get("http://localhost:3000/api/godowns")
       .then((response) => {
         setGodowns(response.data);
       })
@@ -113,33 +113,25 @@ const BidForSupplier = () => {
       cancelButtonText: "No, cancel!",
     }).then((result) => {
       if (result.isConfirmed) {
-        // Call your submit logic here
-        // Example:
-        // axios.post('your-endpoint', formData)
-        //   .then(response => {
-        //     Swal.fire({
-        //       title: "Bid Submitted!",
-        //       text: "Your bid has been successfully submitted.",
-        //       icon: "success",
-        //       confirmButtonText: "OK",
-        //     });
-        //   })
-        //   .catch(error => {
-        //     console.error("Error submitting bid:", error);
-        //     Swal.fire({
-        //       title: "Error",
-        //       text: "There was an issue submitting your bid. Please try again.",
-        //       icon: "error",
-        //       confirmButtonText: "OK",
-        //     });
-        //   });
-
-        Swal.fire({
-          title: "Bid Submitted!",
-          text: "Your bid has been successfully submitted.",
-          icon: "success",
-          confirmButtonText: "OK",
-        });
+        axios.post('http://localhost:3000/api/bidsSupplier', formData)
+          .then(response => {
+            Swal.fire({
+              title: "Bid Submitted!",
+              text: "Your bid has been successfully submitted.",
+              icon: "success",
+              confirmButtonText: "OK",
+            });
+            navigate('/supplier-bid-master');
+          })
+          .catch(error => {
+            console.error("Error submitting bid:", error);
+            Swal.fire({
+              title: "Error",
+              text: "There was an issue submitting your bid. Please try again.",
+              icon: "error",
+              confirmButtonText: "OK",
+            });
+          });
       }
     });
   };
@@ -152,9 +144,9 @@ const BidForSupplier = () => {
       <h1 className="text-2xl font-bold mb-6">Make Bid For Supplier</h1>
       <button
         className="bg-blue-500 text-white px-4 py-2 rounded mb-4"
-        onClick={() => navigate(-1)}
+        onClick={() => navigate("/supplier-bid-master")}
       >
-        Back To Bid Master
+        Go To Supplier Bid Master
       </button>
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -262,7 +254,7 @@ const BidForSupplier = () => {
             />
           </div>
           <div>
-            <label className="block mb-1 font-bold">Payment Terms</label>
+            <label className="block mb-1 font-bold">Payment Terms(In Day's)</label>
             <input
               type="text"
               name="paymentTerms"
@@ -273,14 +265,14 @@ const BidForSupplier = () => {
             />
           </div>
           <div>
-            <label className="block mb-1 font-bold">Delivery</label>
+            <label className="block mb-1 font-bold">Supply (In Day's)</label>
             <input
               type="text"
               name="delivery"
               value={formData.delivery}
               onChange={handleChange}
               className="w-full p-2 border border-gray-300 rounded"
-              placeholder="Enter Delivery Details"
+              placeholder="Enter Supply Details"
             />
           </div>
         </div>

@@ -35,7 +35,7 @@ const Bill = () => {
     try {
       const query = mobileNumber || name;
       const response = await fetch(
-        `https://main-server-9oo9.onrender.com/checkMobileNumber/${query}`
+        `http://localhost:3000/api/farmers/checkMobileNumber/${query}`
       );
       const data = await response.json();
 

@@ -32,7 +32,7 @@ const MakeBidForBuyer = () => {
   useEffect(() => {
     const fetchBuyers = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/consignee");
+        const response = await axios.get("http://localhost:3000/api/consignee");
         const data = response.data;
 
         const uniqueBuyers = [

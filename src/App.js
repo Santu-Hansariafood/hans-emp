@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Header from "./components/common/Header/Header";
 import LoginForm from "./components/Login/Login";
 import Loading from "./components/common/Loading/Loading";
-import WarehouseManagement from "./components/WarehouseManagement/WarehouseManagement";
 
 const EmployeeDetails = lazy(() => import("./components/EmployeeDetails/EmployeeDetails"));
 const WorkDetails = lazy(() => import("./components/WorkDetails/WorkDetails"));
@@ -30,6 +29,10 @@ const MakeBidForBuyer = lazy(() => import("./components/Bid/MakeBidForBuyer/Make
 const NewConsignee = lazy(() => import("./components/Consignee/NewConsignee/NewConsignee"));
 const ConsigneeTable = lazy(() => import("./components/Consignee/ConsigneeTable/ConsigneeTable"));
 const NotFound = lazy(() => import("./components/common/Header/NotFound/NotFound"));
+const WarehouseManagement = lazy(() => import("./components/WarehouseManagement/WarehouseManagement"));
+const SupplierBidMaster = lazy(() => import("./components/SupplierBidMaster/SupplierBidMaster"));
+const EditBid = lazy(() => import("./components/EditBid/EditBid"));
+const PlaceBid = lazy(() => import("./components/PlaceBid/PlaceBid"));
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -124,7 +127,10 @@ const App = () => {
           <Route path="/bid-for-buyer" element={<ProtectedRoute element={<MakeBidForBuyer />} roles={["admin", "manager"]} />} />
           <Route path="/add-new-consignee" element={<ProtectedRoute element={<NewConsignee />} roles={["admin", "manager"]} />} />
           <Route path="/consignee-table" element={<ProtectedRoute element={<ConsigneeTable />} roles={["admin", "manager"]} />} />
-          <Route path="/ware-house" element={<WarehouseManagement/>}/>
+          <Route path="/ware-house" element={<ProtectedRoute element={<WarehouseManagement />} roles={["fieldstaff", "admin", "manager", "backoffice"]}/>} />
+          <Route path="/supplier-bid-master" element={<ProtectedRoute element={<SupplierBidMaster />} roles={["admin", "manager"]}/>} />
+          <Route path="/edit-bid/:id" element={<ProtectedRoute element={<EditBid />} roles={["admin", "manager"]}/>} />
+          <Route path="/place-bid" element={<ProtectedRoute element={<PlaceBid />} roles={["admin"]}/>} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>

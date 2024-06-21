@@ -91,7 +91,7 @@ const NewBuyer = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("https://main-server-9oo9.onrender.com/buyer", formData);
+      const response = await axios.post("http://localhost:3000/api/buyers", formData);
       Swal.fire({
         icon: 'success',
         title: 'Buyer created successfully',
