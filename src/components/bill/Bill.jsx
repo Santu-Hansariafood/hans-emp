@@ -31,20 +31,30 @@ const Bill = () => {
       });
       return;
     }
-
+  
     try {
       const query = mobileNumber || name;
       const response = await fetch(
         `http://localhost:3000/api/farmers/checkMobileNumber/${query}`
       );
-      const data = await response.json();
-
-      if (data.exists) {
+  
+      if (response.ok) {
+        const data = await response.json();
         navigate("/purchase-bill", {
           state: { mobileNumber, farmerId: data.farmerId },
         });
       } else {
-        navigate("/register-farmer", { state: { mobileNumber } });
+        const errorData = await response.json();
+        if (response.status === 404) {
+          navigate("/register-farmer", { state: { mobileNumber } });
+        } else {
+          Swal.fire({
+            title: "Error",
+            text: errorData.message,
+            icon: "error",
+            confirmButtonColor: "#3085d6",
+          });
+        }
       }
     } catch (error) {
       console.error("Error:", error);
@@ -56,7 +66,7 @@ const Bill = () => {
       });
     }
   };
-
+  
   const handleBack = () => {
     Swal.fire({
       title: "Thank you!",

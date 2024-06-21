@@ -4,7 +4,6 @@ import axios from "axios";
 import data from "../../data/state.json";
 import Swal from 'sweetalert2';
 
-
 const PlaceBid = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -29,25 +28,21 @@ const PlaceBid = () => {
       const selectedState = data.find((item) => item.name === state);
       if (selectedState) {
         setLocalities(selectedState.cities);
-        fetchBuyers(state, locality);
       }
     } else {
       setLocalities([]);
-      setBuyers([]);
     }
+    fetchBuyers(state, locality);
   }, [state]);
 
   useEffect(() => {
-    if (locality) {
-      fetchBuyers(state, locality);
-    }
+    fetchBuyers(state, locality);
   }, [locality]);
 
   const handleStateChange = (e) => {
     setState(e.target.value);
     setLocality("");
     setSelectedBuyers([]);
-    filterBuyersByState(e.target.value);
   };
 
   const handleLocalityChange = (e) => {
@@ -57,21 +52,23 @@ const PlaceBid = () => {
 
   const fetchBuyers = (state, locality) => {
     axios
-      .get(
-        `http://localhost:3000/api/buyers?state=${state}&locality=${locality}`
-      )
+      .get(`http://localhost:3000/api/buyers?state=${state}&locality=${locality}`)
       .then((response) => {
         setBuyers(response.data);
-        filterBuyersByState(state, response.data);
+        filterBuyers(response.data, state);
       })
       .catch((error) => {
         console.error("Error fetching buyers:", error);
       });
   };
 
-  const filterBuyersByState = (selectedState, allBuyers = buyers) => {
-    const filtered = allBuyers.filter((buyer) => buyer.state === selectedState);
-    setFilteredBuyers(filtered);
+  const filterBuyers = (buyers, state) => {
+    if (state) {
+      const filtered = buyers.filter((buyer) => buyer.state === state);
+      setFilteredBuyers(filtered);
+    } else {
+      setFilteredBuyers(buyers);
+    }
   };
 
   const handleSelectBuyer = (buyer) => {
@@ -100,6 +97,7 @@ const PlaceBid = () => {
       text: `Bid sent successfully to: ${buyerNames}`,
     });
   }
+
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log("Country:", country);
