@@ -20,7 +20,7 @@ const CompanyList = () => {
   const fetchCompanies = async () => {
     try {
       const response = await axios.get(
-        "https://main-server-9oo9.onrender.com/companies"
+        "http://localhost:3000/api/companies"
       );
       setCompanies(response.data);
     } catch (error) {
@@ -64,7 +64,7 @@ const CompanyList = () => {
         };
         try {
           await axios.put(
-            `https://main-server-9oo9.onrender.com/companies/${company._id}`,
+            `http://localhost:3000/api/companies/${company._id}`,
             updatedCompany
           );
           Swal.fire(
@@ -97,7 +97,7 @@ const CompanyList = () => {
       if (result.isConfirmed) {
         try {
           await axios.delete(
-            `https://main-server-9oo9.onrender.com/companies/${id}`
+            `http://localhost:3000/api/companies/${id}`
           );
           Swal.fire(
             "Deleted!",

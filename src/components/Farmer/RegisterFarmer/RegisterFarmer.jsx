@@ -73,7 +73,7 @@ const RegisterFarmer = () => {
 
     try {
       const response = await axios.post(
-        "https://main-server-9oo9.onrender.com/registerFarmer",
+        "http://localhost:3000/api/farmers/register",
         data,
         {
           headers: {

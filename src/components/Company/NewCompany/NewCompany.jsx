@@ -15,7 +15,7 @@ const NewCompany = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("https://main-server-9oo9.onrender.com/companies", {
+      const response = await axios.post("http://localhost:3000/api/companies", {
         companyName,
         location,
         billingAddress,

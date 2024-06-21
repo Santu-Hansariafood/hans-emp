@@ -85,24 +85,27 @@ const PurchaseBill = () => {
   useEffect(() => {
     const fetchFarmerData = async () => {
       try {
-        const response = await fetch(
-          `https://main-server-9oo9.onrender.com/registerFarmer-purchasebill/${farmerId}`
+        const response = await axios.get(
+          `http://localhost:3000/api/farmers/registerFarmer-purchasebill/${farmerId}`
         );
-        if (!response.ok) {
+        if (response.status !== 200) {
           throw new Error("Failed to fetch farmer data");
         }
-        const data = await response.json();
+        const data = await response.data;
         setFarmerData(data);
       } catch (error) {
+        console.error("Error fetching farmer data:", error);
         Swal.fire("Error", error.message, "error");
       }
     };
-
+  
     if (farmerId) {
       fetchFarmerData();
+    } else {
+      console.error("No farmer ID provided in location state");
     }
   }, [farmerId]);
-
+  
   useEffect(() => {
     const parsedPaymentWeight = Number(paymentWeight);
     const parsedRate = Number(rate);
@@ -171,7 +174,10 @@ const PurchaseBill = () => {
     console.log("Bill Data:", billData);
 
     try {
-      const response = await axios.post("https://main-server-9oo9.onrender.com/bill", billData);
+      const response = await axios.post(
+        "http://localhost:3000/api/bills",
+        billData
+      );
 
       if (response.status === 200) {
         Swal.fire("Success", "Bill created successfully", "success");
@@ -240,21 +246,20 @@ const PurchaseBill = () => {
         />
         <FarmerDetails farmerData={farmerData} />
         <div className="flex justify-end space-x-4 mt-6">
-  <button
-    type="button"
-    className="bg-gray-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-gray-700 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-75"
-    onClick={handleBack}
-  >
-    Back
-  </button>
-  <button
-    type="submit"
-    className="bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
-  >
-    Create Bill
-  </button>
-</div>
-
+          <button
+            type="button"
+            className="bg-gray-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-gray-700 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-75"
+            onClick={handleBack}
+          >
+            Back
+          </button>
+          <button
+            type="submit"
+            className="bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
+          >
+            Create Bill
+          </button>
+        </div>
       </form>
     </div>
   );

@@ -1,16 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import QualityParameters from "../QualityParameters/QualityParameters";
+import statesData from "../../data/state.json";
+import NoAccess from "../common/NoAccess/NoAccess";
 
 const Godown = ({ user }) => {
   const [name, setName] = useState("");
   const [locationName, setLocationName] = useState("");
   const [landmark, setLandmark] = useState("");
   const [pin, setPin] = useState("");
-  const [state, setState] = useState("");
+  const [selectedState, setSelectedState] = useState("");
   const [rate, setRate] = useState("");
+  const [totalCapacity, setTotalCapacity] = useState("");
   const [quality, setQuality] = useState([
     { parameter: "Moisture", accepted: "10%", upto: "12%" },
     { parameter: "Broken", accepted: "12%", upto: "15%" },
@@ -39,20 +42,18 @@ const Godown = ({ user }) => {
     }
 
     try {
-      const response = await axios.post(
-        "https://main-server-9oo9.onrender.com/godown",
-        {
-          name,
-          location: {
-            name: locationName,
-            landmark,
-            pin,
-            state,
-          },
-          rate,
-          quality,
-        }
-      );
+      const response = await axios.post("http://localhost:3000/api/godowns", {
+        name,
+        location: {
+          name: locationName,
+          landmark,
+          pin,
+          state: selectedState,
+        },
+        rate,
+        totalCapacity,
+        quality,
+      });
 
       if (response.status === 201) {
         Swal.fire({
@@ -65,8 +66,9 @@ const Godown = ({ user }) => {
         setLocationName("");
         setLandmark("");
         setPin("");
-        setState("");
+        setSelectedState("");
         setRate("");
+        setTotalCapacity("");
         setQuality([
           { parameter: "Moisture", accepted: "10%", upto: "12%" },
           { parameter: "Broken", accepted: "12%", upto: "15%" },
@@ -91,9 +93,7 @@ const Godown = ({ user }) => {
         Add Godown
       </h2>
       {user.role !== "manager" && user.role !== "admin" && (
-        <div className="text-center text-red-500 mb-6">
-          You are not able to add the godown.
-        </div>
+        <NoAccess/>
       )}
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -170,16 +170,22 @@ const Godown = ({ user }) => {
           <label className="block text-gray-700 mb-2" htmlFor="state">
             State
           </label>
-          <input
-            type="text"
+          <select
             id="state"
-            value={state}
-            onChange={(e) => setState(e.target.value)}
+            value={selectedState}
+            onChange={(e) => setSelectedState(e.target.value)}
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
             required
             disabled={user.role !== "manager" && user.role !== "admin"}
-            placeholder="Enter State"
-          />
+            placeholder="Select State"
+          >
+            <option value="">Select State</option>
+            {statesData.map((state) => (
+              <option key={state.id} value={state.name}>
+                {state.name}
+              </option>
+            ))}
+          </select>
         </div>
         <div>
           <label className="block text-gray-700 mb-2" htmlFor="rate">
@@ -194,6 +200,21 @@ const Godown = ({ user }) => {
             required
             disabled={user.role !== "manager" && user.role !== "admin"}
             placeholder="Enter Rate"
+          />
+        </div>
+        <div>
+          <label className="block text-gray-700 mb-2" htmlFor="totalCapacity">
+            Total Capacity (in quintals)
+          </label>
+          <input
+            type="number"
+            id="totalCapacity"
+            value={totalCapacity}
+            onChange={(e) => setTotalCapacity(e.target.value)}
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+            required
+            disabled={user.role !== "manager" && user.role !== "admin"}
+            placeholder="Enter Total Capacity"
           />
         </div>
         <QualityParameters

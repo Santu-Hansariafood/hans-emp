@@ -37,7 +37,7 @@ const DisplayBillByList = () => {
     const fetchBillData = async () => {
       try {
         const response = await axios.get(
-          `https://main-server-9oo9.onrender.com/bill/${id}`
+          `http://localhost:3000/api/bills/${id}`
         );
         setBillData(response.data);
         setLoading(false);
