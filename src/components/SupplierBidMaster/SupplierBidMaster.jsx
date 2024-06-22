@@ -19,7 +19,7 @@ const SupplierBidMaster = () => {
 
   const fetchBids = () => {
     axios
-      .get("http://localhost:3000/api/bidsSupplier")
+      .get("https://main-server-2kc5.onrender.com/api/bidsSupplier")
       .then((response) => {
         setBids(
           response.data.sort((a, b) => new Date(b.date) - new Date(a.date))
@@ -84,7 +84,7 @@ const SupplierBidMaster = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`http://localhost:3000/api/bidsSupplier/${bidId}`)
+          .delete(`https://main-server-2kc5.onrender.com/api/bidsSupplier/${bidId}`)
           .then(() => {
             Swal.fire("Deleted!", "The bid has been deleted.", "success");
             fetchBids();

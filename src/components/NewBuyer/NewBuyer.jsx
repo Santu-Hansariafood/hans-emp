@@ -36,7 +36,7 @@ const NewBuyer = () => {
   useEffect(() => {
     const fetchCompanies = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/buyerCompanies");
+        const response = await axios.get("https://main-server-2kc5.onrender.com/api/buyerCompanies");
         setCompanies(response.data);
       } catch (error) {
         console.error("Error fetching companies:", error);
@@ -91,7 +91,7 @@ const NewBuyer = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:3000/api/buyers", formData);
+      const response = await axios.post("https://main-server-2kc5.onrender.com/api/buyers", formData);
       Swal.fire({
         icon: 'success',
         title: 'Buyer created successfully',

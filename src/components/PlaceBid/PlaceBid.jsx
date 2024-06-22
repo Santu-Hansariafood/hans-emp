@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import data from "../../data/state.json";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 
 const PlaceBid = () => {
   const location = useLocation();
@@ -52,7 +52,9 @@ const PlaceBid = () => {
 
   const fetchBuyers = (state, locality) => {
     axios
-      .get(`http://localhost:3000/api/buyers?state=${state}&locality=${locality}`)
+      .get(
+        `https://main-server-2kc5.onrender.com/api/buyers?state=${state}&locality=${locality}`
+      )
       .then((response) => {
         setBuyers(response.data);
         filterBuyers(response.data, state);
@@ -92,11 +94,11 @@ const PlaceBid = () => {
   const handleSend = () => {
     const buyerNames = selectedBuyers.map((buyer) => buyer.name).join(", ");
     Swal.fire({
-      icon: 'success',
-      title: 'Bid sent successfully!',
+      icon: "success",
+      title: "Bid sent successfully!",
       text: `Bid sent successfully to: ${buyerNames}`,
     });
-  }
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -159,6 +161,7 @@ const PlaceBid = () => {
         </table>
       </div>
       <form onSubmit={handleSubmit}>
+        <h2 className="text-center text-xl font-bold">Select Buyer By State</h2>
         <div className="mb-4">
           <label className="block text-gray-700">Country</label>
           <input
@@ -203,51 +206,53 @@ const PlaceBid = () => {
       </form>
       <div className="mt-6">
         <h2 className="text-xl font-semibold">Buyers</h2>
-        <table className="table-auto w-full text-left">
-          <thead>
-            <tr>
-              <th className="border px-4 py-2">
-                <input
-                  type="checkbox"
-                  checked={selectedBuyers.length === filteredBuyers.length}
-                  onChange={handleSelectAll}
-                />
-              </th>
-              <th className="border px-4 py-2">Name</th>
-              <th className="border px-4 py-2">Mobile</th>
-              <th className="border px-4 py-2">Email</th>
-              <th className="border px-4 py-2">Company</th>
-              <th className="border px-4 py-2">State</th>
-              <th className="border px-4 py-2">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredBuyers.map((buyer, index) => (
-              <tr key={index}>
-                <td className="border px-4 py-2">
+        <div className="overflow-x-auto">
+          <table className="table-auto w-full text-left">
+            <thead>
+              <tr>
+                <th className="border px-4 py-2">
                   <input
                     type="checkbox"
-                    checked={selectedBuyers.includes(buyer)}
-                    onChange={() => handleSelectBuyer(buyer)}
+                    checked={selectedBuyers.length === filteredBuyers.length}
+                    onChange={handleSelectAll}
                   />
-                </td>
-                <td className="border px-4 py-2">{buyer.name}</td>
-                <td className="border px-4 py-2">{buyer.mobile}</td>
-                <td className="border px-4 py-2">{buyer.email}</td>
-                <td className="border px-4 py-2">{buyer.companyName}</td>
-                <td className="border px-4 py-2">{buyer.state}</td>
-                <td className="border px-4 py-2">
-                  <button
-                    className="px-4 py-2 bg-blue-500 text-white rounded-md"
-                    onClick={() => handleSelectBuyer(buyer)}
-                  >
-                    Select
-                  </button>
-                </td>
+                </th>
+                <th className="border px-4 py-2">Name</th>
+                <th className="border px-4 py-2">Mobile</th>
+                <th className="border px-4 py-2">Email</th>
+                <th className="border px-4 py-2">Company</th>
+                <th className="border px-4 py-2">State</th>
+                <th className="border px-4 py-2">Action</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {filteredBuyers.map((buyer, index) => (
+                <tr key={index}>
+                  <td className="border px-4 py-2">
+                    <input
+                      type="checkbox"
+                      checked={selectedBuyers.includes(buyer)}
+                      onChange={() => handleSelectBuyer(buyer)}
+                    />
+                  </td>
+                  <td className="border px-4 py-2">{buyer.name}</td>
+                  <td className="border px-4 py-2">{buyer.mobile}</td>
+                  <td className="border px-4 py-2">{buyer.email}</td>
+                  <td className="border px-4 py-2">{buyer.companyName}</td>
+                  <td className="border px-4 py-2">{buyer.state}</td>
+                  <td className="border px-4 py-2">
+                    <button
+                      className="px-4 py-2 bg-blue-500 text-white rounded-md"
+                      onClick={() => handleSelectBuyer(buyer)}
+                    >
+                      Select
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
         <button
           className="mt-4 px-4 py-2 bg-green-500 text-white rounded-md"
           onClick={handleSend}

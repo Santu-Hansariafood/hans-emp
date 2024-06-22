@@ -16,7 +16,7 @@ const BillList = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/bills")
+      .get("https://main-server-2kc5.onrender.com/api/bills")
       .then((response) => {
         setBills(response.data);
         setFilteredBills(response.data);
@@ -58,7 +58,7 @@ const BillList = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`http://localhost:3000/api/bills/${billId}`)
+          .delete(`https://main-server-2kc5.onrender.com/api/bills/${billId}`)
           .then((response) => {
             Swal.fire("Deleted!", "Your file has been deleted.", "success");
             setBills(bills.filter((bill) => bill._id !== billId));

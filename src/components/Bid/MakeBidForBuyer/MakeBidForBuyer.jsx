@@ -32,7 +32,7 @@ const MakeBidForBuyer = () => {
   useEffect(() => {
     const fetchBuyers = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/consignee");
+        const response = await axios.get("https://main-server-2kc5.onrender.com/api/consignee");
         const data = response.data;
 
         const uniqueBuyers = [
@@ -142,7 +142,7 @@ const MakeBidForBuyer = () => {
     }
   
     try {
-      await axios.post("http://localhost:3000/bids", formData);
+      await axios.post("https://main-server-2kc5.onrender.com/bids", formData);
       Swal.fire({
         title: "Bid Submitted!",
         text: "Your bid has been successfully submitted.",

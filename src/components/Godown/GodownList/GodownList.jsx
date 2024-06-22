@@ -25,7 +25,7 @@ const GodownList = ({ userRole }) => {
       try {
         if (["manager", "backoffice", "admin"].includes(userRole)) {
           const godownResponse = await axios.get(
-            "http://localhost:3000/api/godowns"
+            "https://main-server-2kc5.onrender.com/api/godowns"
           );
           setCollections(godownResponse.data);
         }
@@ -54,7 +54,7 @@ const GodownList = ({ userRole }) => {
     try {
       if (editMode) {
         await axios.put(
-          `http://localhost:3000/api/godowns/${currentGodown._id}`,
+          `https://main-server-2kc5.onrender.com/api/godowns/${currentGodown._id}`,
           currentGodown
         );
         const updatedCollections = collections.map((collection) =>
@@ -63,13 +63,13 @@ const GodownList = ({ userRole }) => {
         setCollections(updatedCollections);
       } else if (newGodownMode) {
         const response = await axios.post(
-          "http://localhost:3000/api/godowns",
+          "https://main-server-2kc5.onrender.com/api/godowns",
           currentGodown
         );
         setCollections([...collections, response.data]);
       } else if (rateEditId) {
         await axios.put(
-          `http://localhost:3000/api/godowns/${rateEditId}`,
+          `https://main-server-2kc5.onrender.com/api/godowns/${rateEditId}`,
           { rate: currentGodown.rate }
         );
         const updatedCollections = collections.map((collection) =>
@@ -80,7 +80,7 @@ const GodownList = ({ userRole }) => {
         setCollections(updatedCollections);
       } else if (qualityEditMode) {
         await axios.put(
-          `http://localhost:3000/api/godowns/${currentGodown._id}`,
+          `https://main-server-2kc5.onrender.com/api/godowns/${currentGodown._id}`,
           { quality: currentGodown.quality }
         );
         const updatedCollections = collections.map((collection) =>

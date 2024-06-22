@@ -39,7 +39,7 @@ const EmployeeRegisterForm = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/employees/register",
+        "https://main-server-2kc5.onrender.com/api/employees/register",
         data
       );
 

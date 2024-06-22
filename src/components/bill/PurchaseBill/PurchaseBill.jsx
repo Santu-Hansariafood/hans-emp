@@ -86,7 +86,7 @@ const PurchaseBill = () => {
     const fetchFarmerData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/farmers/registerFarmer-purchasebill/${farmerId}`
+          `https://main-server-2kc5.onrender.com/api/farmers/registerFarmer-purchasebill/${farmerId}`
         );
         if (response.status !== 200) {
           throw new Error("Failed to fetch farmer data");
@@ -175,7 +175,7 @@ const PurchaseBill = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/bills",
+        "https://main-server-2kc5.onrender.com/api/bills",
         billData
       );
 

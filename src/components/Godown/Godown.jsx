@@ -42,7 +42,7 @@ const Godown = ({ user }) => {
     }
 
     try {
-      const response = await axios.post("http://localhost:3000/api/godowns", {
+      const response = await axios.post("https://main-server-2kc5.onrender.com/api/godowns", {
         name,
         location: {
           name: locationName,

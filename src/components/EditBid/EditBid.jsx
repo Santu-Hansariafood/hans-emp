@@ -24,7 +24,7 @@ const EditBid = () => {
 
     useEffect(() => {
         // Fetch godowns from the API
-        axios.get('http://localhost:3000/api/godowns')
+        axios.get('https://main-server-2kc5.onrender.com/api/godowns')
             .then(response => {
                 setGodowns(response.data);
             })
@@ -44,7 +44,7 @@ const EditBid = () => {
         e.preventDefault();
 
         try {
-            const response = await axios.put(`http://localhost:3000/api/bidsSupplier/${bid._id}`, formData);
+            const response = await axios.put(`https://main-server-2kc5.onrender.com/api/bidsSupplier/${bid._id}`, formData);
 
             if (response.status === 200) {
                 Swal.fire('Success', 'Bid updated successfully', 'success');

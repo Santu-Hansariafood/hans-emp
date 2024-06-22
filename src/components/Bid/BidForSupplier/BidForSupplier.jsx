@@ -27,7 +27,7 @@ const BidForSupplier = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/godowns")
+      .get("https://main-server-2kc5.onrender.com/api/godowns")
       .then((response) => {
         setGodowns(response.data);
       })
@@ -113,7 +113,7 @@ const BidForSupplier = () => {
       cancelButtonText: "No, cancel!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios.post('http://localhost:3000/api/bidsSupplier', formData)
+        axios.post('https://main-server-2kc5.onrender.com/api/bidsSupplier', formData)
           .then(response => {
             Swal.fire({
               title: "Bid Submitted!",

@@ -37,7 +37,7 @@ const EditDisplayBill = () => {
     const fetchBillData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/bills/${id}`
+          `https://main-server-2kc5.onrender.com/api/bills/${id}`
         );
         setBillData(response.data);
         setLoading(false);
@@ -71,7 +71,7 @@ const EditDisplayBill = () => {
   const handleUpdate = async () => {
     try {
       await axios.put(
-        `http://localhost:3000/api/bills/${id}`,
+        `https://main-server-2kc5.onrender.com/api/bills/${id}`,
         billData
       );
       navigate(`/display-bill-list/${id}`);

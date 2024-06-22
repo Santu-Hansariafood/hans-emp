@@ -21,7 +21,7 @@ const WarehouseManagement = () => {
   useEffect(() => {
     const fetchWarehouseData = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/godown");
+        const response = await axios.get("https://main-server-2kc5.onrender.com/godown");
         const warehouses = response.data.map(godown => ({
           value: godown._id,
           label: godown.name,
@@ -37,7 +37,7 @@ const WarehouseManagement = () => {
 
     const fetchFarmerData = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/registerFarmer");
+        const response = await axios.get("https://main-server-2kc5.onrender.com/registerFarmer");
         const farmers = response.data.farmers.map(farmer => ({
           value: farmer._id,
           label: farmer.name,
