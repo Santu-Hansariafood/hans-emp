@@ -17,7 +17,7 @@ const FarmerDetails = () => {
     const fetchFarmerDetails = async () => {
       try {
         const response = await axios.get(
-          `https://main-server-9oo9.onrender.com/registerFarmer`
+          `https://main-server-2kc5.onrender.com/api/farmers/getAllFarmers`
         );
         const farmerData = response.data.farmers.find((f) => f._id === id);
         if (farmerData) {
@@ -47,7 +47,9 @@ const FarmerDetails = () => {
   const generateQRValue = (farmer) => {
     return JSON.stringify(farmer, null, 2);
   };
-const title = "Register Farmer Details"
+
+  const title = "Register Farmer Details";
+
   return (
     <div className="flex flex-col items-center mt-10">
       <div className="max-w-4xl bg-white p-8 rounded-lg shadow-lg w-full">
