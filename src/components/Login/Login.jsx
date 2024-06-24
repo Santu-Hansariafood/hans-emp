@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
@@ -9,13 +9,15 @@ const LoginForm = ({ onLoginSuccess }) => {
   const [mobileNumber, setMobileNumber] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
 
     try {
-      const response = await axios.post(
+      const loginResponse = await axios.post(
         "https://main-server-2kc5.onrender.com/api/employees/login",
         {
           mobile: mobileNumber,
@@ -23,47 +25,47 @@ const LoginForm = ({ onLoginSuccess }) => {
         }
       );
 
-      if (response.data.success) {
+      if (loginResponse.data.success) {
+        const employeeFetchPromise = axios.get(
+          `https://main-server-2kc5.onrender.com/api/employees/mobile/${mobileNumber}`
+        );
+
         Swal.fire({
           title: "Success!",
           text: "Login successful!",
           icon: "success",
           confirmButtonText: "OK",
-        }).then(async () => {
-          try {
-            const employeeResponse = await axios.get(
-              `https://main-server-2kc5.onrender.com/api/employees/mobile/${mobileNumber}`
-            );
-            const employeeData = employeeResponse.data[0];
-
-            if (employeeData) {
-              onLoginSuccess(employeeData);
-              navigate("/employee-details", {
-                state: { employee: employeeData },
-              });
-            } else {
-              setMessage("Employee data not found.");
-            }
-          } catch (error) {
-            setMessage("Failed to fetch employee data.");
-          }
         });
+
+        const employeeResponse = await employeeFetchPromise;
+        const employeeData = employeeResponse.data[0];
+
+        if (employeeData) {
+          onLoginSuccess(employeeData);
+          navigate("/employee-details", {
+            state: { employee: employeeData },
+          });
+        } else {
+          setMessage("Employee data not found.");
+        }
       } else {
         setMessage("Login failed. Please check your credentials.");
       }
     } catch (error) {
       setMessage("An error occurred. Please try again later.");
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleMobileNumberChange = (e) => {
+  const handleMobileNumberChange = useCallback((e) => {
     const input = e.target.value.replace(/\D/g, "");
     if (/^[6-9]/.test(input) && input.length <= 10) {
       setMobileNumber(input);
     } else if (input === "") {
       setMobileNumber("");
     }
-  };
+  }, []);
 
   return (
     <div className="max-w-md mx-auto mt-10 bg-white p-8 rounded-lg shadow-lg">
@@ -71,6 +73,7 @@ const LoginForm = ({ onLoginSuccess }) => {
         Login
       </h2>
       {message && <p className="text-center text-red-500 mb-4">{message}</p>}
+      {loading && <p className="text-center text-gray-500 mb-4">Loading...</p>}
       <form onSubmit={handleSubmit} className="space-y-6">
         <InputField
           id="mobileNumber"
@@ -90,9 +93,12 @@ const LoginForm = ({ onLoginSuccess }) => {
         />
         <button
           type="submit"
-          className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+          className={`w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ${
+            loading ? "cursor-not-allowed opacity-50" : ""
+          }`}
+          disabled={loading}
         >
-          Login
+          {loading ? "Logging in..." : "Login"}
         </button>
       </form>
     </div>
