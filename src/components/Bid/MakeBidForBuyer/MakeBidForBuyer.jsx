@@ -142,7 +142,7 @@ const MakeBidForBuyer = () => {
     }
   
     try {
-      await axios.post("https://main-server-2kc5.onrender.com/bids", formData);
+      await axios.post("https://main-server-2kc5.onrender.com/api/bids", formData);
       Swal.fire({
         title: "Bid Submitted!",
         text: "Your bid has been successfully submitted.",
