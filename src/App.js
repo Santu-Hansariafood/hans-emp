@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Header from "./components/common/Header/Header";
 import LoginForm from "./components/Login/Login";
 import Loading from "./components/common/Loading/Loading";
+import LoadingEntry from "./components/EntryLoading/LoadingEntry/LoadingEntry";
 
 const EmployeeDetails = lazy(() => import("./components/EmployeeDetails/EmployeeDetails"));
 const WorkDetails = lazy(() => import("./components/WorkDetails/WorkDetails"));
@@ -131,6 +132,7 @@ const App = () => {
           <Route path="/supplier-bid-master" element={<ProtectedRoute element={<SupplierBidMaster />} roles={["admin", "manager"]}/>} />
           <Route path="/edit-bid/:id" element={<ProtectedRoute element={<EditBid />} roles={["admin", "manager"]}/>} />
           <Route path="/place-bid" element={<ProtectedRoute element={<PlaceBid />} roles={["admin"]}/>} />
+          <Route path="/loading-entry" element={<ProtectedRoute element={<LoadingEntry />} roles={["admin","manager"]}/>}/>
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>

@@ -12,6 +12,17 @@ const LoginForm = ({ onLoginSuccess }) => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  const Loading = () => {
+    return (
+      <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-75 z-50">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-dashed rounded-full animate-spin border-blue-500 mx-auto mb-4"></div>
+          <h2 className="text-xl font-semibold">Login Please Wait...</h2>
+        </div>
+      </div>
+    );
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
@@ -68,39 +79,45 @@ const LoginForm = ({ onLoginSuccess }) => {
   }, []);
 
   return (
-    <div className="max-w-md mx-auto mt-10 bg-white p-8 rounded-lg shadow-lg">
-      <h2 className="text-3xl font-bold mb-6 text-center text-gray-700">
-        Login
-      </h2>
-      {message && <p className="text-center text-red-500 mb-4">{message}</p>}
-      {loading && <p className="text-center text-gray-500 mb-4">Loading...</p>}
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <InputField
-          id="mobileNumber"
-          label="Mobile Number"
-          value={mobileNumber}
-          onChange={handleMobileNumberChange}
-          placeholder="Enter Your Mobile Number"
-          required
-        />
-        <PasswordInput
-          id="password"
-          label="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Enter Your Password"
-          required
-        />
-        <button
-          type="submit"
-          className={`w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ${
-            loading ? "cursor-not-allowed opacity-50" : ""
-          }`}
-          disabled={loading}
-        >
-          {loading ? "Logging in..." : "Login"}
-        </button>
-      </form>
+    <div className="relative">
+      {loading && <Loading />}
+      <div
+        className={`max-w-md mx-auto mt-10 bg-white p-8 rounded-lg shadow-lg ${
+          loading ? "opacity-50" : ""
+        }`}
+      >
+        <h2 className="text-3xl font-bold mb-6 text-center text-gray-700">
+          Login
+        </h2>
+        {message && <p className="text-center text-red-500 mb-4">{message}</p>}
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <InputField
+            id="mobileNumber"
+            label="Mobile Number"
+            value={mobileNumber}
+            onChange={handleMobileNumberChange}
+            placeholder="Enter Your Mobile Number"
+            required
+          />
+          <PasswordInput
+            id="password"
+            label="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Enter Your Password"
+            required
+          />
+          <button
+            type="submit"
+            className={`w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ${
+              loading ? "cursor-not-allowed opacity-50" : ""
+            }`}
+            disabled={loading}
+          >
+            {loading ? "Logging in..." : "Login"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

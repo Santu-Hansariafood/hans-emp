@@ -1,4 +1,5 @@
 import React from "react";
+import { FaRegEye } from "react-icons/fa";
 
 const FarmerTable = ({ farmers, handleViewDetails }) => {
   return (
@@ -54,7 +55,7 @@ const FarmerTable = ({ farmers, handleViewDetails }) => {
                     onClick={() => handleViewDetails(farmer._id)}
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded-lg transition duration-300"
                   >
-                    View
+                    <FaRegEye title="View" />
                   </button>
                 </td>
               </tr>
