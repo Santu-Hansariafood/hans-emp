@@ -1,8 +1,8 @@
 import React from "react";
 
 const FileInput = ({ id, label, onChange }) => (
-  <div>
-    <label className="block text-gray-700 mb-2" htmlFor={id}>
+  <div className="flex flex-col space-y-2">
+    <label className="block text-lg font-semibold text-gray-700" htmlFor={id}>
       {label}
     </label>
     <input
@@ -10,7 +10,7 @@ const FileInput = ({ id, label, onChange }) => (
       id={id}
       name={id}
       onChange={onChange}
-      className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
     />
   </div>
 );

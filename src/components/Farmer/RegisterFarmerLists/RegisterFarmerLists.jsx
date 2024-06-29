@@ -74,8 +74,8 @@ const RegisterFarmerLists = () => {
   const currentFarmers = farmers.slice(startIndex, startIndex + itemsPerPage);
 
   return (
-    <div className="max-w-7xl mx-auto mt-10 bg-white p-8 rounded-lg shadow-lg">
-      <h2 className="text-3xl font-bold mb-6 text-center text-gray-700">
+    <div className="max-w-7xl mx-auto mt-10 p-8 rounded-lg shadow-lg bg-gradient-to-r from-green-200 via-yellow-100 to-green-200">
+      <h2 className="text-4xl font-extrabold mb-6 text-center text-gray-800 bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-yellow-500">
         Register Farmer Details
       </h2>
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-5">
@@ -101,7 +101,7 @@ const RegisterFarmerLists = () => {
       />
       <button
         onClick={handleBack}
-        className="mt-6 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+        className="mt-6 bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
       >
         Back
       </button>

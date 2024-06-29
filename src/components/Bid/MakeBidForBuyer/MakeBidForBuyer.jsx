@@ -32,7 +32,7 @@ const MakeBidForBuyer = () => {
   useEffect(() => {
     const fetchBuyers = async () => {
       try {
-        const response = await axios.get("https://main-server-2kc5.onrender.com/api/consignee");
+        const response = await axios.get("https://main-server-2kc5.onrender.com/api/consignees");
         const data = response.data;
 
         const uniqueBuyers = [
@@ -117,10 +117,10 @@ const MakeBidForBuyer = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     const startTime = moment(formData.startTime, "HH:mm");
     const endTime = moment(formData.endTime, "HH:mm");
-  
+
     if (startTime.isAfter(endTime)) {
       Swal.fire({
         title: "Error",
@@ -130,7 +130,7 @@ const MakeBidForBuyer = () => {
       });
       return;
     }
-  
+
     if (!formData.rateForBid || !formData.delivery) {
       Swal.fire({
         title: "Error",
@@ -140,7 +140,7 @@ const MakeBidForBuyer = () => {
       });
       return;
     }
-  
+
     try {
       await axios.post("https://main-server-2kc5.onrender.com/api/bids", formData);
       Swal.fire({
@@ -149,7 +149,7 @@ const MakeBidForBuyer = () => {
         icon: "success",
         confirmButtonText: "OK",
       });
-  
+
       setFormData({
         buyer: "",
         buyerPhoneNumber: "",
@@ -160,7 +160,7 @@ const MakeBidForBuyer = () => {
         quantity: "",
         unit: "",
         rateForBid: "",
-        date: moment().format("DD-MM-YYYY"),
+        date: moment().format("YYYY-MM-DD"),
         startTime: "",
         endTime: "",
         paymentTerms: "",
@@ -175,14 +175,16 @@ const MakeBidForBuyer = () => {
       });
     }
   };
-  
+
   return (
-    <div className="max-w-4xl mx-auto mt-10 p-6 bg-white shadow-md rounded-md">
-      <h1 className="text-2xl font-bold mb-6">Make Bid For Buyer</h1>
+    <div className="max-w-4xl mx-auto mt-10 p-8 bg-gradient-to-r from-green-200 via-yellow-100 to-green-200 rounded-lg shadow-lg">
+      <h1 className="text-3xl font-bold mb-6 text-center text-gray-700 bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-yellow-500">
+        Make Bid For Buyer
+      </h1>
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 gap-6">
           <div>
-            <label className="block mb-1 font-bold">Select Buyer</label>
+            <label className="block mb-1 font-bold text-gray-700">Select Buyer</label>
             <Select
               name="buyer"
               options={buyers}
@@ -192,7 +194,7 @@ const MakeBidForBuyer = () => {
             />
           </div>
           <div>
-            <label className="block mb-1 font-bold">Buyer's Phone Number</label>
+            <label className="block mb-1 font-bold text-gray-700">Buyer's Phone Number</label>
             <input
               type="text"
               name="buyerPhoneNumber"
@@ -205,9 +207,7 @@ const MakeBidForBuyer = () => {
             />
           </div>
           <div>
-            <label className="block mb-1 font-bold">
-              Select Buyer's Biding Location
-            </label>
+            <label className="block mb-1 font-bold text-gray-700">Select Buyer's Biding Location</label>
             <input
               type="text"
               name="buyerLocation"
@@ -218,9 +218,7 @@ const MakeBidForBuyer = () => {
             />
           </div>
           <div>
-            <label className="block mb-1 font-bold">
-              Select Buyer's Biding Consignee
-            </label>
+            <label className="block mb-1 font-bold text-gray-700">Select Buyer's Biding Consignee</label>
             <Select
               name="buyerConsignee"
               options={filteredConsignees.map((consignee) => ({
@@ -233,7 +231,7 @@ const MakeBidForBuyer = () => {
             />
           </div>
           <div>
-            <label className="block mb-1 font-bold">Require Finance</label>
+            <label className="block mb-1 font-bold text-gray-700">Require Finance</label>
             <div className="flex items-center space-x-4">
               <label className="flex items-center space-x-2">
                 <input
@@ -258,7 +256,7 @@ const MakeBidForBuyer = () => {
             </div>
           </div>
           <div>
-            <label className="block mb-1 font-bold">Select Product</label>
+            <label className="block mb-1 font-bold text-gray-700">Select Product</label>
             <Select
               name="product"
               options={products}
@@ -269,7 +267,7 @@ const MakeBidForBuyer = () => {
           </div>
           <div className="flex space-x-6">
             <div className="w-1/2">
-              <label className="block mb-1 font-bold">Quantity</label>
+              <label className="block mb-1 font-bold text-gray-700">Quantity</label>
               <input
                 type="text"
                 name="quantity"
@@ -280,7 +278,7 @@ const MakeBidForBuyer = () => {
               />
             </div>
             <div className="w-1/2">
-              <label className="block mb-1 font-bold">Unit</label>
+              <label className="block mb-1 font-bold text-gray-700">Unit</label>
               <input
                 type="text"
                 name="unit"
@@ -292,7 +290,7 @@ const MakeBidForBuyer = () => {
             </div>
           </div>
           <div>
-            <label className="block mb-1 font-bold">Rate For Bid</label>
+            <label className="block mb-1 font-bold text-gray-700">Rate For Bid</label>
             <input
               type="text"
               name="rateForBid"
@@ -304,7 +302,7 @@ const MakeBidForBuyer = () => {
           </div>
           <div className="flex space-x-6">
             <div className="w-1/2">
-              <label className="block mb-1 font-bold">Date (DD-MM-YYYY)</label>
+              <label className="block mb-1 font-bold text-gray-700">Date</label>
               <input
                 type="date"
                 name="date"
@@ -316,7 +314,7 @@ const MakeBidForBuyer = () => {
               />
             </div>
             <div className="w-1/2">
-              <label className="block mb-1 font-bold">Start Time (HH:MM)</label>
+              <label className="block mb-1 font-bold text-gray-700">Start Time</label>
               <button
                 type="button"
                 onClick={() => handleTimeInput("startTime")}
@@ -328,7 +326,7 @@ const MakeBidForBuyer = () => {
           </div>
           <div className="flex space-x-6">
             <div className="w-1/2">
-              <label className="block mb-1 font-bold">End Time (HH:MM)</label>
+              <label className="block mb-1 font-bold text-gray-700">End Time</label>
               <button
                 type="button"
                 onClick={() => handleTimeInput("endTime")}
@@ -339,7 +337,7 @@ const MakeBidForBuyer = () => {
             </div>
           </div>
           <div>
-            <label className="block mb-1 font-bold">Payment Terms</label>
+            <label className="block mb-1 font-bold text-gray-700">Payment Terms</label>
             <input
               type="text"
               name="paymentTerms"
@@ -350,7 +348,7 @@ const MakeBidForBuyer = () => {
             />
           </div>
           <div>
-            <label className="block mb-1 font-bold">Delivery</label>
+            <label className="block mb-1 font-bold text-gray-700">Delivery</label>
             <input
               type="text"
               name="delivery"
@@ -365,13 +363,13 @@ const MakeBidForBuyer = () => {
           <button
             type="button"
             onClick={() => navigate(-1)}
-            className="bg-gray-500 text-white px-4 py-2 rounded"
+            className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded transition duration-200"
           >
             Back
           </button>
           <button
             type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded"
+            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition duration-200"
           >
             Make Bid
           </button>

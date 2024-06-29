@@ -16,7 +16,7 @@ const LoginForm = ({ onLoginSuccess }) => {
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-75 z-50">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-dashed rounded-full animate-spin border-blue-500 mx-auto mb-4"></div>
+          <div className="w-16 h-16 border-4 border-dashed rounded-full animate-spin border-indigo-500 mx-auto mb-4"></div>
           <h2 className="text-xl font-semibold">Login Please Wait...</h2>
         </div>
       </div>
@@ -82,11 +82,11 @@ const LoginForm = ({ onLoginSuccess }) => {
     <div className="relative">
       {loading && <Loading />}
       <div
-        className={`max-w-md mx-auto mt-10 bg-white p-8 rounded-lg shadow-lg ${
+        className={`max-w-md mx-auto mt-10 p-8 rounded-lg shadow-lg bg-gradient-to-r from-green-200 via-yellow-100 to-green-200 ${
           loading ? "opacity-50" : ""
         }`}
       >
-        <h2 className="text-3xl font-bold mb-6 text-center text-gray-700">
+        <h2 className="text-4xl font-extrabold mb-6 text-center text-gray-800 bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-yellow-500">
           Login
         </h2>
         {message && <p className="text-center text-red-500 mb-4">{message}</p>}
@@ -109,7 +109,7 @@ const LoginForm = ({ onLoginSuccess }) => {
           />
           <button
             type="submit"
-            className={`w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ${
+            className={`w-full bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg transition duration-100 ${
               loading ? "cursor-not-allowed opacity-50" : ""
             }`}
             disabled={loading}

@@ -94,12 +94,12 @@ const RegisterFarmer = () => {
   };
 
   return (
-    <div className="w-full mx-4 mt-10 bg-white p-8 rounded-lg shadow-lg">
-      <h2 className="text-3xl font-bold mb-6 text-center text-gray-700">
+    <div className="w-full mx-4 mt-10 p-8 rounded-lg shadow-lg bg-gradient-to-r from-green-200 via-yellow-100 to-green-200">
+      <h2 className="text-4xl font-extrabold mb-6 text-center text-gray-800 bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-yellow-500">
         Register Farmer
       </h2>
       <div className="space-y-4">
-        <p>
+        <p className="text-lg font-semibold text-gray-700">
           <strong>Register By:</strong> {employee?.firstname}{" "}
           {employee?.lastname}
         </p>
@@ -265,13 +265,13 @@ const RegisterFarmer = () => {
             <button
               type="button"
               onClick={handleBack}
-              className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
+              className="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-700 transition duration-300"
             >
               Back
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+              className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300"
             >
               Register
             </button>

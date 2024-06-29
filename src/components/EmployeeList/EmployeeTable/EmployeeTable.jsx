@@ -6,7 +6,7 @@ const EmployeeTable = ({ employees, handleView, handleEdit, handleDelete }) => {
     <div className="overflow-x-auto">
       <table className="min-w-full bg-white border border-gray-300">
         <thead>
-          <tr>
+          <tr className="bg-gradient-to-r from-green-400 to-yellow-500 text-white">
             <th className="py-2 px-4 border-b">Employee ID</th>
             <th className="py-2 px-4 border-b">First Name</th>
             <th className="py-2 px-4 border-b">Last Name</th>

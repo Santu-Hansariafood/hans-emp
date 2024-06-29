@@ -26,7 +26,7 @@ const GodownTable = ({
   return (
     <table className="min-w-full bg-white border border-gray-300">
       <thead>
-        <tr>
+        <tr className="bg-gradient-to-r from-green-400 to-yellow-500 text-white">
           <th className="px-6 py-3 border-b">Name</th>
           <th className="px-6 py-3 border-b">Location</th>
           <th className="px-6 py-3 border-b">Rate</th>

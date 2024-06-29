@@ -95,7 +95,7 @@ const BillList = () => {
       <div className="overflow-x-auto">
         <table className="table-auto w-full">
           <thead>
-            <tr>
+            <tr className="bg-gradient-to-r from-green-400 to-yellow-500 text-white">
               <th className="border p-2">Bill No</th>
               <th className="border p-2">Lorry Number</th>
               <th className="border p-2">Farmer Name</th>

@@ -131,8 +131,10 @@ const NewBuyer = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-semibold mb-4">Create New Buyer</h1>
+    <div className="container mx-auto p-4 bg-gradient-to-r from-green-200 via-yellow-100 to-green-200 rounded-lg shadow-lg">
+      <h1 className="text-3xl font-bold mb-6 text-center text-gray-700 bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-yellow-500">
+        Create New Buyer
+      </h1>
       <form onSubmit={handleSubmit}>
         <BuyerFormFields
           formData={formData}
@@ -145,13 +147,13 @@ const NewBuyer = () => {
           <button
             type="button"
             onClick={handleBack}
-            className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+            className="bg-gray-500 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition duration-300"
           >
             Back
           </button>
           <button
             type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            className="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-300"
           >
             Submit
           </button>

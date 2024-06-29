@@ -31,13 +31,13 @@ const Bill = () => {
       });
       return;
     }
-  
+
     try {
       const query = mobileNumber || name;
       const response = await fetch(
         `https://main-server-2kc5.onrender.com/api/farmers/checkMobileNumber/${query}`
       );
-  
+
       if (response.ok) {
         const data = await response.json();
         navigate("/purchase-bill", {
@@ -66,7 +66,7 @@ const Bill = () => {
       });
     }
   };
-  
+
   const handleBack = () => {
     Swal.fire({
       title: "Thank you!",
@@ -79,59 +79,61 @@ const Bill = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 bg-white p-8 rounded-lg shadow-lg">
-      <h2 className="text-3xl font-bold mb-6 text-center text-gray-700">
-        Purchase Bill
-      </h2>
-      <div className="mb-6">
-        <label
-          className="block text-gray-700 text-sm font-bold mb-2"
-          htmlFor="mobileNumber"
-        >
-          Mobile Number
-        </label>
-        <input
-          id="mobileNumber"
-          type="text"
-          value={mobileNumber}
-          onChange={handleMobileNumberChange}
-          placeholder="Enter Farmer Mobile number"
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          maxLength="10"
-        />
-      </div>
-      <h2 className="block text-gray-700 text-sm font-bold mb-2 text-center">
-        or
-      </h2>
-      <div className="mb-6">
-        <label
-          className="block text-gray-700 text-sm font-bold mb-2"
-          htmlFor="name"
-        >
-          Name
-        </label>
-        <input
-          id="name"
-          type="text"
-          value={name}
-          onChange={handleNameChange}
-          placeholder="Enter Farmer Name"
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        />
-      </div>
-      <div className="mt-6 flex justify-between">
-        <button
-          onClick={handleBack}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
-        >
-          Back
-        </button>
-        <button
-          onClick={handleNext}
-          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
-        >
-          Next
-        </button>
+    <div className="relative">
+      <div className="max-w-md mx-auto mt-10 p-8 rounded-lg shadow-lg bg-gradient-to-r from-green-200 via-yellow-100 to-green-200">
+        <h2 className="text-4xl font-extrabold mb-6 text-center text-gray-800 bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-yellow-500">
+          Purchase Bill
+        </h2>
+        <div className="mb-6">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="mobileNumber"
+          >
+            Mobile Number
+          </label>
+          <input
+            id="mobileNumber"
+            type="text"
+            value={mobileNumber}
+            onChange={handleMobileNumberChange}
+            placeholder="Enter Farmer Mobile number"
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+            maxLength="10"
+          />
+        </div>
+        <h2 className="block text-gray-700 text-sm font-bold mb-2 text-center">
+          or
+        </h2>
+        <div className="mb-6">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="name"
+          >
+            Name
+          </label>
+          <input
+            id="name"
+            type="text"
+            value={name}
+            onChange={handleNameChange}
+            placeholder="Enter Farmer Name"
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+          />
+        </div>
+        <div className="mt-6 flex justify-between">
+          <button
+            onClick={handleBack}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+          >
+            Back
+          </button>
+          <button
+            onClick={handleNext}
+            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+          >
+            Next
+          </button>
+        </div>
       </div>
     </div>
   );
