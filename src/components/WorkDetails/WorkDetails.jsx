@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import WorkOptions from "./WorkOptions/WorkOptions";
+// import WorkOptions from "./WorkOptions/WorkOptions";
 
 const WorkDetails = ({ user, userRole }) => {
   const navigate = useNavigate();
@@ -24,6 +24,10 @@ const WorkDetails = ({ user, userRole }) => {
     { id: "addNewConsignee", label: "New Consignee", checked: false },
     { id: "consigneeTable", label: "Consignee List", checked: false },
     { id: "supplier-bid-master", label: "Supplier Bid Master", checked: false },
+    { id: "add-products", label: "Add Products", checked: false },
+    { id: "product-master", label: "Product Master", checked: false },
+    { id: "add-self-company", label: "Add Self Company", checked: false },
+    { id: "self-company-master", label: "Self Company Master", checked: false },
   ]);
 
   const handleBack = () => {
@@ -113,6 +117,18 @@ const WorkDetails = ({ user, userRole }) => {
       case "supplier-bid-master":
         nextRoute = "/supplier-bid-master";
         break;
+      case "add-products":
+        nextRoute = "/add-products";
+        break;
+      case "product-master":
+        nextRoute = "/product-master";
+        break;
+        case "add-self-company":
+        nextRoute = "/add-self-company";
+        break;
+      case "self-company-master":
+        nextRoute = "/self-company-master";
+        break;
       default:
         return;
     }
@@ -152,7 +168,9 @@ const WorkDetails = ({ user, userRole }) => {
           <div
             key={option.id}
             className={`p-4 border rounded-lg ${
-              option.checked ? "bg-green-300 border-green-600" : "bg-yellow-200 border-yellow-600"
+              option.checked
+                ? "bg-green-300 border-green-600"
+                : "bg-yellow-200 border-yellow-600"
             } cursor-pointer transform transition-transform duration-200 hover:scale-105`}
             onClick={() => handleChange(option.id)}
           >

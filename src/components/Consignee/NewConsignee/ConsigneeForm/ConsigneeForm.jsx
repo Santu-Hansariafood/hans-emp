@@ -11,7 +11,7 @@ const ConsigneeForm = ({ handleSubmit }) => {
 
   useEffect(() => {
     axios
-      .get("https://main-server-2kc5.onrender.com/api/buyers")
+      .get("https://main-server-2kc5.onrender.com/api/companies")
       .then((response) => {
         const options = response.data.map((buyer) => ({
           value: buyer.companyName,

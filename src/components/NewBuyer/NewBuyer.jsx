@@ -13,7 +13,6 @@ const NewBuyer = () => {
     mobile: "",
     email: "",
     password: "",
-    isFirstLogin: "YES",
     companyName: "",
     location: "",
     gstNo: "",
@@ -23,27 +22,37 @@ const NewBuyer = () => {
     state: "",
     city: "",
     panNo: "",
-    products: "",
+    products: [],
+    consignees: [],
     bidingLocations: "",
-    cityOrigins: "",
-    otherCompanies: "",
   });
 
   const [companies, setCompanies] = useState([]);
   const [cities, setCities] = useState([]);
   const [states, setStates] = useState([]);
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     const fetchCompanies = async () => {
       try {
-        const response = await axios.get("https://main-server-2kc5.onrender.com/api/buyerCompanies");
+        const response = await axios.get("https://main-server-2kc5.onrender.com/api/companies");
         setCompanies(response.data);
       } catch (error) {
         console.error("Error fetching companies:", error);
       }
     };
 
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get("https://main-server-2kc5.onrender.com/api/products");
+        setProducts(response.data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
     fetchCompanies();
+    fetchProducts();
   }, []);
 
   useEffect(() => {
@@ -88,6 +97,39 @@ const NewBuyer = () => {
     }
   };
 
+  const handleProductChange = (e) => {
+    const selectedProduct = e.target.value;
+    if (!formData.products.includes(selectedProduct)) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        products: [...prevFormData.products, selectedProduct],
+      }));
+    }
+  };
+
+  const handleRemoveProduct = (productToRemove) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      products: prevFormData.products.filter(product => product !== productToRemove),
+    }));
+  };
+
+  const handleAddConsignee = (consignee) => {
+    if (!formData.consignees.includes(consignee)) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        consignees: [...prevFormData.consignees, consignee],
+      }));
+    }
+  };
+
+  const handleRemoveConsignee = (consigneeToRemove) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      consignees: prevFormData.consignees.filter(consignee => consignee !== consigneeToRemove),
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -102,7 +144,6 @@ const NewBuyer = () => {
         mobile: "",
         email: "",
         password: "",
-        isFirstLogin: "YES",
         companyName: "",
         location: "",
         gstNo: "",
@@ -112,10 +153,9 @@ const NewBuyer = () => {
         state: "",
         city: "",
         panNo: "",
-        products: "",
+        products: [],
+        consignees: [],
         bidingLocations: "",
-        cityOrigins: "",
-        otherCompanies: "",
       });
     } catch (error) {
       Swal.fire({
@@ -139,9 +179,14 @@ const NewBuyer = () => {
         <BuyerFormFields
           formData={formData}
           handleChange={handleChange}
+          handleProductChange={handleProductChange}
+          handleRemoveProduct={handleRemoveProduct}
+          handleAddConsignee={handleAddConsignee}
+          handleRemoveConsignee={handleRemoveConsignee}
           companies={companies}
           cities={cities}
           states={states}
+          products={products}
         />
         <div className="mt-4 flex justify-between">
           <button
