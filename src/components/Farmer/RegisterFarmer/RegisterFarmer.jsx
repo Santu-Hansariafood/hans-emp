@@ -73,7 +73,7 @@ const RegisterFarmer = () => {
 
     try {
       const response = await axios.post(
-        "https://main-server-2kc5.onrender.com/api/farmers/register",
+        "https://main-server-2kc5.onrender.com/api/farmers/registerFarmer",
         data,
         {
           headers: {
@@ -85,7 +85,8 @@ const RegisterFarmer = () => {
       navigate("/success");
     } catch (error) {
       console.error("There was an error!", error);
-      Swal.fire("Error", "Registration failed. Please try again.", "error");
+      const errorMessage = error.response?.data?.message || "Registration failed. Please try again.";
+      Swal.fire("Error", errorMessage, "error");
     }
   };
 

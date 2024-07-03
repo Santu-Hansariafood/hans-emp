@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
 
 const SelfCompanyMaster = () => {
   const [companies, setCompanies] = useState([]);
-  const [editingCompany, setEditingCompany] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const companiesPerPage = 10;
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCompanies = async () => {
@@ -36,7 +39,6 @@ const SelfCompanyMaster = () => {
   };
 
   const handleEdit = (company) => {
-    setEditingCompany(company);
     Swal.fire({
       title: 'Edit Company',
       html: `
@@ -98,11 +100,23 @@ const SelfCompanyMaster = () => {
     });
   };
 
+  const indexOfLastCompany = currentPage * companiesPerPage;
+  const indexOfFirstCompany = indexOfLastCompany - companiesPerPage;
+  const currentCompanies = companies.slice(indexOfFirstCompany, indexOfLastCompany);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <div className="container mx-auto p-4 bg-gradient-to-r from-blue-200 via-indigo-100 to-blue-200 rounded-lg shadow-lg">
       <h1 className="text-3xl font-bold mb-6 text-center text-gray-700 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-500">
         Self Company Master
       </h1>
+      <button
+        onClick={() => navigate(-1)}
+        className="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded mb-4"
+      >
+        Back
+      </button>
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white">
           <thead>
@@ -116,7 +130,7 @@ const SelfCompanyMaster = () => {
             </tr>
           </thead>
           <tbody>
-            {companies.map((company) => (
+            {currentCompanies.map((company) => (
               <tr key={company._id}>
                 <td className="py-2 px-4 border-b">{company.companyName}</td>
                 <td className="py-2 px-4 border-b">{company.companyAddress}</td>
@@ -147,6 +161,22 @@ const SelfCompanyMaster = () => {
             ))}
           </tbody>
         </table>
+      </div>
+      <div className="flex justify-between mt-4">
+        <button
+          className={`bg-gray-500 text-white px-4 py-2 rounded ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""}`}
+          onClick={() => paginate(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
+        <button
+          className={`bg-gray-500 text-white px-4 py-2 rounded ${indexOfLastCompany >= companies.length ? "opacity-50 cursor-not-allowed" : ""}`}
+          onClick={() => paginate(currentPage + 1)}
+          disabled={indexOfLastCompany >= companies.length}
+        >
+          Next
+        </button>
       </div>
     </div>
   );

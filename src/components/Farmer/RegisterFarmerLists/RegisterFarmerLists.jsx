@@ -13,6 +13,7 @@ const RegisterFarmerLists = () => {
   const { employee } = location.state || {};
 
   const [farmers, setFarmers] = useState([]);
+  const [filteredFarmers, setFilteredFarmers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -28,6 +29,7 @@ const RegisterFarmerLists = () => {
           "https://main-server-2kc5.onrender.com/api/farmers/getAllFarmers"
         );
         setFarmers(response.data.farmers);
+        setFilteredFarmers(response.data.farmers);
         setTotalPages(Math.ceil(response.data.farmers.length / itemsPerPage));
       } catch (error) {
         setError("Failed to fetch farmer data");
@@ -39,6 +41,15 @@ const RegisterFarmerLists = () => {
     fetchFarmers();
   }, []);
 
+  useEffect(() => {
+    const filtered = farmers.filter((farmer) =>
+      farmer.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredFarmers(filtered);
+    setTotalPages(Math.ceil(filtered.length / itemsPerPage));
+    setCurrentPage(1);
+  }, [searchTerm, farmers]);
+
   const handleNextPage = () => {
     setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
   };
@@ -47,11 +58,8 @@ const RegisterFarmerLists = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
-  const handleSearch = () => {
-    const filteredFarmers = farmers.filter((farmer) =>
-      farmer.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFarmers(filteredFarmers);
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
   };
 
   const handleBack = () => {
@@ -71,7 +79,7 @@ const RegisterFarmerLists = () => {
   }
 
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentFarmers = farmers.slice(startIndex, startIndex + itemsPerPage);
+  const currentFarmers = filteredFarmers.slice(startIndex, startIndex + itemsPerPage);
 
   return (
     <div className="max-w-7xl mx-auto mt-10 p-8 rounded-lg shadow-lg bg-gradient-to-r from-green-200 via-yellow-100 to-green-200">
@@ -85,7 +93,6 @@ const RegisterFarmerLists = () => {
         </p>
         <SearchBar
           searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
           handleSearch={handleSearch}
         />
       </div>
