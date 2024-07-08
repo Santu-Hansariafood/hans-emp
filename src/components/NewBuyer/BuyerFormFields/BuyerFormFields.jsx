@@ -8,7 +8,6 @@ const BuyerFormFields = ({
   handleRemoveProduct,
   handleAddConsignee,
   handleRemoveConsignee,
-  companies,
   cities,
   states,
   products,
@@ -86,22 +85,6 @@ const BuyerFormFields = ({
           />
         </div>
         <div>
-          <label className="block text-gray-700 text-sm font-bold mb-2">Company Name</label>
-          <select
-            name="companyName"
-            value={formData.companyName}
-            onChange={handleChange}
-            className="border border-gray-300 rounded px-3 py-2 w-full"
-          >
-            <option value="">Select Company</option>
-            {companies.map((company) => (
-              <option key={company._id} value={company.companyName}>
-                {company.companyName}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div>
           <label htmlFor="gstNo" className="block">GST No :</label>
           <input
             type="text"
@@ -110,20 +93,6 @@ const BuyerFormFields = ({
             value={formData.gstNo}
             onChange={handleChange}
             placeholder="GST No"
-            className="border border-gray-300 rounded px-3 py-2 w-full"
-          />
-        </div>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div>
-          <label htmlFor="location" className="block">Location :</label>
-          <input
-            type="text"
-            id="location"
-            name="location"
-            value={formData.location}
-            onChange={handleChange}
-            placeholder="Location"
             className="border border-gray-300 rounded px-3 py-2 w-full"
           />
         </div>
@@ -139,32 +108,8 @@ const BuyerFormFields = ({
             className="border border-gray-300 rounded px-3 py-2 w-full"
           />
         </div>
-        <div>
-          <label htmlFor="shippingAddress" className="block">Shipping Address :</label>
-          <input
-            type="text"
-            id="shippingAddress"
-            name="shippingAddress"
-            value={formData.shippingAddress}
-            onChange={handleChange}
-            placeholder="Shipping Address"
-            className="border border-gray-300 rounded px-3 py-2 w-full"
-          />
-        </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {/* <div>
-          <label htmlFor="mappedFinancer" className="block">Mapped Financer :</label>
-          <input
-            type="text"
-            id="mappedFinancer"
-            name="mappedFinancer"
-            value={formData.mappedFinancer}
-            onChange={handleChange}
-            placeholder="Mapped Financer"
-            className="border border-gray-300 rounded px-3 py-2 w-full"
-          />
-        </div> */}
         <div>
           <label htmlFor="panNo" className="block">PAN No :</label>
           <input
@@ -188,6 +133,22 @@ const BuyerFormFields = ({
             placeholder="Biding Locations"
             className="border border-gray-300 rounded px-3 py-2 w-full"
           />
+        </div>
+        <div>
+          <label className="block">Delivery Address :</label>
+          <select
+            name="shippingAddress"
+            value={formData.shippingAddress}
+            onChange={handleChange}
+            className="border border-gray-300 rounded px-3 py-2 w-full"
+          >
+            <option value="">Select Delivery Address</option>
+            {consignees.map((consignee) => (
+              <option key={consignee._id} value={`${consignee.address}, ${consignee.location}, ${consignee.state}`}>
+              {consignee.address}, {consignee.location}, {consignee.state}
+            </option>
+            ))}
+          </select>
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -227,7 +188,7 @@ const BuyerFormFields = ({
             onChange={handleConsigneeChange}
             className="border border-gray-300 rounded px-3 py-2 w-full"
           >
-            <option value="" disabled>Group of Company </option>
+            <option value="" disabled>Group of Company</option>
             {consignees.map((consignee) => (
               <option key={consignee._id} value={consignee.name}>
                 {consignee.name}
