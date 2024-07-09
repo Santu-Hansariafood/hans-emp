@@ -11,7 +11,7 @@ const ConsigneeDropdown = ({
 
   useEffect(() => {
     axios
-      .get("https://main-server-2kc5.onrender.com/api/consignees")
+      .get("http://localhost:3000/api/consignees")
       .then((response) => {
         const consigneeOptions = response.data.map((consignee) => ({
           value: consignee.id,
@@ -25,8 +25,10 @@ const ConsigneeDropdown = ({
   }, []);
 
   const handleConsigneeChange = (selectedOptions) => {
-    const manualInputSelected = selectedOptions.some((option) => option.value === "manual");
-    setSelectedConsignees(selectedOptions.filter(option => option.value !== "manual"));
+    const manualInputSelected = selectedOptions.some(
+      (option) => option.value === "manual"
+    );
+    setSelectedConsignees(selectedOptions);
     setIsManualInput(manualInputSelected);
   };
 
@@ -35,6 +37,13 @@ const ConsigneeDropdown = ({
       ...provided,
       zIndex: 9999,
     }),
+  };
+
+  const removeConsignee = (consigneeToRemove) => {
+    const updatedConsignees = selectedConsignees.filter(
+      (consignee) => consignee.value !== consigneeToRemove.value
+    );
+    setSelectedConsignees(updatedConsignees);
   };
 
   return (
@@ -51,6 +60,23 @@ const ConsigneeDropdown = ({
         className="p-2 border rounded"
         styles={customStyles}
       />
+      <div className="mt-4">
+        {selectedConsignees.map((consignee) => (
+          <div
+            key={consignee.value}
+            className="p-2 mt-2 border rounded bg-gray-100 flex justify-between items-center"
+          >
+            {consignee.label}
+            <button
+              type="button"
+              className="text-red-500 ml-4"
+              onClick={() => removeConsignee(consignee)}
+            >
+              Remove
+            </button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

@@ -39,7 +39,7 @@ const NewCompany = () => {
 
     try {
       const response = await axios.post(
-        "https://main-server-2kc5.onrender.com/api/companies",
+        "http://localhost:3000/api/companies",
         {
           companyName,
           location,
@@ -51,6 +51,7 @@ const NewCompany = () => {
           consignees: selectedConsignees.map((consignee) => consignee.value),
         }
       );
+
       if (response.status === 201) {
         Swal.fire({
           title: "Success!",
@@ -62,13 +63,22 @@ const NewCompany = () => {
         });
       }
     } catch (error) {
-      console.error("Error submitting form:", error);
-      Swal.fire({
-        title: "Error!",
-        text: "There was a problem submitting the form",
-        icon: "error",
-        confirmButtonText: "OK",
-      });
+      if (error.response && error.response.status === 400) {
+        Swal.fire({
+          title: "Error!",
+          text: error.response.data.message,
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      } else {
+        console.error("Error submitting form:", error);
+        Swal.fire({
+          title: "Error!",
+          text: "There was a problem submitting the form",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      }
     } finally {
       setLoading(false);
     }
@@ -125,7 +135,7 @@ const NewCompany = () => {
               id="companyName"
               label="Company Name"
               value={companyName}
-              onChange={setCompanyName}
+              onChange={(e) => setCompanyName(e.target.value)}
               placeholder="Enter Company Name"
             />
             {phoneNumbers.map((phone, index) => (
@@ -167,28 +177,28 @@ const NewCompany = () => {
               id="location"
               label="Location"
               value={location}
-              onChange={setLocation}
+              onChange={(e) => setLocation(e.target.value)}
               placeholder="Enter Location"
             />
             <InputField
               id="billingAddress"
               label="Billing Address"
               value={billingAddress}
-              onChange={setBillingAddress}
+              onChange={(e) => setBillingAddress(e.target.value)}
               placeholder="Enter Billing Address"
             />
             <InputField
               id="gstNo"
               label="GST No."
               value={gstNo}
-              onChange={setGstNo}
+              onChange={(e) => setGstNo(e.target.value)}
               placeholder="Enter GST No."
             />
             <InputField
               id="panNo"
               label="PAN No."
               value={panNo}
-              onChange={setPanNo}
+              onChange={(e) => setPanNo(e.target.value)}
               placeholder="Enter PAN No."
             />
           </div>
