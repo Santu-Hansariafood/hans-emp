@@ -6,8 +6,10 @@ import Loading from "./Loading/Loading";
 
 const NewConsignee = () => {
   const [loading, setLoading] = useState(false);
+  const [consignees, setConsignees] = useState([]);
+  const [selectedCompany, setSelectedCompany] = useState(null);
 
-  const handleSubmit = async (consignees, setConsignees, setSelectedCompany) => {
+  const handleSubmit = async (consignees) => {
     setLoading(true);
     try {
       await axios.post("https://main-server-2kc5.onrender.com/api/consignees", consignees);

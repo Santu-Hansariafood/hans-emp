@@ -14,7 +14,7 @@ const ConsigneeTable = () => {
   useEffect(() => {
     const fetchConsigneeData = async () => {
       try {
-        const response = await axios.get("https://main-server-2kc5.onrender.com/api/consignees");
+        const response = await axios.get("http://localhost:3000/api/consignees");
         const data = response.data;
         if (Array.isArray(data)) {
           setConsigneeData(data);
@@ -34,24 +34,10 @@ const ConsigneeTable = () => {
       )
     : [];
 
-  const groupedData = filteredData.reduce((acc, item) => {
-    const companyName = item.companyName;
-    if (!acc[companyName]) {
-      acc[companyName] = [];
-    }
-    acc[companyName].push(item);
-    return acc;
-  }, {});
-
-  const groupedArray = Object.keys(groupedData).map((companyName) => ({
-    companyName,
-    consignees: groupedData[companyName],
-  }));
-
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentData = groupedArray.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(groupedArray.length / itemsPerPage);
+  const currentData = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -70,15 +56,14 @@ const ConsigneeTable = () => {
     Swal.fire({
       title: "Edit Consignee",
       html: `
-        <input id="swal-input1" class="swal2-input" placeholder="Company Name" value="${consignee.companyName}" readonly>
-        <input id="swal-input2" class="swal2-input" placeholder="Consignee Name" value="${consignee.name}">
-        <input id="swal-input3" class="swal2-input" placeholder="Mobile" value="${consignee.mobile}">
-        <input id="swal-input4" class="swal2-input" placeholder="Email" value="${consignee.email}">
-        <input id="swal-input5" class="swal2-input" placeholder="Address" value="${consignee.address}">
-        <input id="swal-input6" class="swal2-input" placeholder="GST No" value="${consignee.gstNo}">
-        <input id="swal-input7" class="swal2-input" placeholder="PAN No" value="${consignee.panNo}">
-        <input id="swal-input8" class="swal2-input" placeholder="State" value="${consignee.state}">
-        <input id="swal-input9" class="swal2-input" placeholder="Location" value="${consignee.location}">
+        <input id="swal-input1" class="swal2-input" placeholder="Consignee Name" value="${consignee.name}">
+        <input id="swal-input2" class="swal2-input" placeholder="Mobile" value="${consignee.mobile}">
+        <input id="swal-input3" class="swal2-input" placeholder="Email" value="${consignee.email}">
+        <input id="swal-input4" class="swal2-input" placeholder="Address" value="${consignee.address}">
+        <input id="swal-input5" class="swal2-input" placeholder="GST No" value="${consignee.gstNo}">
+        <input id="swal-input6" class="swal2-input" placeholder="PAN No" value="${consignee.panNo}">
+        <input id="swal-input7" class="swal2-input" placeholder="State" value="${consignee.state}">
+        <input id="swal-input8" class="swal2-input" placeholder="Location" value="${consignee.location}">
       `,
       focusConfirm: false,
       showCancelButton: true,
@@ -86,15 +71,14 @@ const ConsigneeTable = () => {
       preConfirm: () => {
         const updatedConsignee = {
           _id: consignee._id,
-          companyName: document.getElementById("swal-input1").value,
-          name: document.getElementById("swal-input2").value,
-          mobile: document.getElementById("swal-input3").value,
-          email: document.getElementById("swal-input4").value,
-          address: document.getElementById("swal-input5").value,
-          gstNo: document.getElementById("swal-input6").value,
-          panNo: document.getElementById("swal-input7").value,
-          state: document.getElementById("swal-input8").value,
-          location: document.getElementById("swal-input9").value,
+          name: document.getElementById("swal-input1").value,
+          mobile: document.getElementById("swal-input2").value,
+          email: document.getElementById("swal-input3").value,
+          address: document.getElementById("swal-input4").value,
+          gstNo: document.getElementById("swal-input5").value,
+          panNo: document.getElementById("swal-input6").value,
+          state: document.getElementById("swal-input7").value,
+          location: document.getElementById("swal-input8").value,
         };
         return updatedConsignee;
       },
@@ -103,7 +87,7 @@ const ConsigneeTable = () => {
         const updatedConsignee = result.value;
         axios
           .put(
-            `https://main-server-2kc5.onrender.com/api/consignees/${updatedConsignee._id}`,
+            `http://localhost:3000/api/consignees/${updatedConsignee._id}`,
             updatedConsignee
           )
           .then(() => {
@@ -138,7 +122,7 @@ const ConsigneeTable = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`https://main-server-2kc5.onrender.com/api/consignees/${id}`)
+          .delete(`http://localhost:3000/api/consignees/${id}`)
           .then(() => {
             setConsigneeData(
               consigneeData.filter((consignee) => consignee._id !== id)
@@ -168,7 +152,6 @@ const ConsigneeTable = () => {
         <table className="min-w-full bg-white border border-gray-300">
           <thead className="bg-gray-100">
             <tr className="bg-gradient-to-r from-green-400 to-yellow-500 text-white">
-              <th className="p-2 text-left border-b">Company Name</th>
               <th className="p-2 text-left border-b">Consignee Name</th>
               <th className="p-2 text-left border-b">Mobile</th>
               <th className="p-2 text-left border-b">Email</th>
@@ -181,14 +164,13 @@ const ConsigneeTable = () => {
             </tr>
           </thead>
           <tbody>
-            {currentData.map((group, index) => (
-              <React.Fragment key={index}>
-                <ConsigneeRow
-                  group={group}
-                  handleEdit={handleEdit}
-                  handleDelete={handleDelete}
-                />
-              </React.Fragment>
+            {currentData.map((consignee, index) => (
+              <ConsigneeRow
+                key={index}
+                consignee={consignee}
+                handleEdit={handleEdit}
+                handleDelete={handleDelete}
+              />
             ))}
           </tbody>
         </table>
