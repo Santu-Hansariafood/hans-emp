@@ -14,7 +14,7 @@ const ConsigneeTable = () => {
   useEffect(() => {
     const fetchConsigneeData = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/consignees");
+        const response = await axios.get("https://main-server-2kc5.onrender.com/api/consignees");
         const data = response.data;
         if (Array.isArray(data)) {
           setConsigneeData(data);
@@ -87,7 +87,7 @@ const ConsigneeTable = () => {
         const updatedConsignee = result.value;
         axios
           .put(
-            `http://localhost:3000/api/consignees/${updatedConsignee._id}`,
+            `https://main-server-2kc5.onrender.com/api/consignees/${updatedConsignee._id}`,
             updatedConsignee
           )
           .then(() => {
@@ -122,7 +122,7 @@ const ConsigneeTable = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`http://localhost:3000/api/consignees/${id}`)
+          .delete(`https://main-server-2kc5.onrender.com/api/consignees/${id}`)
           .then(() => {
             setConsigneeData(
               consigneeData.filter((consignee) => consignee._id !== id)

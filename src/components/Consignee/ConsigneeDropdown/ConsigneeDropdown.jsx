@@ -8,7 +8,7 @@ const ConsigneeDropdown = ({ selectedConsignees, setSelectedConsignees, setShowC
 //   const [othersFieldValue, setOthersFieldValue] = useState('');
 
   useEffect(() => {
-    axios.get('http://localhost:3000/api/consignees')
+    axios.get('https://main-server-2kc5.onrender.com/api/consignees')
       .then(response => {
         const options = response.data.map(consignee => ({
           value: consignee._id,

@@ -42,7 +42,7 @@ const ConsigneeForm = ({ handleSubmit }) => {
 
   const handleFormSubmit = async (consignees) => {
     try {
-      const response = await axios.post('http://localhost:3000/api/consignees', consignees);
+      const response = await axios.post('https://main-server-2kc5.onrender.com/api/consignees', consignees);
       Swal.fire('Success', 'Consignees added successfully', 'success');
     } catch (error) {
       if (error.response && error.response.status === 400) {

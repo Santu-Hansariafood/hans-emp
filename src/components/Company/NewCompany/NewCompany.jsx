@@ -39,7 +39,7 @@ const NewCompany = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/companies",
+        "https://main-server-2kc5.onrender.com/api/companies",
         {
           companyName,
           location,
