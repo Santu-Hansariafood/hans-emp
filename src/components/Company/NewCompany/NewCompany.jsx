@@ -206,6 +206,7 @@ const NewCompany = () => {
             selectedConsignees={selectedConsignees}
             setSelectedConsignees={setSelectedConsignees}
             setIsManualInput={setIsManualInput}
+            setShowConsigneeForm={setShowConsigneeForm}
           />
           <ButtonGroup handleBack={handleBack} handleSubmit={handleSubmit} />
           {isManualInput && (
