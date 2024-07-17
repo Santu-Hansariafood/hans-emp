@@ -82,10 +82,12 @@ const RegisterFarmer = () => {
         }
       );
       Swal.fire("Success", "New farmer registered successfully.", "success");
-      navigate("/success");
+      navigate("/register-farmer-lists");
     } catch (error) {
       console.error("There was an error!", error);
-      const errorMessage = error.response?.data?.message || "Registration failed. Please try again.";
+      const errorMessage =
+        error.response?.data?.message ||
+        "Registration failed. Please try again.";
       Swal.fire("Error", errorMessage, "error");
     }
   };

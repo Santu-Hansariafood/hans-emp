@@ -36,7 +36,6 @@ const ConsigneeForm = ({ handleSubmit }) => {
   };
 
   const handleBack = () => {
-    // Handle back button click (e.g., navigate to the previous page)
     console.log('Back button clicked');
   };
 
