@@ -98,14 +98,14 @@ const PurchaseBill = () => {
         Swal.fire("Error", error.message, "error");
       }
     };
-  
+
     if (farmerId) {
       fetchFarmerData();
     } else {
       console.error("No farmer ID provided in location state");
     }
   }, [farmerId]);
-  
+
   useEffect(() => {
     const parsedPaymentWeight = Number(paymentWeight);
     const parsedRate = Number(rate);

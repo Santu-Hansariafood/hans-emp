@@ -31,13 +31,13 @@ const Bill = () => {
       });
       return;
     }
-
+  
     try {
       const query = mobileNumber || name;
       const response = await fetch(
         `https://main-server-2kc5.onrender.com/api/farmers/checkMobileNumber/${query}`
       );
-
+  
       if (response.ok) {
         const data = await response.json();
         navigate("/purchase-bill", {
@@ -66,7 +66,7 @@ const Bill = () => {
       });
     }
   };
-
+  
   const handleBack = () => {
     Swal.fire({
       title: "Thank you!",

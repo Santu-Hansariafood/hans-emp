@@ -32,7 +32,7 @@ const GodownTable = ({
           <th className="px-6 py-3 border-b">Rate</th>
           <th className="px-6 py-3 border-b">Capacity</th>
           <th className="px-6 py-3 border-b">Quality Parameters</th>
-          <th className="px-6 py-3 border-b">Sale</th>
+          {/* <th className="px-6 py-3 border-b">Sale</th> */}
           <th className="px-6 py-3 border-b">Actions</th>
         </tr>
       </thead>
@@ -65,14 +65,14 @@ const GodownTable = ({
                 </div>
               ))}
             </td>
-            <td className="px-6 py-4 border-b">
+            {/* <td className="px-6 py-4 border-b">
               <button
                 onClick={() => handleSaleClick(collection)}
                 className="text-red-500 hover:text-red-700"
               >
                 <IoSendSharp className="inline-block mr-1" title="Sale" />
               </button>
-            </td>
+            </td> */}
             <td className="px-6 py-4 border-b">
               <button
                 onClick={() => handleEdit(collection)}
