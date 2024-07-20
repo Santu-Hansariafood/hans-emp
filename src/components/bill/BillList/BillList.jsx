@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { FaRegEye, FaEdit, FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import * as XLSX from "xlsx";
 
 const BillList = () => {
   const navigate = useNavigate();
@@ -79,6 +80,30 @@ const BillList = () => {
 
   const handleBack = () => {
     navigate(-1);
+  };
+
+  const handleGenerateExcel = () => {
+    const headers = [
+      "Bill No",
+      "Lorry Number",
+      "Farmer Name",
+      "Mobile Number",
+      "Payable Amount"
+    ];
+
+    const data = bills.map(bill => [
+      bill.billNumber,
+      bill.lorryNumber,
+      bill.farmerName,
+      bill.mobileNumber,
+      bill.payableAmount
+    ]);
+
+    const worksheet = XLSX.utils.aoa_to_sheet([headers, ...data]);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Bills");
+
+    XLSX.writeFile(workbook, "BillsData.xlsx");
   };
 
   return (
@@ -164,6 +189,12 @@ const BillList = () => {
           onClick={handleBack}
         >
           Back
+        </button>
+        <button
+          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+          onClick={handleGenerateExcel}
+        >
+          Generate Excel
         </button>
       </div>
     </div>
