@@ -87,19 +87,71 @@ const BillList = () => {
       "Bill No",
       "Lorry Number",
       "Farmer Name",
+      "Farmer Address",
       "Mobile Number",
-      "Payable Amount"
+      "Total Bag",
+      "Gross Weight",
+      "Tare Weight",
+      "Net Weight",
+      "Delta Weight",
+      "Payment Weight",
+      "Rate",
+      "Claim",
+      "Total Unloading Cost",
+      "Bag Price",
+      "Payable Amount",
+      "Farmer Account Holder Name",
+      "Bank Name",
+      "Account Number",
+      "IFSC Number",
+      "Company",
     ];
 
-    const data = bills.map(bill => [
+    const data = bills.map((bill) => [
       bill.billNumber,
       bill.lorryNumber,
       bill.farmerName,
+      bill.farmerAddress,
       bill.mobileNumber,
-      bill.payableAmount
+      bill.totalBag,
+      bill.grossWeight,
+      bill.tareWeight,
+      bill.netWeight,
+      bill.deltaWeight,
+      bill.paymentWeight,
+      bill.rate,
+      bill.claim,
+      bill.totalUnloadingCost,
+      bill.bagPrice,
+      bill.payableAmount,
+      bill.farmerAccountDetails.accountHolderName,
+      bill.farmerAccountDetails.bankName,
+      bill.farmerAccountDetails.accountNumber,
+      bill.farmerAccountDetails.ifscNumber,
+      bill.company,
     ]);
 
     const worksheet = XLSX.utils.aoa_to_sheet([headers, ...data]);
+
+    const range = XLSX.utils.decode_range(worksheet["!ref"]);
+    for (let C = range.s.c; C <= range.e.c; ++C) {
+      const cell_address = XLSX.utils.encode_cell({ r: 0, c: C });
+      if (!worksheet[cell_address]) continue;
+      worksheet[cell_address].s = {
+        fill: {
+          fgColor: { rgb: "0000FF" },
+        },
+        font: {
+          color: { rgb: "FFFFFF" },
+          bold: true,
+        },
+        alignment: {
+          horizontal: "center",
+          vertical: "center",
+        },
+      };
+    }
+
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Bills");
 
@@ -183,7 +235,7 @@ const BillList = () => {
           </button>
         ))}
       </div>
-      <div className="flex justify-between">
+      <div className="flex justify-between mt-4">
         <button
           className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
           onClick={handleBack}

@@ -32,28 +32,18 @@ const MakeBidForBuyer = () => {
   useEffect(() => {
     const fetchBuyers = async () => {
       try {
-        const response = await axios.get("https://main-server-2kc5.onrender.com/api/consignees");
+        const response = await axios.get("https://main-server-2kc5.onrender.com/api/buyers");
         const data = response.data;
 
-        const uniqueBuyers = [
-          ...new Map(data.map((item) => [item.companyName, item])).values(),
-        ];
-        const consignees = data.reduce((acc, curr) => {
-          if (!acc[curr.companyName]) {
-            acc[curr.companyName] = [];
-          }
-          acc[curr.companyName].push(curr);
-          return acc;
-        }, {});
+        const uniqueBuyers = data.map((item) => ({
+          value: item._id,
+          label: item.name,
+          phoneNumber: item.mobile,
+          location: item.bidingLocations,
+          consignees: item.consignees
+        }));
 
-        setBuyers(
-          uniqueBuyers.map((buyer) => ({
-            value: buyer.companyName,
-            label: buyer.companyName,
-            phoneNumber: buyer.phoneNumber,
-          }))
-        );
-        setConsignees(consignees);
+        setBuyers(uniqueBuyers);
       } catch (error) {
         console.error("Error fetching buyers:", error);
       }
@@ -77,18 +67,18 @@ const MakeBidForBuyer = () => {
   };
 
   const handleSelectChange = (selectedOption, actionMeta) => {
-    setFormData({ ...formData, [actionMeta.name]: selectedOption.value });
-
     if (actionMeta.name === "buyer") {
-      const selectedBuyer = buyers.find(
-        (buyer) => buyer.value === selectedOption.value
-      );
+      const selectedBuyer = buyers.find(buyer => buyer.value === selectedOption.value);
       setFormData({
         ...formData,
-        buyer: selectedOption.value,
+        buyer: selectedOption.label,
         buyerPhoneNumber: selectedBuyer.phoneNumber,
+        buyerLocation: selectedBuyer.location,
+        buyerConsignee: "",
       });
-      setFilteredConsignees(consignees[selectedOption.value]);
+      setFilteredConsignees(selectedBuyer.consignees);
+    } else {
+      setFormData({ ...formData, [actionMeta.name]: selectedOption.value });
     }
   };
 
@@ -207,23 +197,23 @@ const MakeBidForBuyer = () => {
             />
           </div>
           <div>
-            <label className="block mb-1 font-bold text-gray-700">Select Buyer's Biding Location</label>
+            <label className="block mb-1 font-bold text-gray-700">Buyer's Biding Location</label>
             <input
               type="text"
               name="buyerLocation"
               value={formData.buyerLocation}
               onChange={handleChange}
               className="w-full border border-gray-300 rounded p-2"
-              placeholder="Choose Buyer Location..."
+              placeholder="Enter Buyer Location..."
             />
           </div>
           <div>
-            <label className="block mb-1 font-bold text-gray-700">Select Buyer's Biding Consignee</label>
+            <label className="block mb-1 font-bold text-gray-700">Buyer's Biding Consignee</label>
             <Select
               name="buyerConsignee"
               options={filteredConsignees.map((consignee) => ({
-                value: consignee.name,
-                label: consignee.name,
+                value: consignee,
+                label: consignee,
               }))}
               onChange={handleSelectChange}
               className="w-full"
@@ -297,40 +287,36 @@ const MakeBidForBuyer = () => {
               value={formData.rateForBid}
               onChange={handleChange}
               className="w-full border border-gray-300 rounded p-2"
-              placeholder="Rate For Bid"
+              placeholder="Rate for Bid"
+            />
+          </div>
+          <div>
+            <label className="block mb-1 font-bold text-gray-700">Select Date</label>
+            <input
+              type="date"
+              name="date"
+              value={formData.date}
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded p-2"
             />
           </div>
           <div className="flex space-x-6">
-            <div className="w-1/2">
-              <label className="block mb-1 font-bold text-gray-700">Date</label>
-              <input
-                type="date"
-                name="date"
-                value={formData.date}
-                onChange={(e) =>
-                  setFormData({ ...formData, date: e.target.value })
-                }
-                className="w-full border border-gray-300 rounded p-2"
-              />
-            </div>
             <div className="w-1/2">
               <label className="block mb-1 font-bold text-gray-700">Start Time</label>
               <button
                 type="button"
                 onClick={() => handleTimeInput("startTime")}
-                className="w-full bg-gray-200 border border-gray-300 rounded p-2 text-left"
+                className="w-full border border-gray-300 rounded p-2 bg-white text-left"
               >
                 {formData.startTime || "Select Start Time"}
               </button>
             </div>
-          </div>
-          <div className="flex space-x-6">
             <div className="w-1/2">
               <label className="block mb-1 font-bold text-gray-700">End Time</label>
               <button
                 type="button"
                 onClick={() => handleTimeInput("endTime")}
-                className="w-full bg-gray-200 border border-gray-300 rounded p-2 text-left"
+                className="w-full border border-gray-300 rounded p-2 bg-white text-left"
               >
                 {formData.endTime || "Select End Time"}
               </button>
@@ -344,7 +330,7 @@ const MakeBidForBuyer = () => {
               value={formData.paymentTerms}
               onChange={handleChange}
               className="w-full border border-gray-300 rounded p-2"
-              placeholder="Enter Payment Terms"
+              placeholder="Payment Terms"
             />
           </div>
           <div>
@@ -355,24 +341,17 @@ const MakeBidForBuyer = () => {
               value={formData.delivery}
               onChange={handleChange}
               className="w-full border border-gray-300 rounded p-2"
-              placeholder="Enter days for delivery"
+              placeholder="Delivery"
             />
           </div>
-        </div>
-        <div className="mt-6 flex justify-center space-x-4">
-          <button
-            type="button"
-            onClick={() => navigate(-1)}
-            className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded transition duration-200"
-          >
-            Back
-          </button>
-          <button
-            type="submit"
-            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition duration-200"
-          >
-            Make Bid
-          </button>
+          <div className="mt-4">
+            <button
+              type="submit"
+              className="w-full bg-gradient-to-r from-green-400 to-yellow-400 text-white font-bold py-2 px-4 rounded"
+            >
+              Submit Bid
+            </button>
+          </div>
         </div>
       </form>
     </div>
