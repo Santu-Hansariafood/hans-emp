@@ -21,6 +21,7 @@ const WorkDetails = ({ user, userRole }) => {
     { id: "newBuyer", label: "Add Buyer", checked: false },
     { id: "bidForSupplier", label: "Supplier Bid", checked: false },
     { id: "bidForBuyer", label: "Buyer Bid", checked: false },
+    { id: "bidForBuyerMaster", label: "Buyer Bid Master", checked: false },
     { id: "addNewConsignee", label: "New Consignee", checked: false },
     { id: "consigneeTable", label: "Consignee List", checked: false },
     { id: "supplier-bid-master", label: "Supplier Bid Master", checked: false },
@@ -108,6 +109,9 @@ const WorkDetails = ({ user, userRole }) => {
       case "bidForBuyer":
         nextRoute = "/bid-for-buyer";
         break;
+        case "bidForBuyerMaster":
+          nextRoute = "/bid-for-buyer-master";
+          break;
       case "addNewConsignee":
         nextRoute = "/add-new-consignee";
         break;

@@ -8,6 +8,7 @@ import AddProduct from "./components/Products/AddProduct/AddProduct";
 import ProductMaster from "./components/Products/ProductMaster/ProductMaster";
 import AddSelfCompany from "./components/SelfCompany/AddSelfCompany/AddSelfCompany";
 import SelfCompanyMaster from "./components/SelfCompany/SelfCompanyMaster/SelfCompanyMaster";
+import BidBuyerMaster from "./components/Bid/BidBuyerMaster/BidBuyerMaster";
 
 const EmployeeDetails = lazy(() => import("./components/EmployeeDetails/EmployeeDetails"));
 const WorkDetails = lazy(() => import("./components/WorkDetails/WorkDetails"));
@@ -141,6 +142,7 @@ const App = () => {
           <Route path="/product-master" element={<ProtectedRoute element={<ProductMaster/>} roles={["admin","manager","back-office","field"]}/>}/>
           <Route path="/add-self-company" element={<ProtectedRoute element={<AddSelfCompany/>} roles={["admin", "manager"]}/>}/>
           <Route path="/self-company-master" element={<ProtectedRoute element={<SelfCompanyMaster/>} roles={["admin","manager"]}/>}/>
+          <Route path="/bid-for-buyer-master" element={<ProtectedRoute element={<BidBuyerMaster/>} roles={["admin","manager","back"]}/>}/>
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
