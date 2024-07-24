@@ -287,40 +287,8 @@ const MakeBidForBuyer = () => {
               value={formData.rateForBid}
               onChange={handleChange}
               className="w-full border border-gray-300 rounded p-2"
-              placeholder="Rate for Bid"
+              placeholder="Rate For Bid"
             />
-          </div>
-          <div>
-            <label className="block mb-1 font-bold text-gray-700">Select Date</label>
-            <input
-              type="date"
-              name="date"
-              value={formData.date}
-              onChange={handleChange}
-              className="w-full border border-gray-300 rounded p-2"
-            />
-          </div>
-          <div className="flex space-x-6">
-            <div className="w-1/2">
-              <label className="block mb-1 font-bold text-gray-700">Start Time</label>
-              <button
-                type="button"
-                onClick={() => handleTimeInput("startTime")}
-                className="w-full border border-gray-300 rounded p-2 bg-white text-left"
-              >
-                {formData.startTime || "Select Start Time"}
-              </button>
-            </div>
-            <div className="w-1/2">
-              <label className="block mb-1 font-bold text-gray-700">End Time</label>
-              <button
-                type="button"
-                onClick={() => handleTimeInput("endTime")}
-                className="w-full border border-gray-300 rounded p-2 bg-white text-left"
-              >
-                {formData.endTime || "Select End Time"}
-              </button>
-            </div>
           </div>
           <div>
             <label className="block mb-1 font-bold text-gray-700">Payment Terms</label>
@@ -344,15 +312,49 @@ const MakeBidForBuyer = () => {
               placeholder="Delivery"
             />
           </div>
-          <div className="mt-4">
-            <button
-              type="submit"
-              className="w-full bg-gradient-to-r from-green-400 to-yellow-400 text-white font-bold py-2 px-4 rounded"
-            >
-              Submit Bid
-            </button>
+          <div className="flex space-x-6">
+            <div className="w-1/2">
+              <label className="block mb-1 font-bold text-gray-700">Bid Date</label>
+              <input
+                type="date"
+                name="date"
+                value={formData.date}
+                onChange={handleChange}
+                className="w-full border border-gray-300 rounded p-2"
+              />
+            </div>
+            <div className="w-1/2">
+              <label className="block mb-1 font-bold text-gray-700">Start Time</label>
+              <input
+                type="text"
+                name="startTime"
+                value={formData.startTime}
+                onClick={() => handleTimeInput("startTime")}
+                readOnly
+                className="w-full border border-gray-300 rounded p-2"
+                placeholder="HH:MM"
+              />
+            </div>
+            <div className="w-1/2">
+              <label className="block mb-1 font-bold text-gray-700">End Time</label>
+              <input
+                type="text"
+                name="endTime"
+                value={formData.endTime}
+                onClick={() => handleTimeInput("endTime")}
+                readOnly
+                className="w-full border border-gray-300 rounded p-2"
+                placeholder="HH:MM"
+              />
+            </div>
           </div>
         </div>
+        <button
+          type="submit"
+          className="mt-6 w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
+        >
+          Submit Bid
+        </button>
       </form>
     </div>
   );
