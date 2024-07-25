@@ -171,7 +171,7 @@ const PurchaseBill = () => {
       company,
     };
 
-    console.log("Bill Data:", billData);
+    console.log("Bill Data:", JSON.stringify(billData, null, 2));
 
     try {
       const response = await axios.post(
@@ -245,19 +245,19 @@ const PurchaseBill = () => {
           totalClaimAmount={totalClaim}
         />
         <FarmerDetails farmerData={farmerData} />
-        <div className="flex justify-end space-x-4 mt-6">
+        <div className="flex justify-end mt-4">
           <button
             type="button"
-            className="bg-gray-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-gray-700 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-75"
             onClick={handleBack}
+            className="mr-2 px-4 py-2 bg-gray-500 text-white rounded"
           >
             Back
           </button>
           <button
             type="submit"
-            className="bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
+            className="px-4 py-2 bg-blue-500 text-white rounded"
           >
-            Create Bill
+            Submit
           </button>
         </div>
       </form>
