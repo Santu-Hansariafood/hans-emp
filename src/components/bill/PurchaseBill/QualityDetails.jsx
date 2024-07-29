@@ -7,7 +7,7 @@ const QualityDetails = ({
   grossPayment,
   setTotalClaim,
   totalClaim,
-  setSelectedGodown
+  setSelectedGodown,
 }) => {
   const [godowns, setGodowns] = useState([]);
   const [localSelectedGodown, setLocalSelectedGodown] = useState("");
@@ -16,7 +16,9 @@ const QualityDetails = ({
   useEffect(() => {
     const fetchGodowns = async () => {
       try {
-        const response = await axios.get("https://main-server-2kc5.onrender.com/api/godowns");
+        const response = await axios.get(
+          "https://main-server-2kc5.onrender.com/api/godowns"
+        );
         setGodowns(response.data);
       } catch (error) {
         console.error("Error fetching godowns:", error);
@@ -28,12 +30,14 @@ const QualityDetails = ({
 
   useEffect(() => {
     if (localSelectedGodown) {
-      const godown = godowns.find(g => g._id === localSelectedGodown);
+      const godown = godowns.find((g) => g._id === localSelectedGodown);
       if (godown && godown.quality.length > 0) {
         const newQualityParams = qualityParams.map((param, index) => ({
           ...param,
-          basic: godown.quality[index] ? godown.quality[index].accepted.replace("%", "") : "",
-          claim: claimValues[index]
+          basic: godown.quality[index]
+            ? godown.quality[index].accepted.replace("%", "")
+            : "",
+          claim: claimValues[index],
         }));
         setQualityParams(newQualityParams);
       }
@@ -57,8 +61,12 @@ const QualityDetails = ({
 
       const claimRatio = parseFloat(newQualityParams[index]["claim"].split(":")[1]);
 
-      newQualityParams[index]["claimPercentage"] = (newQualityParams[index]["excess"] * claimRatio).toFixed(2);
-      newQualityParams[index]["claimAmount"] = ((grossPayment * newQualityParams[index]["claimPercentage"]) / 100).toFixed(2);
+      newQualityParams[index]["claimPercentage"] = (
+        newQualityParams[index]["excess"] * claimRatio
+      ).toFixed(2);
+      newQualityParams[index]["claimAmount"] = (
+        (grossPayment * newQualityParams[index]["claimPercentage"]) / 100
+      ).toFixed(2);
     }
 
     setQualityParams(newQualityParams);
