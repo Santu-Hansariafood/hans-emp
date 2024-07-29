@@ -1,23 +1,52 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 const QualityDetails = ({
   qualityParams,
   setQualityParams,
   grossPayment,
   setTotalClaim,
-  totalClaim
+  totalClaim,
+  setSelectedGodown
 }) => {
-  const handleQualityChange = (index, field, value) => {
-    const newQualityParams = [...qualityParams];
+  const [godowns, setGodowns] = useState([]);
+  const [localSelectedGodown, setLocalSelectedGodown] = useState("");
+  const claimValues = ["1:0.25", "1:0.25", "1:0.25", "1:0.25", "1:0.25"];
 
-    if (field === "claim" && value.includes(":")) {
-      const parts = value.split(":");
-      if (parts.length === 2) {
-        parts[1] = parts[1].startsWith(".") ? `0${parts[1]}` : parts[1];
-        value = `${parts[0]}:${parts[1]}`;
+  useEffect(() => {
+    const fetchGodowns = async () => {
+      try {
+        const response = await axios.get("https://main-server-2kc5.onrender.com/api/godowns");
+        setGodowns(response.data);
+      } catch (error) {
+        console.error("Error fetching godowns:", error);
+      }
+    };
+
+    fetchGodowns();
+  }, []);
+
+  useEffect(() => {
+    if (localSelectedGodown) {
+      const godown = godowns.find(g => g._id === localSelectedGodown);
+      if (godown && godown.quality.length > 0) {
+        const newQualityParams = qualityParams.map((param, index) => ({
+          ...param,
+          basic: godown.quality[index] ? godown.quality[index].accepted.replace("%", "") : "",
+          claim: claimValues[index]
+        }));
+        setQualityParams(newQualityParams);
       }
     }
+  }, [localSelectedGodown, godowns, setQualityParams]);
 
+  const handleGodownChange = (e) => {
+    setLocalSelectedGodown(e.target.value);
+    setSelectedGodown(e.target.value);
+  };
+
+  const handleQualityChange = (index, field, value) => {
+    const newQualityParams = [...qualityParams];
     newQualityParams[index][field] = value;
 
     const basic = parseFloat(newQualityParams[index]["basic"]);
@@ -26,17 +55,10 @@ const QualityDetails = ({
     if (!isNaN(basic) && !isNaN(actual)) {
       newQualityParams[index]["excess"] = (actual - basic).toFixed(2);
 
-      const claimRatio = parseFloat(
-        newQualityParams[index]["claim"].split(":")[1]
-      );
+      const claimRatio = parseFloat(newQualityParams[index]["claim"].split(":")[1]);
 
-      newQualityParams[index]["claimPercentage"] = (
-        newQualityParams[index]["excess"] * claimRatio
-      ).toFixed(2);
-      newQualityParams[index]["claimAmount"] = (
-        (grossPayment * newQualityParams[index]["claimPercentage"]) /
-        100
-      ).toFixed(2);
+      newQualityParams[index]["claimPercentage"] = (newQualityParams[index]["excess"] * claimRatio).toFixed(2);
+      newQualityParams[index]["claimAmount"] = ((grossPayment * newQualityParams[index]["claimPercentage"]) / 100).toFixed(2);
     }
 
     setQualityParams(newQualityParams);
@@ -57,6 +79,23 @@ const QualityDetails = ({
 
   return (
     <div>
+      <div className="mb-4">
+        <label className="block text-sm font-medium text-gray-700">
+          Select Godown
+        </label>
+        <select
+          value={localSelectedGodown}
+          onChange={handleGodownChange}
+          className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+        >
+          <option value="">Select Godown</option>
+          {godowns.map((godown) => (
+            <option key={godown._id} value={godown._id}>
+              {godown.name}
+            </option>
+          ))}
+        </select>
+      </div>
       <div className="grid grid-cols-7 gap-4 mb-4 font-bold">
         <div className="col-span-1">Quality Parameter</div>
         <div className="col-span-1">Claim</div>
@@ -74,31 +113,20 @@ const QualityDetails = ({
           <input
             type="text"
             value={param.claim}
-            onChange={(e) =>
-              handleQualityChange(index, "claim", e.target.value)
-            }
-            required
-            className="col-span-1 p-2 border border-gray-300 rounded-md"
-            pattern="\d+:(0\.\d+|\d+)"
-            title="Enter ratio in format 1:0.5, 1:1.5, etc."
+            readOnly
+            className="col-span-1 p-2 border border-gray-300 rounded-md bg-gray-100"
           />
           <input
             type="number"
-            step="0.01"
             value={param.basic}
-            onChange={(e) =>
-              handleQualityChange(index, "basic", e.target.value)
-            }
-            required
-            className="col-span-1 p-2 border border-gray-300 rounded-md"
+            readOnly
+            className="col-span-1 p-2 border border-gray-300 rounded-md bg-gray-100"
           />
           <input
             type="number"
             step="0.01"
             value={param.actual}
-            onChange={(e) =>
-              handleQualityChange(index, "actual", e.target.value)
-            }
+            onChange={(e) => handleQualityChange(index, "actual", e.target.value)}
             required
             className="col-span-1 p-2 border border-gray-300 rounded-md"
           />

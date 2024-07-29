@@ -81,6 +81,7 @@ const PurchaseBill = () => {
     },
   ]);
   const [farmerData, setFarmerData] = useState({});
+  const [selectedGodown, setSelectedGodown] = useState("");
 
   useEffect(() => {
     const fetchFarmerData = async () => {
@@ -169,6 +170,7 @@ const PurchaseBill = () => {
       },
       totalUnloadingCost,
       company,
+      selectedGodown,
     };
 
     console.log("Bill Data:", JSON.stringify(billData, null, 2));
@@ -236,6 +238,7 @@ const PurchaseBill = () => {
           grossPayment={parseFloat(grossPayment)}
           setTotalClaim={setTotalClaim}
           totalClaim={totalClaim}
+          setSelectedGodown={setSelectedGodown}
         />
         <CostDetails
           setTotalUnloadingCost={setTotalUnloadingCost}
