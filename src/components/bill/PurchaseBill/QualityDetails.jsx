@@ -11,7 +11,7 @@ const QualityDetails = ({
 }) => {
   const [godowns, setGodowns] = useState([]);
   const [localSelectedGodown, setLocalSelectedGodown] = useState("");
-  const claimValues = ["1:0.25", "1:0.25", "1:0.25", "1:0.25", "1:0.25"];
+  const claimValues = ["1:0", "1:0", "1:0", "1:0", "1:0"];
 
   useEffect(() => {
     const fetchGodowns = async () => {
