@@ -79,18 +79,6 @@ const TaskList = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <button
-        className="mb-4 p-2 bg-gray-500 text-white rounded"
-        onClick={() => navigate('/task-manager')}
-      >
-        Back
-      </button>
-      <button
-        className="mb-4 p-2 bg-blue-500 text-white rounded"
-        onClick={handleGenerateExcel}
-      >
-        Generate Excel
-      </button>
       <div className="bg-white p-4 rounded shadow">
         <h2 className="text-2xl font-semibold mb-4">Tasks</h2>
         <table className="w-full border-collapse">
@@ -128,6 +116,20 @@ const TaskList = () => {
             ))}
           </tbody>
         </table>
+      </div>
+      <div className="flex space-x-4 mb-4 pt-4">
+      <button
+        className="mb-4 p-2 bg-gray-500 text-white rounded"
+        onClick={() => navigate('/task-manager')}
+      >
+        Back
+      </button>
+      <button
+        className="mb-4 p-2 bg-green-500 text-white rounded"
+        onClick={handleGenerateExcel}
+      >
+        Generate Excel
+      </button>
       </div>
     </div>
   );
