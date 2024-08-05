@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-// import WorkOptions from "./WorkOptions/WorkOptions";
 
 const WorkDetails = ({ user, userRole }) => {
   const navigate = useNavigate();
@@ -9,6 +8,8 @@ const WorkDetails = ({ user, userRole }) => {
   const [options, setOptions] = useState([
     { id: "registerFarmer", label: "Register Farmer", checked: false },
     { id: "listOfFarmers", label: "List of Farmers", checked: false },
+    { id: "task-manager", label: "TaskManager", checked: false },
+    { id: "task-list", label: "TaskList", checked: false },
     { id: "godownList", label: "Godown List", checked: false },
     { id: "addGodown", label: "Add Godown", checked: false },
     { id: "bill", label: "Purchase Bill", checked: false },
@@ -54,6 +55,12 @@ const WorkDetails = ({ user, userRole }) => {
         break;
       case "listOfFarmers":
         nextRoute = "/register-farmer-lists";
+        break;
+      case "task-manager":
+        nextRoute = "/task-manager";
+        break;
+      case "task-list":
+        nextRoute = "/task-list";
         break;
       case "godownList":
         nextRoute = "/godown-list";
@@ -109,9 +116,9 @@ const WorkDetails = ({ user, userRole }) => {
       case "bidForBuyer":
         nextRoute = "/bid-for-buyer";
         break;
-        case "bidForBuyerMaster":
-          nextRoute = "/bid-for-buyer-master";
-          break;
+      case "bidForBuyerMaster":
+        nextRoute = "/bid-for-buyer-master";
+        break;
       case "addNewConsignee":
         nextRoute = "/add-new-consignee";
         break;
@@ -127,7 +134,7 @@ const WorkDetails = ({ user, userRole }) => {
       case "product-master":
         nextRoute = "/product-master";
         break;
-        case "add-self-company":
+      case "add-self-company":
         nextRoute = "/add-self-company";
         break;
       case "self-company-master":
