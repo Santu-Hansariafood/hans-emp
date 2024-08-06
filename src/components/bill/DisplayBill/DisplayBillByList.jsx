@@ -177,6 +177,9 @@ const DisplayBillByList = () => {
               <p>
                 <strong>Mobile Number:</strong> {billData.mobileNumber}
               </p>
+              <p>
+                <strong>Pan Number:</strong> {billData.panNumber}
+              </p>
             </td>
             <td className="border border-gray-400 p-2">
               <p>

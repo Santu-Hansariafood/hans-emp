@@ -167,6 +167,7 @@ const PurchaseBill = () => {
         branchName: farmerData.branchName,
         accountNumber: farmerData.accountNumber,
         ifscNumber: farmerData.ifscNumber,
+        panNumber: farmerData.panNumber,
       },
       totalUnloadingCost,
       company,

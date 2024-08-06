@@ -2,6 +2,7 @@ import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import hfLogo from "../../../Image/Hansaria-Logo.png";
 import AGLogo from "../../../Image/agririse-logo.webp";
+
 const companyData = {
   "Hansaria Food Private Limited": {
     address: "1234 Main St, City, Country",
@@ -102,11 +103,17 @@ const DisplayBill = () => {
     return inWords(num);
   };
 
+  const capitalizeFirstWord = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
+
   const netAmount = parseFloat(billData.netAmount).toFixed(2);
   const [integerPart, decimalPart] = netAmount.split(".");
-  const netAmountInWords = `${numberToWords(
-    parseInt(integerPart)
-  )} rupees and ${numberToWords(parseInt(decimalPart))} paise`;
+  const netAmountInWords = capitalizeFirstWord(
+    `${numberToWords(parseInt(integerPart))} rupees and ${numberToWords(
+      parseInt(decimalPart)
+    )} paise`
+  );
 
   const grossPayment = billData.paymentWeight * billData.rate;
 
@@ -152,6 +159,9 @@ const DisplayBill = () => {
               </p>
               <p>
                 <strong>Mobile Number:</strong> {billData.mobileNumber}
+              </p>
+              <p>
+                <strong>Pan Number:</strong> {billData.panNumber}
               </p>
             </td>
             <td className="border border-gray-400 p-2">
@@ -224,65 +234,49 @@ const DisplayBill = () => {
         <tbody>
           {billData.qualityParams.map((param, index) => (
             <tr key={index}>
-              <td className="border border-gray-400 p-2">
-                <strong>{param.label}</strong>
-              </td>
+              <td className="border border-gray-400 p-2">{param.name}</td>
               <td className="border border-gray-400 p-2">{param.basic}</td>
               <td className="border border-gray-400 p-2">{param.actual}</td>
               <td className="border border-gray-400 p-2">{param.excess}</td>
               <td className="border border-gray-400 p-2">
                 {param.claimPercentage}
               </td>
-              <td className="border border-gray-400 p-2">
-                {param.claimAmount}
-              </td>
+              <td className="border border-gray-400 p-2">{param.claimAmount}</td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      <div className="border p-4 mb-4">
-        <h2 className="text-xl font-bold mb-2">Net Amount</h2>
-        <p>
-          {netAmount}
-          <br />
-          <span className="italic">({netAmountInWords} only)</span>
-        </p>
-      </div>
-      <div className="border p-4 mb-4">
-        <h2 className="text-xl font-bold mb-2">Bank Details</h2>
-        <p>
-          <strong>Account Holder Name:</strong>{" "}
-          {billData.farmerAccountDetails.accountHolderName}
-        </p>
-        <p>
-          <strong>Bank Name:</strong> {billData.farmerAccountDetails.bankName}
-        </p>
-        <p>
-          <strong>Branch Name:</strong>{" "}
-          {billData.farmerAccountDetails.branchName}
-        </p>
-        <p>
-          <strong>Account Number:</strong>{" "}
-          {billData.farmerAccountDetails.accountNumber}
-        </p>
-        <p>
-          <strong>IFSC Number:</strong>{" "}
-          {billData.farmerAccountDetails.ifscNumber}
-        </p>
-      </div>
-      <div className="flex justify-between">
+      <h2 className="text-center p-2 text-xl font-bold">Payment Details</h2>
+      <table className="table-auto w-full mb-4 border-collapse border border-gray-400">
+        <tbody>
+          <tr>
+            <td className="border border-gray-400 p-2">
+              <strong>Net Amount:</strong>
+            </td>
+            <td className="border border-gray-400 p-2">{netAmount}</td>
+          </tr>
+          <tr>
+            <td className="border border-gray-400 p-2">
+              <strong>Net Amount in Words:</strong>
+            </td>
+            <td className="border border-gray-400 p-2">{netAmountInWords}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div className="flex justify-center mt-4">
         <button
-          className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
-          onClick={handleBack}
-        >
-          Back
-        </button>
-        <button
-          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+          className="px-4 py-2 bg-blue-500 text-white rounded mr-2"
           onClick={handlePrint}
         >
           Print
+        </button>
+        <button
+          className="px-4 py-2 bg-gray-500 text-white rounded"
+          onClick={handleBack}
+        >
+          Back
         </button>
       </div>
     </div>
