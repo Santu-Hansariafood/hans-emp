@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import EmployeeInfo from "./EmployeeInfo/EmployeeInfo";
 import QRCodeDisplay from "./QRCodeDisplay/QRCodeDisplay";
+import EmployeeTaskList from "./EmployeeTaskList/EmployeeTaskList";
 
 const EmployeeDetails = () => {
   const location = useLocation();
@@ -19,9 +20,12 @@ const EmployeeDetails = () => {
 
   const fetchTasks = async () => {
     try {
-      const response = await axios.get("https://main-server-2kc5.onrender.com/api/tasks");
-      const employeeTasks = response.data.filter(
-        (task) => `${employee.firstname} ${employee.lastname}` === task.assignTo
+      const response = await axios.get(
+        "https://main-server-2kc5.onrender.com/api/tasks"
+      );
+      const employeeFullName = `${employee.firstname} ${employee.lastname}`;
+      const employeeTasks = response.data.tasks.filter(
+        (task) => task.assignTo === employeeFullName
       );
       setTasks(employeeTasks);
     } catch (error) {
@@ -62,31 +66,7 @@ const EmployeeDetails = () => {
         <EmployeeInfo employee={employee} />
         <QRCodeDisplay employee={employee} />
       </div>
-      {tasks.length > 0 && (
-        <div className="mt-8">
-          <h3 className="text-2xl font-bold mb-4">Assigned Tasks</h3>
-          <table className="w-full border-collapse">
-            <thead>
-              <tr>
-                <th className="border p-2">Task Name</th>
-                <th className="border p-2">Description</th>
-                <th className="border p-2">Priority</th>
-                <th className="border p-2">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {tasks.map((task) => (
-                <tr key={task._id}>
-                  <td className="border p-2">{task.taskName}</td>
-                  <td className="border p-2">{task.taskDescription}</td>
-                  <td className="border p-2">{task.priority}</td>
-                  <td className="border p-2">{task.status}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+      <EmployeeTaskList tasks={tasks} fetchTasks={fetchTasks} />
       <div className="mt-8 flex justify-between">
         <button
           onClick={handleBack}

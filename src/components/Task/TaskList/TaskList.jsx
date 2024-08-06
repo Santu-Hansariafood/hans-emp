@@ -3,6 +3,8 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import * as XLSX from "xlsx";
+import { FaEdit, FaTrash } from "react-icons/fa";
+import { MdOutlineTaskAlt } from "react-icons/md";
 
 const TaskList = () => {
   const [tasks, setTasks] = useState([]);
@@ -14,16 +16,20 @@ const TaskList = () => {
 
   const fetchTasks = async () => {
     try {
-      const response = await axios.get("https://main-server-2kc5.onrender.com/api/tasks");
-      setTasks(response.data);
+      const response = await axios.get(
+        "https://main-server-2kc5.onrender.com/api/tasks"
+      );
+      const tasksData = response.data.tasks || [];
+      setTasks(tasksData);
     } catch (error) {
       console.error("Error fetching tasks:", error);
+      setTasks([]);
     }
   };
 
   const handleEditTask = async (task) => {
     const { value: formValues } = await Swal.fire({
-      title: 'Edit Task',
+      title: "Edit Task",
       html:
         `<input id="taskName" class="swal2-input" placeholder="Task Name" value="${task.taskName}" />` +
         `<textarea id="taskDescription" class="swal2-textarea" placeholder="Task Description">${task.taskDescription}</textarea>` +
@@ -31,41 +37,78 @@ const TaskList = () => {
       focusConfirm: false,
       preConfirm: () => {
         return {
-          taskName: document.getElementById('taskName').value,
-          taskDescription: document.getElementById('taskDescription').value,
-          priority: document.getElementById('priority').value
-        }
-      }
+          taskName: document.getElementById("taskName").value,
+          taskDescription: document.getElementById("taskDescription").value,
+          priority: document.getElementById("priority").value,
+        };
+      },
     });
 
     if (formValues) {
       try {
-        await axios.patch(`https://main-server-2kc5.onrender.com/api/tasks/${task._id}`, formValues);
+        await axios.patch(
+          `https://main-server-2kc5.onrender.com/api/tasks/${task._id}`,
+          formValues
+        );
         fetchTasks();
-        Swal.fire('Task Updated', '', 'success');
+        Swal.fire("Task Updated", "", "success");
       } catch (error) {
-        Swal.fire('Error', 'There was an error updating the task.', 'error');
+        Swal.fire("Error", "There was an error updating the task.", "error");
       }
     }
   };
 
   const handleDeleteTask = async (taskId) => {
     const result = await Swal.fire({
-      title: 'Are you sure?',
-      text: 'This will delete the task permanently.',
-      icon: 'warning',
+      title: "Are you sure?",
+      text: "This will delete the task permanently.",
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonText: 'Yes, delete it!',
-      cancelButtonText: 'Cancel'
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
     });
 
     if (result.isConfirmed) {
       try {
-        await axios.delete(`https://main-server-2kc5.onrender.com/api/tasks/${taskId}`);
+        await axios.delete(
+          `https://main-server-2kc5.onrender.com/api/tasks/${taskId}`
+        );
         fetchTasks();
-        Swal.fire('Deleted!', 'The task has been deleted.', 'success');
+        Swal.fire("Deleted!", "The task has been deleted.", "success");
       } catch (error) {
-        Swal.fire('Error', 'There was an error deleting the task.', 'error');
+        Swal.fire("Error", "There was an error deleting the task.", "error");
+      }
+    }
+  };
+
+  const handleStatusChange = async (task) => {
+    const { value: status } = await Swal.fire({
+      title: "Change Task Status",
+      input: "select",
+      inputOptions: {
+        Pending: "Pending",
+        Accepted: "Accepted",
+        Complete: "Complete",
+      },
+      inputPlaceholder: "Select status",
+      showCancelButton: true,
+      inputValidator: (value) => {
+        if (!value) {
+          return "You need to select a status!";
+        }
+      },
+    });
+
+    if (status) {
+      try {
+        await axios.patch(
+          `https://main-server-2kc5.onrender.com/api/tasks/${task._id}`,
+          { status }
+        );
+        fetchTasks();
+        Swal.fire("Status Updated", "", "success");
+      } catch (error) {
+        Swal.fire("Error", "There was an error updating the status.", "error");
       }
     }
   };
@@ -88,6 +131,7 @@ const TaskList = () => {
               <th className="border p-2">Description</th>
               <th className="border p-2">Assignee</th>
               <th className="border p-2">Priority</th>
+              <th className="border p-2">Status</th>
               <th className="border p-2">Actions</th>
             </tr>
           </thead>
@@ -98,18 +142,25 @@ const TaskList = () => {
                 <td className="border p-2">{task.taskDescription}</td>
                 <td className="border p-2">{task.assignTo}</td>
                 <td className="border p-2">{task.priority}</td>
+                <td className="border p-2">{task.status}</td>
                 <td className="border p-2">
                   <button
                     className="bg-yellow-500 text-white px-2 py-1 rounded mr-2"
                     onClick={() => handleEditTask(task)}
                   >
-                    Edit
+                    <FaEdit title="Edit" />
                   </button>
                   <button
-                    className="bg-red-500 text-white px-2 py-1 rounded"
+                    className="bg-red-500 text-white px-2 py-1 rounded mr-2"
                     onClick={() => handleDeleteTask(task._id)}
                   >
-                    Delete
+                    <FaTrash title="Delete" />
+                  </button>
+                  <button
+                    className="bg-green-500 text-white px-2 py-1 rounded"
+                    onClick={() => handleStatusChange(task)}
+                  >
+                    <MdOutlineTaskAlt title="Change Status" />
                   </button>
                 </td>
               </tr>
@@ -118,18 +169,18 @@ const TaskList = () => {
         </table>
       </div>
       <div className="flex space-x-4 mb-4 pt-4">
-      <button
-        className="mb-4 p-2 bg-gray-500 text-white rounded"
-        onClick={() => navigate('/task-manager')}
-      >
-        Back
-      </button>
-      <button
-        className="mb-4 p-2 bg-green-500 text-white rounded"
-        onClick={handleGenerateExcel}
-      >
-        Generate Excel
-      </button>
+        <button
+          className="mb-4 p-2 bg-gray-500 text-white rounded"
+          onClick={() => navigate(-1)}
+        >
+          Back
+        </button>
+        <button
+          className="mb-4 p-2 bg-green-500 text-white rounded"
+          onClick={handleGenerateExcel}
+        >
+          Generate Excel
+        </button>
       </div>
     </div>
   );
