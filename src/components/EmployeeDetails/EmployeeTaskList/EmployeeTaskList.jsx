@@ -8,6 +8,7 @@ const EmployeeTaskList = ({ employee }) => {
   const [tasks, setTasks] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [updatingTask, setUpdatingTask] = useState(null);
 
   useEffect(() => {
     fetchTasks();
@@ -30,6 +31,7 @@ const EmployeeTaskList = ({ employee }) => {
   };
 
   const handleChangeStatus = async (taskId, currentStatus) => {
+    setUpdatingTask(taskId);
     const { value: status } = await Swal.fire({
       title: "Change Task Status",
       input: "select",
@@ -53,7 +55,11 @@ const EmployeeTaskList = ({ employee }) => {
         fetchTasks();
       } catch (error) {
         Swal.fire("Error", "Failed to update task status", "error");
+      } finally {
+        setUpdatingTask(null);
       }
+    } else {
+      setUpdatingTask(null);
     }
   };
 
@@ -96,7 +102,10 @@ const EmployeeTaskList = ({ employee }) => {
               <td className="border p-2 align-middle">
                 <button
                   onClick={() => handleChangeStatus(task._id, task.status)}
-                  className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded-lg transition duration-300"
+                  className={`bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded-lg transition duration-300 ${
+                    task.status === "Complete" ? "cursor-not-allowed opacity-50" : ""
+                  }`}
+                  disabled={task.status === "Complete" || updatingTask === task._id}
                 >
                   <MdOutlineTaskAlt title="Change Status" />
                 </button>

@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
 const TaskManager = () => {
-  const [tasks, setTasks] = useState([]);
+  const [setTasks] = useState([]);
   const [employees, setEmployees] = useState([]);
   const [taskName, setTaskName] = useState("");
   const [taskDescription, setTaskDescription] = useState("");
@@ -19,7 +19,9 @@ const TaskManager = () => {
 
   const fetchTasks = async () => {
     try {
-      const response = await axios.get("https://main-server-2kc5.onrender.com/api/tasks");
+      const response = await axios.get(
+        "https://main-server-2kc5.onrender.com/api/tasks"
+      );
       setTasks(response.data);
     } catch (error) {
       console.error("Error fetching tasks:", error);
@@ -28,7 +30,9 @@ const TaskManager = () => {
 
   const fetchEmployees = async () => {
     try {
-      const response = await axios.get("https://main-server-2kc5.onrender.com/api/employees");
+      const response = await axios.get(
+        "https://main-server-2kc5.onrender.com/api/employees"
+      );
       setEmployees(response.data);
     } catch (error) {
       console.error("Error fetching employees:", error);
@@ -44,7 +48,10 @@ const TaskManager = () => {
         priority,
       };
       console.log("Request Payload:", newTask);
-      await axios.post("https://main-server-2kc5.onrender.com/api/tasks", newTask);
+      await axios.post(
+        "https://main-server-2kc5.onrender.com/api/tasks",
+        newTask
+      );
       fetchTasks();
       Swal.fire({
         icon: "success",
@@ -56,7 +63,6 @@ const TaskManager = () => {
       setAssignTo("");
       setPriority("High");
     } catch (error) {
-      console.error("Error Response:", error.response); // Log the error response
       Swal.fire({
         icon: "error",
         title: "Error",
@@ -91,7 +97,10 @@ const TaskManager = () => {
         >
           <option value="">Select Assignee</option>
           {employees.map((employee) => (
-            <option key={employee._id} value={`${employee.firstname} ${employee.lastname}`}>
+            <option
+              key={employee._id}
+              value={`${employee.firstname} ${employee.lastname}`}
+            >
               {employee.firstname} {employee.lastname}
             </option>
           ))}
