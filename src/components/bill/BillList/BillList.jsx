@@ -104,6 +104,7 @@ const BillList = () => {
       "Bank Name",
       "Account Number",
       "IFSC Number",
+      "Pan Number",
       "Company",
     ];
 
@@ -128,6 +129,7 @@ const BillList = () => {
       bill.farmerAccountDetails.bankName,
       bill.farmerAccountDetails.accountNumber,
       bill.farmerAccountDetails.ifscNumber,
+      bill.farmerAccountDetails.panNumber,
       bill.company,
     ]);
 

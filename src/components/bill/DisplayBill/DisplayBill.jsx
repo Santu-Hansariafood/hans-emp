@@ -126,10 +126,12 @@ const DisplayBill = () => {
   };
 
   const companyInfo = companyData[billData.company] || {};
-
+  console.log(billData.panNumber);
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4 text-center">Purchase Bill - {billData.selectedGodownName}</h1>
+      <h1 className="text-2xl font-bold mb-4 text-center">
+        Purchase Bill - {billData.selectedGodownName}
+      </h1>
 
       <table className="table-auto w-full mb-4 border-collapse border border-gray-400">
         <thead>
@@ -161,7 +163,8 @@ const DisplayBill = () => {
                 <strong>Mobile Number:</strong> {billData.mobileNumber}
               </p>
               <p>
-                <strong>Pan Number:</strong> {billData.panNumber}
+                <strong>Pan Number:</strong>{" "}
+                {billData.farmerAccountDetails.panNumber}
               </p>
             </td>
             <td className="border border-gray-400 p-2">
@@ -169,8 +172,7 @@ const DisplayBill = () => {
                 <strong>Date:</strong> {new Date().toLocaleDateString()}
               </p>
               <p>
-                <strong>Bill No:</strong>{" "}
-                {billData.billNumber}
+                <strong>Bill No:</strong> {billData.billNumber}
               </p>
             </td>
           </tr>
@@ -241,7 +243,9 @@ const DisplayBill = () => {
               <td className="border border-gray-400 p-2">
                 {param.claimPercentage}
               </td>
-              <td className="border border-gray-400 p-2">{param.claimAmount}</td>
+              <td className="border border-gray-400 p-2">
+                {param.claimAmount}
+              </td>
             </tr>
           ))}
         </tbody>
@@ -264,6 +268,36 @@ const DisplayBill = () => {
           </tr>
         </tbody>
       </table>
+
+      <h2 className="text-center p-2 text-xl font-bold">Account Details</h2>
+      <table className="table-auto w-full mb-4 border-collapse border border-gray-400">
+        <tbody>
+          <tr>
+            <td className="border border-gray-400 p-2">
+              <strong>Account Holder Name:</strong> <br />
+              <strong>Bank Name:</strong> <br />
+              <strong>Branch Name:</strong> <br />
+              <strong>Account Number:</strong> <br />
+              <strong>IFSC Number:</strong> <br />
+            </td>
+            <td className="border border-gray-400 p-2">
+              {billData.farmerAccountDetails.accountHolderName}
+              <br />
+              {billData.farmerAccountDetails.bankName}
+              <br />
+              {billData.farmerAccountDetails.branchName}
+              <br />
+              {billData.farmerAccountDetails.accountNumber}
+              <br />
+              {billData.farmerAccountDetails.ifscNumber}
+              <br />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p className="bold italic text-center">
+        This is the system generated Bill No need to signature
+      </p>
 
       <div className="flex justify-center mt-4">
         <button
