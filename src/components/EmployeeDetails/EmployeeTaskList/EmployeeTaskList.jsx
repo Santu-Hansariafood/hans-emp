@@ -4,26 +4,30 @@ import axios from "axios";
 import { MdOutlineTaskAlt } from "react-icons/md";
 import { FaChevronLeft, FaCaretRight } from "react-icons/fa";
 
-const EmployeeTaskList = ({ fetchTasks }) => {
+const EmployeeTaskList = ({ employee }) => {
   const [tasks, setTasks] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
-    const fetchTasks = async () => {
-      try {
-        const response = await axios.get(
-          `https://main-server-2kc5.onrender.com/api/tasks?page=${currentPage}&limit=10`
-        );
-        setTasks(response.data.tasks);
-        setTotalPages(response.data.totalPages);
-      } catch (error) {
-        Swal.fire("Error", "Failed to fetch tasks", "error");
-      }
-    };
-
     fetchTasks();
   }, [currentPage]);
+
+  const fetchTasks = async () => {
+    try {
+      const response = await axios.get(
+        `https://main-server-2kc5.onrender.com/api/tasks?page=${currentPage}&limit=10`
+      );
+      const employeeFullName = `${employee.firstname} ${employee.lastname}`;
+      const employeeTasks = response.data.tasks.filter(
+        (task) => task.assignTo === employeeFullName
+      );
+      setTasks(employeeTasks);
+      setTotalPages(response.data.totalPages);
+    } catch (error) {
+      Swal.fire("Error", "Failed to fetch tasks", "error");
+    }
+  };
 
   const handleChangeStatus = async (taskId, currentStatus) => {
     const { value: status } = await Swal.fire({
@@ -43,9 +47,7 @@ const EmployeeTaskList = ({ fetchTasks }) => {
       try {
         await axios.patch(
           `https://main-server-2kc5.onrender.com/api/tasks/${taskId}/status`,
-          {
-            status,
-          }
+          { status }
         );
         Swal.fire("Success", "Task status updated successfully", "success");
         fetchTasks();
@@ -68,7 +70,7 @@ const EmployeeTaskList = ({ fetchTasks }) => {
   };
 
   if (tasks.length === 0) {
-    return null;
+    return <p>No tasks assigned to this employee.</p>;
   }
 
   return (

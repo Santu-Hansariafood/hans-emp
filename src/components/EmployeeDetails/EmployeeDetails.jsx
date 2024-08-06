@@ -66,7 +66,7 @@ const EmployeeDetails = () => {
         <EmployeeInfo employee={employee} />
         <QRCodeDisplay employee={employee} />
       </div>
-      <EmployeeTaskList tasks={tasks} fetchTasks={fetchTasks} />
+      <EmployeeTaskList employee={employee} />
       <div className="mt-8 flex justify-between">
         <button
           onClick={handleBack}
