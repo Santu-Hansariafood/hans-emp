@@ -128,6 +128,8 @@ const RegisterFarmer = () => {
               value={formData.mobile}
               onChange={handleInputChange}
               placeholder="Enter Mobile Number"
+              maxLength={10}
+              minLength={10}
             />
             <InputField
               id="email"
@@ -171,6 +173,8 @@ const RegisterFarmer = () => {
               value={formData.pinCode}
               onChange={handleInputChange}
               placeholder="Enter Pin Code"
+              maxLength={6}
+              minLength={6}
             />
             <InputField
               id="adherNumber"
@@ -178,6 +182,8 @@ const RegisterFarmer = () => {
               value={formData.adherNumber}
               onChange={handleInputChange}
               placeholder="Enter Adher Number"
+              maxLength={12}
+              minLength={12}
             />
             <InputField
               id="panNumber"
