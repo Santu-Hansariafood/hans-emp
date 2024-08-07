@@ -90,6 +90,7 @@ const EmployeeTaskList = ({ employee }) => {
             <th className="border p-2">Task Name</th>
             <th className="border p-2">Description</th>
             <th className="border p-2">Priority</th>
+            <th className="border p-2">Assignee By</th>
             <th className="border p-2">Status</th>
             <th className="border p-2">Actions</th>
           </tr>
@@ -100,6 +101,7 @@ const EmployeeTaskList = ({ employee }) => {
               <td className="border p-2">{task.taskName}</td>
               <td className="border p-2">{task.taskDescription}</td>
               <td className="border p-2">{task.priority}</td>
+              <td className="border p-2">{task.appointedBy}</td>
               <td className="border p-2">{task.status}</td>
               <td className="border p-2 align-middle">
                 <button

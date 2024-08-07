@@ -10,11 +10,14 @@ const TaskManager = () => {
   const [taskDescription, setTaskDescription] = useState("");
   const [assignTo, setAssignTo] = useState("");
   const [priority, setPriority] = useState("High");
+  const [appointedBy, setAppointedBy] = useState("");
+  const [creationDateTime, setCreationDateTime] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchTasks();
     fetchEmployees();
+    setCreationDateTime(new Date().toLocaleString());
   }, []);
 
   const fetchTasks = async () => {
@@ -22,7 +25,7 @@ const TaskManager = () => {
       const response = await axios.get(
         "https://main-server-2kc5.onrender.com/api/tasks"
       );
-      setTasks(response.data);
+      setTasks(response.data.tasks);
     } catch (error) {
       console.error("Error fetching tasks:", error);
     }
@@ -46,8 +49,9 @@ const TaskManager = () => {
         taskDescription,
         assignTo,
         priority,
+        appointedBy,
+        creationDateTime,
       };
-      console.log("Request Payload:", newTask);
       await axios.post(
         "https://main-server-2kc5.onrender.com/api/tasks",
         newTask
@@ -62,20 +66,20 @@ const TaskManager = () => {
       setTaskDescription("");
       setAssignTo("");
       setPriority("High");
+      setAppointedBy("");
+      setCreationDateTime(new Date().toLocaleString());
     } catch (error) {
       Swal.fire({
         icon: "error",
         title: "Error",
-        text:
-          error.response?.data?.message ||
-          "There was an error creating the task.",
+        text: error.response?.data?.message || "There was an error creating the task.",
       });
     }
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <div className="max-w-xl mx-auto bg-white p-4 rounded shadow">
+    <div className="container mx-auto p-4 max-w-4xl mt-10 rounded-lg shadow-lg bg-gradient-to-r from-green-200 via-yellow-100 to-green-200">
+      <div className="max-w-xl mx-auto bg-white p-8 rounded-lg shadow">
         <h2 className="text-2xl font-semibold mb-4">Create Task</h2>
         <input
           type="text"
@@ -114,8 +118,30 @@ const TaskManager = () => {
           <option value="Medium">Medium</option>
           <option value="Low">Low</option>
         </select>
+        <select
+          className="w-full p-2 mb-2 border rounded"
+          value={appointedBy}
+          onChange={(e) => setAppointedBy(e.target.value)}
+        >
+          <option value="">Appointed By</option>
+          {employees.map((employee) => (
+            <option
+              key={employee._id}
+              value={`${employee.firstname} ${employee.lastname}`}
+            >
+              {employee.firstname} {employee.lastname}
+            </option>
+          ))}
+        </select>
+        <input
+          type="text"
+          className="w-full p-2 mb-2 border rounded"
+          placeholder="Creation Date & Time"
+          value={creationDateTime}
+          readOnly
+        />
         <button
-          className="w-full p-2 bg-blue-500 text-white rounded"
+          className="w-full p-2 bg-blue-500 text-white rounded mt-2"
           onClick={handleCreateTask}
         >
           Create Task

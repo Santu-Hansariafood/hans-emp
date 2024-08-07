@@ -132,6 +132,7 @@ const TaskList = () => {
               <th className="border p-2">Assignee</th>
               <th className="border p-2">Priority</th>
               <th className="border p-2">Status</th>
+              <th className="border p-2">Appointed By</th>
               <th className="border p-2">Actions</th>
             </tr>
           </thead>
@@ -143,6 +144,7 @@ const TaskList = () => {
                 <td className="border p-2">{task.assignTo}</td>
                 <td className="border p-2">{task.priority}</td>
                 <td className="border p-2">{task.status}</td>
+                <td className="border p-2">{task.appointedBy}</td>
                 <td className="border p-2">
                   <button
                     className="bg-yellow-500 text-white px-2 py-1 rounded mr-2"
