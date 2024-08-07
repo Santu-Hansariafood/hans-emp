@@ -146,24 +146,26 @@ const TaskList = () => {
                 <td className="border p-2">{task.status}</td>
                 <td className="border p-2">{task.appointedBy}</td>
                 <td className="border p-2">
-                  <button
-                    className="bg-yellow-500 text-white px-2 py-1 rounded mr-2"
-                    onClick={() => handleEditTask(task)}
-                  >
-                    <FaEdit title="Edit" />
-                  </button>
-                  <button
-                    className="bg-red-500 text-white px-2 py-1 rounded mr-2"
-                    onClick={() => handleDeleteTask(task._id)}
-                  >
-                    <FaTrash title="Delete" />
-                  </button>
-                  <button
-                    className="bg-green-500 text-white px-2 py-1 rounded"
-                    onClick={() => handleStatusChange(task)}
-                  >
-                    <MdOutlineTaskAlt title="Change Status" />
-                  </button>
+                  <div className="flex space-x-2">
+                    <button
+                      className="bg-yellow-500 text-white px-2 py-1 rounded"
+                      onClick={() => handleEditTask(task)}
+                    >
+                      <FaEdit title="Edit" />
+                    </button>
+                    <button
+                      className="bg-red-500 text-white px-2 py-1 rounded"
+                      onClick={() => handleDeleteTask(task._id)}
+                    >
+                      <FaTrash title="Delete" />
+                    </button>
+                    <button
+                      className="bg-green-500 text-white px-2 py-1 rounded"
+                      onClick={() => handleStatusChange(task)}
+                    >
+                      <MdOutlineTaskAlt title="Change Status" />
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}
