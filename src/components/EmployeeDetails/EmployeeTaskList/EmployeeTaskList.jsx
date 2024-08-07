@@ -76,7 +76,9 @@ const EmployeeTaskList = ({ employee }) => {
   };
 
   if (tasks.length === 0) {
-    return <p>No tasks assigned to this employee.</p>;
+    return (
+      <p className="text-red-500 italic">No tasks assigned to this employee.</p>
+    );
   }
 
   return (
@@ -103,9 +105,13 @@ const EmployeeTaskList = ({ employee }) => {
                 <button
                   onClick={() => handleChangeStatus(task._id, task.status)}
                   className={`bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded-lg transition duration-300 ${
-                    task.status === "Complete" ? "cursor-not-allowed opacity-50" : ""
+                    task.status === "Complete"
+                      ? "cursor-not-allowed opacity-50"
+                      : ""
                   }`}
-                  disabled={task.status === "Complete" || updatingTask === task._id}
+                  disabled={
+                    task.status === "Complete" || updatingTask === task._id
+                  }
                 >
                   <MdOutlineTaskAlt title="Change Status" />
                 </button>
