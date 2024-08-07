@@ -256,6 +256,7 @@ const DisplayBillByList = () => {
               <td className="border border-gray-400 p-2">
                 <strong>{param.label}</strong>
               </td>
+              {/* <td className="border border-gray-400 p-2">{param.name}</td> */}
               <td className="border border-gray-400 p-2">{param.basic}</td>
               <td className="border border-gray-400 p-2">{param.actual}</td>
               <td className="border border-gray-400 p-2">{param.excess}</td>
@@ -270,36 +271,54 @@ const DisplayBillByList = () => {
         </tbody>
       </table>
 
-      <div className="border p-4 mb-4">
-        <h2 className="text-xl font-bold mb-2">Net Amount</h2>
-        <p>
-          {netAmount}
-          <br />
-          <span className="italic">({netAmountInWords} only)</span>
-        </p>
-      </div>
-      <div className="border p-4 mb-4">
-        <h2 className="text-xl font-bold mb-2">Bank Details</h2>
-        <p>
-          <strong>Account Holder Name:</strong>{" "}
-          {billData.farmerAccountDetails.accountHolderName}
-        </p>
-        <p>
-          <strong>Bank Name:</strong> {billData.farmerAccountDetails.bankName}
-        </p>
-        <p>
-          <strong>Branch Name:</strong>{" "}
-          {billData.farmerAccountDetails.branchName}
-        </p>
-        <p>
-          <strong>Account Number:</strong>{" "}
-          {billData.farmerAccountDetails.accountNumber}
-        </p>
-        <p>
-          <strong>IFSC Number:</strong>{" "}
-          {billData.farmerAccountDetails.ifscNumber}
-        </p>
-      </div>
+      <h2 className="text-center p-2 text-xl font-bold">Payment Details</h2>
+      <table className="table-auto w-full mb-4 border-collapse border border-gray-400">
+        <tbody>
+          <tr>
+            <td className="border border-gray-400 p-2">
+              <strong>Net Amount:</strong>
+            </td>
+            <td className="border border-gray-400 p-2">{netAmount}</td>
+          </tr>
+          <tr>
+            <td className="border border-gray-400 p-2">
+              <strong>Net Amount in Words:</strong>
+            </td>
+            <td className="border border-gray-400 p-2">{netAmountInWords}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 className="text-center p-2 text-xl font-bold">Account Details</h2>
+      <table className="table-auto w-full mb-4 border-collapse border border-gray-400">
+        <tbody>
+          <tr>
+            <td className="border border-gray-400 p-2">
+              <strong>Account Holder Name:</strong> <br />
+              <strong>Bank Name:</strong> <br />
+              <strong>Branch Name:</strong> <br />
+              <strong>Account Number:</strong> <br />
+              <strong>IFSC Number:</strong> <br />
+            </td>
+            <td className="border border-gray-400 p-2">
+              {billData.farmerAccountDetails.accountHolderName}
+              <br />
+              {billData.farmerAccountDetails.bankName}
+              <br />
+              {billData.farmerAccountDetails.branchName}
+              <br />
+              {billData.farmerAccountDetails.accountNumber}
+              <br />
+              {billData.farmerAccountDetails.ifscNumber}
+              <br />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p className="bold italic text-center">
+        This is the system generated Bill No need to signature
+      </p>
+
       <div className="flex justify-between">
         <button
           className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
