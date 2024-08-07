@@ -146,7 +146,9 @@ const DisplayBillByList = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4 text-center">Purchase Bill - {billData.selectedGodownName}</h1>
+      <h1 className="text-2xl font-bold mb-4 text-center">
+        Purchase Bill - {billData.selectedGodownName}
+      </h1>
 
       <table className="table-auto w-full mb-4 border-collapse border border-gray-400">
         <thead>
@@ -178,7 +180,8 @@ const DisplayBillByList = () => {
                 <strong>Mobile Number:</strong> {billData.mobileNumber}
               </p>
               <p>
-                <strong>Pan Number:</strong> {billData.panNumber}
+                <strong>Pan Number:</strong>{" "}
+                {billData.farmerAccountDetails.panNumber}
               </p>
             </td>
             <td className="border border-gray-400 p-2">
@@ -186,8 +189,7 @@ const DisplayBillByList = () => {
                 <strong>Date:</strong> {new Date().toLocaleDateString()}
               </p>
               <p>
-                <strong>Bill No:</strong>{" "}
-                {billData.billNumber}
+                <strong>Bill No:</strong> {billData.billNumber}
               </p>
             </td>
           </tr>
