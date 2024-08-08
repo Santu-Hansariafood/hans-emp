@@ -89,6 +89,7 @@ const TaskList = () => {
         Pending: "Pending",
         Accepted: "Accepted",
         Complete: "Complete",
+        Rejected: "Rejected",
       },
       inputPlaceholder: "Select status",
       showCancelButton: true,

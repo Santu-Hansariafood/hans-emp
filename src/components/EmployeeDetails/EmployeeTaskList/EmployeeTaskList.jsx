@@ -39,17 +39,36 @@ const EmployeeTaskList = ({ employee }) => {
         Pending: "Pending",
         Accepted: "Accepted",
         Complete: "Complete",
+        Rejected: "Rejected",
       },
       inputPlaceholder: "Select new status",
       showCancelButton: true,
       inputValue: currentStatus,
     });
-
+  
     if (status) {
+      let feedback = null;
+      if (status === "Rejected") {
+        const { value: comment } = await Swal.fire({
+          title: "Add Comment",
+          input: "textarea",
+          inputPlaceholder: "Enter your comment here...",
+          showCancelButton: true,
+        });
+  
+        if (comment) {
+          feedback = comment;
+        } else {
+          Swal.fire("Error", "Comment is required for rejection", "error");
+          setUpdatingTask(null);
+          return;
+        }
+      }
+  
       try {
         await axios.patch(
           `https://main-server-2kc5.onrender.com/api/tasks/${taskId}/status`,
-          { status }
+          { status, feedback }
         );
         Swal.fire("Success", "Task status updated successfully", "success");
         fetchTasks();
@@ -62,7 +81,7 @@ const EmployeeTaskList = ({ employee }) => {
       setUpdatingTask(null);
     }
   };
-
+  
   const handlePreviousPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
