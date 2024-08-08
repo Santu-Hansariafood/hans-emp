@@ -19,8 +19,13 @@ const BillList = () => {
     axios
       .get("https://main-server-2kc5.onrender.com/api/bills")
       .then((response) => {
-        setBills(response.data);
-        setFilteredBills(response.data);
+        const sortedBills = response.data.sort((a, b) => {
+          const aNumber = parseInt(a.billNumber.split('/')[1]);
+          const bNumber = parseInt(b.billNumber.split('/')[1]);
+          return bNumber - aNumber;
+        });
+        setBills(sortedBills);
+        setFilteredBills(sortedBills);
       })
       .catch((error) => console.log(error));
   }, []);
@@ -63,16 +68,10 @@ const BillList = () => {
           .then((response) => {
             Swal.fire("Deleted!", "Your file has been deleted.", "success");
             setBills(bills.filter((bill) => bill._id !== billId));
-            setFilteredBills(
-              filteredBills.filter((bill) => bill._id !== billId)
-            );
+            setFilteredBills(filteredBills.filter((bill) => bill._id !== billId));
           })
           .catch((error) => {
-            Swal.fire(
-              "Error!",
-              "There was an error deleting the bill.",
-              "error"
-            );
+            Swal.fire("Error!", "There was an error deleting the bill.", "error");
           });
       }
     });

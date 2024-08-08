@@ -266,6 +266,7 @@ const DisplayBill = () => {
           <thead>
             <tr>
               <th className="border border-gray-400 p-2">Quality Parameter</th>
+              <th className="border border-gray-400 p-2">Claim</th>
               <th className="border border-gray-400 p-2">Basic</th>
               <th className="border border-gray-400 p-2">Actual</th>
               <th className="border border-gray-400 p-2">Excess</th>
@@ -279,7 +280,7 @@ const DisplayBill = () => {
                 <td className="border border-gray-400 p-2">
                 <strong>{param.label}</strong>
               </td>
-                {/* <td className="border border-gray-400 p-2">{param.name}</td> */}
+                <td className="border border-gray-400 p-2">{param.claim}</td>
                 <td className="border border-gray-400 p-2">{param.basic}</td>
                 <td className="border border-gray-400 p-2">{param.actual}</td>
                 <td className="border border-gray-400 p-2">{param.excess}</td>
