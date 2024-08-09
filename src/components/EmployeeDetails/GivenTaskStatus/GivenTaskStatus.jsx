@@ -88,6 +88,7 @@ const GivenTaskStatus = () => {
             {
               assignTo: selectedAssigneeName,
               appointedBy: `${employee.firstname} ${employee.lastname}`,
+              status: "Assigned",
             }
           );
           Swal.fire("Reassigned!", "The task has been reassigned.", "success");
