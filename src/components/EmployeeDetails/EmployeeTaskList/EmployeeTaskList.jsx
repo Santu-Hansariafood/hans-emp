@@ -102,7 +102,7 @@ const EmployeeTaskList = ({ employee }) => {
 
   return (
     <div className="mt-8 px-4">
-      <h3 className="text-xl md:text-2xl font-bold mb-4">Assigned Tasks</h3>
+      <h3 className="text-xl md:text-2xl font-bold mb-4 items-center">Assigned Tasks</h3>
       <div className="overflow-x-auto">
         <table className="w-full border-collapse text-sm md:text-base">
           <thead>

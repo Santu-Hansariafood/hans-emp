@@ -4,12 +4,15 @@ import { useLocation } from "react-router-dom";
 import { MdAssignmentTurnedIn } from "react-icons/md";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
 
 const GivenTaskStatus = () => {
   const location = useLocation();
   const { employee } = location.state || {};
   const [tasks, setTasks] = useState([]);
   const [assignees, setAssignees] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const MySwal = withReactContent(Swal);
 
   useEffect(() => {
@@ -17,18 +20,19 @@ const GivenTaskStatus = () => {
       fetchTasks();
       fetchAssignees();
     }
-  }, [employee]);
+  }, [employee, currentPage]);
 
   const fetchTasks = async () => {
     try {
       const response = await axios.get(
-        "https://main-server-2kc5.onrender.com/api/tasks"
+        `https://main-server-2kc5.onrender.com/api/tasks?page=${currentPage}&limit=10`
       );
       const employeeFullName = `${employee.firstname} ${employee.lastname}`;
       const employeeTasks = response.data.tasks.filter(
         (task) => task.appointedBy === employeeFullName
       );
       setTasks(employeeTasks);
+      setTotalPages(response.data.totalPages);
     } catch (error) {
       console.error("Error fetching tasks:", error);
     }
@@ -96,9 +100,21 @@ const GivenTaskStatus = () => {
     });
   };
 
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
   return (
     <div className="mt-8 px-4 md:px-8">
-      <h3 className="text-xl md:text-2xl font-bold mb-4">Assigned Tasks</h3>
+      <h3 className="text-xl md:text-2xl font-bold mb-4">Re-Assigned Tasks</h3>
       <div className="overflow-x-auto">
         <table className="w-full border-collapse">
           <thead>
@@ -155,6 +171,26 @@ const GivenTaskStatus = () => {
             )}
           </tbody>
         </table>
+      </div>
+
+      <div className="mt-4 flex justify-between">
+        <button
+          onClick={handlePreviousPage}
+          disabled={currentPage === 1}
+          className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+        >
+          <FaCaretLeft title="Previous" />
+        </button>
+        <span className="text-sm md:text-lg">
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          onClick={handleNextPage}
+          disabled={currentPage === totalPages}
+          className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+        >
+          <FaCaretRight title="Next" />
+        </button>
       </div>
     </div>
   );
