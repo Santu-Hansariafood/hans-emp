@@ -19,10 +19,11 @@ const GivenTaskStatus = () => {
     }
   }, [employee]);
 
-  // Fetch tasks assigned by the logged-in employee
   const fetchTasks = async () => {
     try {
-      const response = await axios.get("https://main-server-2kc5.onrender.com/api/tasks");
+      const response = await axios.get(
+        "https://main-server-2kc5.onrender.com/api/tasks"
+      );
       const employeeFullName = `${employee.firstname} ${employee.lastname}`;
       const employeeTasks = response.data.tasks.filter(
         (task) => task.appointedBy === employeeFullName
@@ -35,15 +36,16 @@ const GivenTaskStatus = () => {
 
   const fetchAssignees = async () => {
     try {
-      const response = await axios.get("https://main-server-2kc5.onrender.com/api/employees");
+      const response = await axios.get(
+        "https://main-server-2kc5.onrender.com/api/employees"
+      );
       console.log("Assignees fetched: ", response.data.employees);
-      setAssignees(response.data); // Ensure you are setting the correct data from the API response
+      setAssignees(response.data);
     } catch (error) {
       console.error("Error fetching assignees:", error);
     }
   };
 
-  // Handle reassignment of a task
   const handleReassign = (taskId) => {
     if (!assignees || assignees.length === 0) {
       Swal.fire("Error", "No assignees available for reassignment", "error");
@@ -85,7 +87,7 @@ const GivenTaskStatus = () => {
             }
           );
           Swal.fire("Reassigned!", "The task has been reassigned.", "success");
-          fetchTasks(); // Refresh tasks after reassignment
+          fetchTasks();
         } catch (error) {
           Swal.fire("Error!", "Failed to reassign the task.", "error");
           console.error("Error reassigning task:", error);
@@ -95,51 +97,65 @@ const GivenTaskStatus = () => {
   };
 
   return (
-    <div className="mt-8">
-      <h3 className="text-2xl font-bold mb-4">Assigned Tasks</h3>
-      <table className="w-full border-collapse">
-        <thead>
-          <tr>
-            <th className="border p-2">Task Name</th>
-            <th className="border p-2">Description</th>
-            <th className="border p-2">Priority</th>
-            <th className="border p-2">Assignee</th>
-            <th className="border p-2">Status</th>
-            <th className="border p-2">Feedback</th>
-            <th className="border p-2">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {tasks.length > 0 ? (
-            tasks.map((task) => (
-              <tr key={task._id}>
-                <td className="border p-2">{task.taskName}</td>
-                <td className="border p-2">{task.taskDescription}</td>
-                <td className="border p-2">{task.priority}</td>
-                <td className="border p-2">{task.assignTo}</td>
-                <td className="border p-2">{task.status}</td>
-                <td className="border p-2">{task.feedback || "No Feedback"}</td>
-                <td className="border p-2">
-                  {task.status === "Rejected" && (
-                    <button
-                      onClick={() => handleReassign(task._id)}
-                      className="bg-blue-500 text-white p-2 rounded"
-                    >
-                      <MdAssignmentTurnedIn title="Re-Assign" />
-                    </button>
-                  )}
+    <div className="mt-8 px-4 md:px-8">
+      <h3 className="text-xl md:text-2xl font-bold mb-4">Assigned Tasks</h3>
+      <div className="overflow-x-auto">
+        <table className="w-full border-collapse">
+          <thead>
+            <tr>
+              <th className="border p-2 text-xs md:text-sm">Task Name</th>
+              <th className="border p-2 text-xs md:text-sm">Description</th>
+              <th className="border p-2 text-xs md:text-sm">Priority</th>
+              <th className="border p-2 text-xs md:text-sm">Assignee</th>
+              <th className="border p-2 text-xs md:text-sm">Status</th>
+              <th className="border p-2 text-xs md:text-sm">Feedback</th>
+              <th className="border p-2 text-xs md:text-sm">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {tasks.length > 0 ? (
+              tasks.map((task) => (
+                <tr key={task._id}>
+                  <td className="border p-2 text-xs md:text-sm">
+                    {task.taskName}
+                  </td>
+                  <td className="border p-2 text-xs md:text-sm">
+                    {task.taskDescription}
+                  </td>
+                  <td className="border p-2 text-xs md:text-sm">
+                    {task.priority}
+                  </td>
+                  <td className="border p-2 text-xs md:text-sm">
+                    {task.assignTo}
+                  </td>
+                  <td className="border p-2 text-xs md:text-sm">
+                    {task.status}
+                  </td>
+                  <td className="border p-2 text-xs md:text-sm">
+                    {task.feedback || "No Feedback"}
+                  </td>
+                  <td className="border p-2 text-xs md:text-sm">
+                    {task.status === "Rejected" && (
+                      <button
+                        onClick={() => handleReassign(task._id)}
+                        className="bg-blue-500 text-white p-1 md:p-2 rounded"
+                      >
+                        <MdAssignmentTurnedIn title="Re-Assign" />
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="7" className="text-center p-2 text-xs md:text-sm">
+                  No tasks found
                 </td>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="7" className="text-center p-2">
-                No tasks found
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
