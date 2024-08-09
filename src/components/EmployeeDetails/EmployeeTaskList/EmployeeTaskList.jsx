@@ -45,7 +45,7 @@ const EmployeeTaskList = ({ employee }) => {
       showCancelButton: true,
       inputValue: currentStatus,
     });
-  
+
     if (status) {
       let feedback = null;
       if (status === "Rejected") {
@@ -55,7 +55,7 @@ const EmployeeTaskList = ({ employee }) => {
           inputPlaceholder: "Enter your comment here...",
           showCancelButton: true,
         });
-  
+
         if (comment) {
           feedback = comment;
         } else {
@@ -64,7 +64,7 @@ const EmployeeTaskList = ({ employee }) => {
           return;
         }
       }
-  
+
       try {
         await axios.patch(
           `https://main-server-2kc5.onrender.com/api/tasks/${taskId}/status`,
@@ -81,7 +81,7 @@ const EmployeeTaskList = ({ employee }) => {
       setUpdatingTask(null);
     }
   };
-  
+
   const handlePreviousPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
@@ -111,6 +111,7 @@ const EmployeeTaskList = ({ employee }) => {
             <th className="border p-2">Priority</th>
             <th className="border p-2">Assignee By</th>
             <th className="border p-2">Status</th>
+            <th className="border p-2">Feedback</th>
             <th className="border p-2">Actions</th>
           </tr>
         </thead>
@@ -122,6 +123,7 @@ const EmployeeTaskList = ({ employee }) => {
               <td className="border p-2">{task.priority}</td>
               <td className="border p-2">{task.appointedBy}</td>
               <td className="border p-2">{task.status}</td>
+              <td className="border p-2">{task.feedback}</td>
               <td className="border p-2 align-middle">
                 <button
                   onClick={() => handleChangeStatus(task._id, task.status)}

@@ -5,6 +5,7 @@ import axios from "axios";
 import EmployeeInfo from "./EmployeeInfo/EmployeeInfo";
 import QRCodeDisplay from "./QRCodeDisplay/QRCodeDisplay";
 import EmployeeTaskList from "./EmployeeTaskList/EmployeeTaskList";
+import GivenTaskStatus from "./GivenTaskStatus/GivenTaskStatus"; // Import GivenTaskStatus
 
 const EmployeeDetails = () => {
   const location = useLocation();
@@ -67,6 +68,9 @@ const EmployeeDetails = () => {
         <QRCodeDisplay employee={employee} />
       </div>
       <EmployeeTaskList employee={employee} />
+
+      <GivenTaskStatus employee={employee} />
+
       <div className="mt-8 flex justify-between">
         <button
           onClick={handleBack}
