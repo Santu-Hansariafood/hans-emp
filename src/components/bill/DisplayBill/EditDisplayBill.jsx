@@ -153,7 +153,7 @@ const EditDisplayBill = () => {
             </td>
             <td className="border border-gray-400 p-2">
               <p>
-                <strong>Date:</strong> {new Date().toLocaleDateString()}
+                <strong>Date:</strong> {billData.date}
               </p>
               <p>
                 <strong>Bill No:</strong>{" "}

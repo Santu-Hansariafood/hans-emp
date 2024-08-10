@@ -83,6 +83,7 @@ const BillList = () => {
 
   const handleGenerateExcel = () => {
     const headers = [
+      "Date",
       "Bill No",
       "Lorry Number",
       "Farmer Name",
@@ -108,6 +109,7 @@ const BillList = () => {
     ];
 
     const data = bills.map((bill) => [
+      bill.date,
       bill.billNumber,
       bill.lorryNumber,
       bill.farmerName,
@@ -174,22 +176,26 @@ const BillList = () => {
         <table className="table-auto w-full">
           <thead>
             <tr className="bg-gradient-to-r from-green-400 to-yellow-500 text-white">
+              <th className="border p-2">Date</th>
               <th className="border p-2">Bill No</th>
               <th className="border p-2">Lorry Number</th>
               <th className="border p-2">Farmer Name</th>
               <th className="border p-2">Mobile Number</th>
               <th className="border p-2">Payable Amount</th>
+              <th className="border p-2">Godown Name</th>
               <th className="border p-2">Actions</th>
             </tr>
           </thead>
           <tbody>
             {currentBills.map((bill) => (
               <tr key={bill._id}>
+                <td className="border p-2">{bill.date}</td>
                 <td className="border p-2">{bill.billNumber}</td>
                 <td className="border p-2">{bill.lorryNumber}</td>
                 <td className="border p-2">{bill.farmerName}</td>
                 <td className="border p-2">{bill.mobileNumber}</td>
                 <td className="border p-2">{bill.payableAmount}</td>
+                <td className="border p-2">{bill.selectedGodownName}</td>
                 <td className="border p-2">
                   <div className="flex space-x-2">
                     <Link

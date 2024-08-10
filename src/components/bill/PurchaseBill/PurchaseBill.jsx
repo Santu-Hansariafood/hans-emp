@@ -82,6 +82,7 @@ const PurchaseBill = () => {
   ]);
   const [farmerData, setFarmerData] = useState({});
   const [selectedGodown, setSelectedGodown] = useState("");
+  const [purchaseDate, setPurchaseDate] = useState("");
 
   useEffect(() => {
     const fetchFarmerData = async () => {
@@ -139,8 +140,18 @@ const PurchaseBill = () => {
     }
   }, [qualityParams, paymentWeight, rate, totalUnloadingCost, bagPrice]);
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const formattedDate = formatDate(purchaseDate);
 
     const billData = {
       lorryNumber,
@@ -172,6 +183,7 @@ const PurchaseBill = () => {
       totalUnloadingCost,
       company,
       selectedGodown,
+      date: formattedDate,
     };
 
     console.log("Bill Data:", JSON.stringify(billData, null, 2));
@@ -211,6 +223,18 @@ const PurchaseBill = () => {
           company={company}
           setCompany={setCompany}
         />
+        <div className="mt-4">
+          <label className="block text-sm font-medium text-gray-700">
+            Purchase Date:
+          </label>
+          <input
+            type="date"
+            value={purchaseDate}
+            onChange={(e) => setPurchaseDate(e.target.value)}
+            required
+            className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+          />
+        </div>
         <WeightDetails
           totalBag={totalBag}
           setTotalBag={setTotalBag}
