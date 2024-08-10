@@ -135,6 +135,7 @@ const TaskList = () => {
               <th className="border p-2">Status</th>
               <th className="border p-2">Feedback</th>
               <th className="border p-2">Appointed By</th>
+              <th className="border p-2">Date and Time</th>
               <th className="border p-2">Actions</th>
             </tr>
           </thead>
@@ -148,6 +149,7 @@ const TaskList = () => {
                 <td className="border p-2">{task.status}</td>
                 <td className="border p-2">{task.feedback}</td>
                 <td className="border p-2">{task.appointedBy}</td>
+                <td className="border p-2">{task.creationDateTime}</td>
                 <td className="border p-2">
                   <div className="flex space-x-2">
                     <button
