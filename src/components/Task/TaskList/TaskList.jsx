@@ -8,11 +8,14 @@ import { MdOutlineTaskAlt } from "react-icons/md";
 
 const TaskList = () => {
   const [tasks, setTasks] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [tasksPerPage] = useState(10);
+  const [selectedStatuses, setSelectedStatuses] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchTasks();
-  }, []);
+  }, [currentPage, selectedStatuses]);
 
   const fetchTasks = async () => {
     try {
@@ -20,7 +23,13 @@ const TaskList = () => {
         "https://main-server-2kc5.onrender.com/api/tasks"
       );
       const tasksData = response.data.tasks || [];
-      setTasks(tasksData);
+
+      // Filter tasks based on selected statuses
+      const filteredTasks = tasksData.filter((task) =>
+        selectedStatuses.length ? selectedStatuses.includes(task.status) : true
+      );
+
+      setTasks(filteredTasks);
     } catch (error) {
       console.error("Error fetching tasks:", error);
       setTasks([]);
@@ -121,10 +130,44 @@ const TaskList = () => {
     XLSX.writeFile(wb, "Tasks.xlsx");
   };
 
+  const handleStatusFilterChange = (status) => {
+    setSelectedStatuses((prevStatuses) =>
+      prevStatuses.includes(status)
+        ? prevStatuses.filter((s) => s !== status)
+        : [...prevStatuses, status]
+    );
+  };
+
+  const indexOfLastTask = currentPage * tasksPerPage;
+  const indexOfFirstTask = indexOfLastTask - tasksPerPage;
+  const currentTasks = tasks.slice(indexOfFirstTask, indexOfLastTask);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <div className="container mx-auto p-4">
       <div className="bg-white p-4 rounded shadow">
-        <h2 className="text-2xl font-semibold mb-4">Tasks</h2>
+        <h2 className="text-2xl font-semibold mb-4 text-center">Tasks List</h2>
+        <div className="mb-4">
+          <h3 className="text-xl mb-2">Filter by Status:</h3>
+          <div className="flex space-x-4">
+            {["Assigned", "Pending", "Accepted", "Complete", "Rejected"].map(
+              (status) => (
+                <label key={status} className="flex items-center">
+                  <input
+                    type="checkbox"
+                    value={status}
+                    checked={selectedStatuses.includes(status)}
+                    onChange={() => handleStatusFilterChange(status)}
+                    className="mr-2"
+                  />
+                  {status}
+                </label>
+              )
+            )}
+          </div>
+        </div>
+
         <table className="w-full border-collapse">
           <thead>
             <tr>
@@ -140,7 +183,7 @@ const TaskList = () => {
             </tr>
           </thead>
           <tbody>
-            {tasks.map((task) => (
+            {currentTasks.map((task) => (
               <tr key={task._id}>
                 <td className="border p-2">{task.taskName}</td>
                 <td className="border p-2">{task.taskDescription}</td>
@@ -176,7 +219,29 @@ const TaskList = () => {
             ))}
           </tbody>
         </table>
+
+        <div className="flex justify-between mt-4">
+          {/* Pagination controls */}
+          <div className="pagination">
+            {[...Array(Math.ceil(tasks.length / tasksPerPage)).keys()].map(
+              (number) => (
+                <button
+                  key={number + 1}
+                  onClick={() => paginate(number + 1)}
+                  className={`${
+                    currentPage === number + 1
+                      ? "bg-blue-500 text-white"
+                      : "bg-gray-200 text-black"
+                  } px-3 py-1 mx-1 rounded`}
+                >
+                  {number + 1}
+                </button>
+              )
+            )}
+          </div>
+        </div>
       </div>
+
       <div className="flex space-x-4 mb-4 pt-4">
         <button
           className="mb-4 p-2 bg-gray-500 text-white rounded"

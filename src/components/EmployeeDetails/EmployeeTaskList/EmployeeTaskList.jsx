@@ -9,22 +9,23 @@ const EmployeeTaskList = ({ employee }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [updatingTask, setUpdatingTask] = useState(null);
+  const itemsPerPage = 10;
 
   useEffect(() => {
     fetchTasks();
-  }, [currentPage]);
+  }, []);
 
   const fetchTasks = async () => {
     try {
       const response = await axios.get(
-        `https://main-server-2kc5.onrender.com/api/tasks?page=${currentPage}&limit=10`
+        `https://main-server-2kc5.onrender.com/api/tasks`
       );
       const employeeFullName = `${employee.firstname} ${employee.lastname}`;
       const employeeTasks = response.data.tasks.filter(
         (task) => task.assignTo === employeeFullName
       );
       setTasks(employeeTasks);
-      setTotalPages(response.data.totalPages);
+      setTotalPages(Math.ceil(employeeTasks.length / itemsPerPage));
     } catch (error) {
       Swal.fire("Error", "Failed to fetch tasks", "error");
     }
@@ -94,6 +95,11 @@ const EmployeeTaskList = ({ employee }) => {
     }
   };
 
+  const currentTasks = tasks.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   if (tasks.length === 0) {
     return (
       <p className="text-red-500 italic">No tasks assigned to this employee.</p>
@@ -117,7 +123,7 @@ const EmployeeTaskList = ({ employee }) => {
             </tr>
           </thead>
           <tbody>
-            {tasks.map((task) => (
+            {currentTasks.map((task) => (
               <tr key={task._id}>
                 <td className="border p-2">{task.taskName}</td>
                 <td className="border p-2">{task.taskDescription}</td>
