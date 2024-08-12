@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
 const TaskManager = () => {
-  const [setTasks] = useState([]);
+  const [tasks, setTasks] = useState([]);
   const [employees, setEmployees] = useState([]);
   const [taskName, setTaskName] = useState("");
   const [taskDescription, setTaskDescription] = useState("");
@@ -50,18 +50,20 @@ const TaskManager = () => {
         assignTo,
         priority,
         appointedBy,
-        creationDateTime,
+        creationDateTime: new Date().toISOString(),
       };
-      await axios.post(
+      const response = await axios.post(
         "https://main-server-2kc5.onrender.com/api/tasks",
         newTask
       );
+      console.log("Task Created:", response.data);
       fetchTasks();
       Swal.fire({
         icon: "success",
         title: "Task Created",
         text: "Task created successfully!",
       });
+      // Reset form
       setTaskName("");
       setTaskDescription("");
       setAssignTo("");
@@ -69,6 +71,7 @@ const TaskManager = () => {
       setAppointedBy("");
       setCreationDateTime(new Date().toLocaleString());
     } catch (error) {
+      console.error("Error Creating Task:", error);
       Swal.fire({
         icon: "error",
         title: "Error",
@@ -76,6 +79,7 @@ const TaskManager = () => {
       });
     }
   };
+  
 
   return (
     <div className="container mx-auto p-4 max-w-4xl mt-10 rounded-lg shadow-lg bg-gradient-to-r from-green-200 via-yellow-100 to-green-200">
