@@ -208,24 +208,26 @@ const FarmerTable = () => {
                 <td className="py-2 px-4">{farmer.state}</td>
                 <td className="py-2 px-4">{farmer.mobile}</td>
                 <td className="py-2 px-4">
-                  <button
-                    onClick={() => handleView(farmer)}
-                    className="bg-blue-500 text-white px-2 py-1 mr-2 rounded"
-                  >
-                    <FaRegEye title="View" />
-                  </button>
-                  <button
-                    onClick={() => handleEdit(farmer)}
-                    className="bg-yellow-500 text-white px-2 py-1 mr-2 rounded"
-                  >
-                    <FaEdit title="Edit" />
-                  </button>
-                  <button
-                    onClick={() => handleDelete(farmer._id)}
-                    className="bg-red-500 text-white px-2 py-1 rounded"
-                  >
-                    <MdDeleteForever title="Delete" />
-                  </button>
+                  <div className="flex justify-center space-x-2">
+                    <button
+                      onClick={() => handleView(farmer)}
+                      className="bg-blue-500 text-white px-2 py-1 rounded"
+                    >
+                      <FaRegEye title="View" />
+                    </button>
+                    <button
+                      onClick={() => handleEdit(farmer)}
+                      className="bg-yellow-500 text-white px-2 py-1 rounded"
+                    >
+                      <FaEdit title="Edit" />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(farmer._id)}
+                      className="bg-red-500 text-white px-2 py-1 rounded"
+                    >
+                      <MdDeleteForever title="Delete" />
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}
