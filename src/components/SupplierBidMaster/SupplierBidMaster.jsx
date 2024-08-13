@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import { FaEye, FaEdit } from "react-icons/fa";
+import { FaEye, FaEdit, FaHome } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 
 const SupplierBidMaster = () => {
@@ -37,15 +37,33 @@ const SupplierBidMaster = () => {
       title: "Bid Details",
       html: `
         <table class="table-auto w-full text-left">
-          <tr><th class="border px-4 py-2">Godown</th><td class="border px-4 py-2">${bid.godown.name}</td></tr>
-          <tr><th class="border px-4 py-2">Quantity</th><td class="border px-4 py-2">${bid.quantity}</td></tr>
-          <tr><th class="border px-4 py-2">Unit</th><td class="border px-4 py-2">${bid.unit}</td></tr>
-          <tr><th class="border px-4 py-2">Rate</th><td class="border px-4 py-2">${bid.rateForBid}</td></tr>
-          <tr><th class="border px-4 py-2">Date</th><td class="border px-4 py-2">${new Date(bid.date).toLocaleDateString()}</td></tr>
-          <tr><th class="border px-4 py-2">Start Time</th><td class="border px-4 py-2">${bid.startTime}</td></tr>
-          <tr><th class="border px-4 py-2">End Time</th><td class="border px-4 py-2">${bid.endTime}</td></tr>
-          <tr><th class="border px-4 py-2">Payment Terms</th><td class="border px-4 py-2">${bid.paymentTerms}</td></tr>
-          <tr><th class="border px-4 py-2">Delivery</th><td class="border px-4 py-2">${bid.delivery}</td></tr>
+          <tr><th class="border px-4 py-2">Godown</th><td class="border px-4 py-2">${
+            bid.godown?.name || "N/A"
+          }</td></tr>
+          <tr><th class="border px-4 py-2">Quantity</th><td class="border px-4 py-2">${
+            bid.quantity
+          }</td></tr>
+          <tr><th class="border px-4 py-2">Unit</th><td class="border px-4 py-2">${
+            bid.unit
+          }</td></tr>
+          <tr><th class="border px-4 py-2">Rate</th><td class="border px-4 py-2">${
+            bid.rateForBid
+          }</td></tr>
+          <tr><th class="border px-4 py-2">Date</th><td class="border px-4 py-2">${new Date(
+            bid.date
+          ).toLocaleDateString()}</td></tr>
+          <tr><th class="border px-4 py-2">Start Time</th><td class="border px-4 py-2">${
+            bid.startTime
+          }</td></tr>
+          <tr><th class="border px-4 py-2">End Time</th><td class="border px-4 py-2">${
+            bid.endTime
+          }</td></tr>
+          <tr><th class="border px-4 py-2">Payment Terms</th><td class="border px-4 py-2">${
+            bid.paymentTerms
+          }</td></tr>
+          <tr><th class="border px-4 py-2">Delivery</th><td class="border px-4 py-2">${
+            bid.delivery
+          }</td></tr>
         </table>
       `,
       icon: "info",
@@ -64,7 +82,9 @@ const SupplierBidMaster = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`https://main-server-2kc5.onrender.com/api/bidsSupplier/${bidId}`)
+          .delete(
+            `https://main-server-2kc5.onrender.com/api/bidsSupplier/${bidId}`
+          )
           .then(() => {
             Swal.fire("Deleted!", "The bid has been deleted.", "success");
             fetchBids();
@@ -110,7 +130,9 @@ const SupplierBidMaster = () => {
           <tbody>
             {currentBids.map((bid) => (
               <tr key={bid._id}>
-                <td className="border px-4 py-2">{bid.godown.name}</td>
+                <td className="border px-4 py-2">
+                  {bid.godown?.name || "N/A"}
+                </td>
                 <td className="border px-4 py-2">{bid.quantity}</td>
                 <td className="border px-4 py-2">{bid.unit}</td>
                 <td className="border px-4 py-2">{bid.rateForBid}</td>
@@ -176,12 +198,16 @@ const SupplierBidMaster = () => {
           Next
         </button>
       </div>
-      <div className="mt-4">
+      <div className="mt-4 flex items-center space-x-4">
         <button
           className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-700 transition duration-300"
           onClick={() => navigate(-1)}
         >
           Back
+        </button>
+
+        <button onClick={() => navigate("/work-details")}>
+          <FaHome title="Back to dashboard" />
         </button>
       </div>
     </div>
