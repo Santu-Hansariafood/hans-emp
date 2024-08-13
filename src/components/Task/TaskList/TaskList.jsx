@@ -3,7 +3,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import * as XLSX from "xlsx";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaEdit, FaTrash, FaHome } from "react-icons/fa";
 import { MdOutlineTaskAlt } from "react-icons/md";
 
 const TaskList = () => {
@@ -24,7 +24,6 @@ const TaskList = () => {
       );
       const tasksData = response.data.tasks || [];
 
-      // Filter tasks based on selected statuses
       const filteredTasks = tasksData.filter((task) =>
         selectedStatuses.length ? selectedStatuses.includes(task.status) : true
       );
@@ -243,6 +242,14 @@ const TaskList = () => {
       </div>
 
       <div className="flex space-x-4 mb-4 pt-4">
+      <button
+            type="button"
+            onClick={() => navigate("/work-details")}
+            className="mb-4 p-2 bg-green-500 text-white rounded"
+          >
+            <FaHome title="Back to dashboard" />
+          </button>
+
         <button
           className="mb-4 p-2 bg-gray-500 text-white rounded"
           onClick={() => navigate(-1)}

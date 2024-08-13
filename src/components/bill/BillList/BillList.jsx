@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { FaRegEye, FaEdit, FaTrash } from "react-icons/fa";
+import { FaRegEye, FaEdit, FaTrash, FaHome } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import * as XLSX from "xlsx";
@@ -20,8 +20,8 @@ const BillList = () => {
       .get("https://main-server-2kc5.onrender.com/api/bills")
       .then((response) => {
         const sortedBills = response.data.sort((a, b) => {
-          const aNumber = parseInt(a.billNumber.split('/')[1]);
-          const bNumber = parseInt(b.billNumber.split('/')[1]);
+          const aNumber = parseInt(a.billNumber.split("/")[1]);
+          const bNumber = parseInt(b.billNumber.split("/")[1]);
           return bNumber - aNumber;
         });
         setBills(sortedBills);
@@ -68,10 +68,16 @@ const BillList = () => {
           .then((response) => {
             Swal.fire("Deleted!", "Your file has been deleted.", "success");
             setBills(bills.filter((bill) => bill._id !== billId));
-            setFilteredBills(filteredBills.filter((bill) => bill._id !== billId));
+            setFilteredBills(
+              filteredBills.filter((bill) => bill._id !== billId)
+            );
           })
           .catch((error) => {
-            Swal.fire("Error!", "There was an error deleting the bill.", "error");
+            Swal.fire(
+              "Error!",
+              "There was an error deleting the bill.",
+              "error"
+            );
           });
       }
     });
@@ -243,6 +249,13 @@ const BillList = () => {
         ))}
       </div>
       <div className="flex justify-between mt-4">
+        <button
+          type="button"
+          onClick={() => navigate("/work-details")}
+          className="py-4 px-2 bg-green-500 text-white rounded"
+        >
+          <FaHome title="Back to dashboard" />
+        </button>
         <button
           className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
           onClick={handleBack}

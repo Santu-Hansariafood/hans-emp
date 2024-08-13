@@ -7,6 +7,7 @@ import QualityDetails from "./QualityDetails";
 import CostDetails from "./CostDetails";
 import FarmerDetails from "./FarmerDetails";
 import axios from "axios";
+import { FaHome } from "react-icons/fa";
 
 const PurchaseBill = () => {
   const location = useLocation();
@@ -274,6 +275,14 @@ const PurchaseBill = () => {
         />
         <FarmerDetails farmerData={farmerData} />
         <div className="flex justify-end mt-4">
+          <button
+            type="button"
+            onClick={() => navigate("/work-details")}
+            className="mr-2 px-4 py-2 bg-green-500 text-white rounded"
+          >
+            <FaHome title="Back to dashboard" />
+          </button>
+
           <button
             type="button"
             onClick={handleBack}

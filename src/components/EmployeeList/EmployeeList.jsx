@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import EmployeeTable from "./EmployeeTable/EmployeeTable";
 import Pagination from "./Pagination/Pagination";
 import SearchBar from "./SearchBar/SearchBar";
+import {FaHome } from "react-icons/fa"
 
 const EmployeeList = () => {
   const [employees, setEmployees] = useState([]);
@@ -165,6 +166,13 @@ const EmployeeList = () => {
         isNextDisabled={currentPage * pageSize >= filteredEmployees.length}
       />
       <div className="flex justify-between items-center mt-4">
+      <button
+            type="button"
+            onClick={() => navigate("/work-details")}
+            className="px-4 py-2 bg-green-500 text-white rounded"
+          >
+            <FaHome title="Back to dashboard" />
+          </button>
         <button
           onClick={() => navigate(-1)}
           className="bg-gray-500 text-white px-4 py-2 rounded"
