@@ -30,6 +30,8 @@ const WorkDetails = ({ user, userRole }) => {
     { id: "product-master", label: "Product Master", checked: false },
     { id: "add-self-company", label: "Add Self Company", checked: false },
     { id: "self-company-master", label: "Self Company Master", checked: false },
+    {id:"farmer-data-input",label:"Farmer Data Input", checked:false},
+    {id:"farmer-data-input-list",label:"Farmer Data List", checked:false},
   ]);
 
   const handleBack = () => {
@@ -139,6 +141,12 @@ const WorkDetails = ({ user, userRole }) => {
         break;
       case "self-company-master":
         nextRoute = "/self-company-master";
+        break;
+      case "farmer-data-input":
+        nextRoute = "/farmer-data-input";
+        break;
+      case "farmer-data-input-list":
+        nextRoute = "/farmer-data-input-list";
         break;
       default:
         return;

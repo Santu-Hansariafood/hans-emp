@@ -9,6 +9,8 @@ import ProductMaster from "./components/Products/ProductMaster/ProductMaster";
 import AddSelfCompany from "./components/SelfCompany/AddSelfCompany/AddSelfCompany";
 import SelfCompanyMaster from "./components/SelfCompany/SelfCompanyMaster/SelfCompanyMaster";
 import BidBuyerMaster from "./components/Bid/BidBuyerMaster/BidBuyerMaster";
+import FarmerDataInput from "./components/FarmerDataInput/FarmerDataInput";
+import FarmerDataTable from "./components/FarmerDataTable/FarmerDataTable";
 
 const TaskList =lazy(()=>import("./components/Task/TaskList/TaskList"));
 const TaskManager =lazy(()=>import("./components/Task/TaskManager/TaskManager"));
@@ -147,6 +149,8 @@ const App = () => {
           <Route path="/bid-for-buyer-master" element={<ProtectedRoute element={<BidBuyerMaster/>} roles={["admin","manager","back"]}/>}/>
           <Route path="/task-manager" element={<ProtectedRoute element={<TaskManager/>} roles={["admin","manager","back"]}/>}/>
           <Route path="/task-list" element={<ProtectedRoute element={<TaskList/>} roles={["admin","manager","back"]}/>}/>
+          <Route path="/farmer-data-input" element={<ProtectedRoute element={<FarmerDataInput/>} roles={["admin"]}/>}/>
+          <Route path="/farmer-data-input-list" element={<ProtectedRoute element={<FarmerDataTable/>} roles={["admin"]}/>}/>
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
