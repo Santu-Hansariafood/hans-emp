@@ -187,7 +187,6 @@ function RiceMillForm() {
                 value={formData.email}
                 onChange={handleChange}
                 className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                required
               />
             </div>
           </div>
