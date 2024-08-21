@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import stateData from "../../../data/state.json";
+import { useNavigate } from "react-router-dom";
 
 function RiceMillForm() {
   const [formData, setFormData] = useState({
@@ -15,6 +16,8 @@ function RiceMillForm() {
     phoneNumber: "",
     email: "",
   });
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({
@@ -195,6 +198,7 @@ function RiceMillForm() {
             <button
               type="button"
               className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600"
+              onClick={() => navigate(-1)} 
             >
               Back
             </button>

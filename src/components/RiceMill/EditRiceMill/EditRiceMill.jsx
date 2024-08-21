@@ -39,7 +39,7 @@ function EditRiceMill() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:5000/api/rice-mills/${id}`, formData);
+      await axios.put(`https://main-server-2kc5.onrender.com/api/rice-mills/${id}`, formData);
       Swal.fire("Success", "Rice mill details updated successfully", "success");
       navigate(-1);
     } catch (error) {
@@ -119,6 +119,8 @@ function EditRiceMill() {
             onChange={handleChange}
             className="w-full p-2 border border-gray-300 rounded"
             required
+            maxLength={6}
+            minLength={6}
           />
         </div>
         <div className="mb-4">
@@ -141,6 +143,8 @@ function EditRiceMill() {
             onChange={handleChange}
             className="w-full p-2 border border-gray-300 rounded"
             required
+            maxLength={10}
+            minLength={10}
           />
         </div>
         <div className="mb-4">
@@ -151,7 +155,6 @@ function EditRiceMill() {
             value={formData.email}
             onChange={handleChange}
             className="w-full p-2 border border-gray-300 rounded"
-            required
           />
         </div>
         <div className="flex justify-between">
