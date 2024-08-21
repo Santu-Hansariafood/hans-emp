@@ -21,16 +21,16 @@ const EmployeeTaskList = ({ employee }) => {
         `https://main-server-2kc5.onrender.com/api/tasks`
       );
       const employeeFullName = `${employee.firstname} ${employee.lastname}`;
-      const employeeTasks = response.data.tasks.filter(
-        (task) => task.assignTo === employeeFullName
-      );
+      const employeeTasks = response.data.tasks
+        .filter((task) => task.assignTo === employeeFullName)
+        .filter((task) => task.status !== "Complete"); // Exclude "Complete" tasks
       setTasks(employeeTasks);
       setTotalPages(Math.ceil(employeeTasks.length / itemsPerPage));
     } catch (error) {
       Swal.fire("Error", "Failed to fetch tasks", "error");
     }
   };
-
+  
   const handleChangeStatus = async (taskId, currentStatus) => {
     setUpdatingTask(taskId);
     const { value: status } = await Swal.fire({

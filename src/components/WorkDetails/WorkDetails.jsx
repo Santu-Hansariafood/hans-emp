@@ -30,8 +30,10 @@ const WorkDetails = ({ user, userRole }) => {
     { id: "product-master", label: "Product Master", checked: false },
     { id: "add-self-company", label: "Add Self Company", checked: false },
     { id: "self-company-master", label: "Self Company Master", checked: false },
-    {id:"farmer-data-input",label:"Farmer Data Input", checked:false},
-    {id:"farmer-data-input-list",label:"Farmer Data List", checked:false},
+    { id: "farmer-data-input", label: "Farmer Data Input", checked: false },
+    { id: "farmer-data-input-list", label: "Farmer Data List", checked: false },
+    { id: "rice-mill-register", label: "Ricemill Register", checked: false },
+    { id: "rice-mill-list", label: "Rice Mill List", checked: false },
   ]);
 
   const handleBack = () => {
@@ -147,6 +149,12 @@ const WorkDetails = ({ user, userRole }) => {
         break;
       case "farmer-data-input-list":
         nextRoute = "/farmer-data-input-list";
+        break;
+      case "rice-mill-register":
+        nextRoute = "/rice-mill-register";
+        break;
+      case "rice-mill-list":
+        nextRoute = "/rice-mill-list";
         break;
       default:
         return;

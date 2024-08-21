@@ -11,6 +11,10 @@ import SelfCompanyMaster from "./components/SelfCompany/SelfCompanyMaster/SelfCo
 import BidBuyerMaster from "./components/Bid/BidBuyerMaster/BidBuyerMaster";
 import FarmerDataInput from "./components/FarmerDataInput/FarmerDataInput";
 import FarmerDataTable from "./components/FarmerDataTable/FarmerDataTable";
+import RiceMillForm from "./components/RiceMill/RiceMillForm/RiceMillForm";
+import RiceMillTable from "./components/RiceMill/RiceMillTable/RiceMillTable";
+import ViewRiceMill from "./components/RiceMill/ViewRiceMill/ViewRiceMill";
+import EditRiceMill from "./components/RiceMill/EditRiceMill/EditRiceMill";
 
 const TaskList =lazy(()=>import("./components/Task/TaskList/TaskList"));
 const TaskManager =lazy(()=>import("./components/Task/TaskManager/TaskManager"));
@@ -151,6 +155,10 @@ const App = () => {
           <Route path="/task-list" element={<ProtectedRoute element={<TaskList/>} roles={["admin","manager","back"]}/>}/>
           <Route path="/farmer-data-input" element={<ProtectedRoute element={<FarmerDataInput/>} roles={["admin"]}/>}/>
           <Route path="/farmer-data-input-list" element={<ProtectedRoute element={<FarmerDataTable/>} roles={["admin"]}/>}/>
+          <Route path="/rice-mill-register" element={<ProtectedRoute element={<RiceMillForm/>} roles={["admin"]}/> } />
+          <Route path="/rice-mill-list" element={<ProtectedRoute element={<RiceMillTable/>} roles={["admin"]}/>}/>
+          <Route path="/rice-mills/:id" element={<ProtectedRoute element={<ViewRiceMill/>} roles={["admin"]}/>}/>
+          <Route path="/rice-mills/edit/:id" element={<ProtectedRoute element={<EditRiceMill/>} roles={["admin"]}/> }/>
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
