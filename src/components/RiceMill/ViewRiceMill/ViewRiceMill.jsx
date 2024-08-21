@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
+import Loading from "../../common/Loading/Loading";
 
 function ViewRiceMill() {
   const [riceMill, setRiceMill] = useState(null);
@@ -25,30 +26,79 @@ function ViewRiceMill() {
     navigate(-1);
   };
 
+  const handlePrint = () => {
+    window.print();
+  };
+
   return (
-    <div className="container mx-auto mt-8">
-      <h2 className="text-2xl font-bold mb-4">Rice Mill Details</h2>
-      {riceMill ? (
-        <div className="bg-white shadow-md rounded p-6">
-          <p><strong>Name:</strong> {riceMill.name}</p>
-          <p><strong>Role:</strong> {riceMill.role}</p>
-          <p><strong>Rice Mill Name:</strong> {riceMill.riceMillName}</p>
-          <p><strong>Address:</strong> {riceMill.address}</p>
-          <p><strong>State:</strong> {riceMill.state}</p>
-          <p><strong>Pin:</strong> {riceMill.pin}</p>
-          <p><strong>District:</strong> {riceMill.district}</p>
-          <p><strong>Phone Number:</strong> {riceMill.phoneNumber}</p>
-          <p><strong>Email ID:</strong> {riceMill.email}</p>
-          <button
-            onClick={handleBack}
-            className="mt-4 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
-          >
-            Back
-          </button>
-        </div>
-      ) : (
-        <p>Loading...</p>
-      )}
+    <div 
+      className="min-h-screen bg-cover bg-center bg-no-repeat flex justify-center items-center" 
+      style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1562564055-71e051d94454")' }}
+    >
+      <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-2xl">
+        <h2 className="text-3xl font-bold mb-6 text-center">Rice Mill Details</h2>
+        {riceMill ? (
+          <div>
+            <table className="table-auto w-full mb-6">
+              <tbody>
+                <tr>
+                  <td className="border px-4 py-2 font-semibold">Name</td>
+                  <td className="border px-4 py-2">{riceMill.name}</td>
+                </tr>
+                <tr>
+                  <td className="border px-4 py-2 font-semibold">Role</td>
+                  <td className="border px-4 py-2">{riceMill.role}</td>
+                </tr>
+                <tr>
+                  <td className="border px-4 py-2 font-semibold">Rice Mill Name</td>
+                  <td className="border px-4 py-2">{riceMill.riceMillName}</td>
+                </tr>
+                <tr>
+                  <td className="border px-4 py-2 font-semibold">Address</td>
+                  <td className="border px-4 py-2">{riceMill.address}</td>
+                </tr>
+                <tr>
+                  <td className="border px-4 py-2 font-semibold">State</td>
+                  <td className="border px-4 py-2">{riceMill.state}</td>
+                </tr>
+                <tr>
+                  <td className="border px-4 py-2 font-semibold">Pin</td>
+                  <td className="border px-4 py-2">{riceMill.pin}</td>
+                </tr>
+                <tr>
+                  <td className="border px-4 py-2 font-semibold">District</td>
+                  <td className="border px-4 py-2">{riceMill.district}</td>
+                </tr>
+                <tr>
+                  <td className="border px-4 py-2 font-semibold">Phone Number</td>
+                  <td className="border px-4 py-2">{riceMill.phoneNumber}</td>
+                </tr>
+                <tr>
+                  <td className="border px-4 py-2 font-semibold">Email ID</td>
+                  <td className="border px-4 py-2">{riceMill.email}</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div className="flex justify-between">
+              <button
+                onClick={handleBack}
+                className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+              >
+                Back
+              </button>
+              <button
+                onClick={handlePrint}
+                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+              >
+                Print
+              </button>
+            </div>
+          </div>
+        ) : (
+          <Loading/>
+        )}
+      </div>
     </div>
   );
 }
