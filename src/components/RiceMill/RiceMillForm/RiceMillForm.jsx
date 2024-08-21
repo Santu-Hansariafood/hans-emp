@@ -55,7 +55,6 @@ function RiceMillForm() {
         </h2>
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Name */}
             <div>
               <label className="block text-sm font-medium text-gray-700">
                 Name
@@ -63,14 +62,13 @@ function RiceMillForm() {
               <input
                 type="text"
                 name="name"
+                placeholder="Enter Name"
                 value={formData.name}
                 onChange={handleChange}
                 className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 required
               />
             </div>
-
-            {/* Role */}
             <div>
               <label className="block text-sm font-medium text-gray-700">
                 Role
@@ -85,8 +83,6 @@ function RiceMillForm() {
                 <option value="manager">Manager</option>
               </select>
             </div>
-
-            {/* Rice Mill Name */}
             <div>
               <label className="block text-sm font-medium text-gray-700">
                 Rice Mill Name
@@ -94,14 +90,13 @@ function RiceMillForm() {
               <input
                 type="text"
                 name="riceMillName"
+                placeholder="Enter Rice Mill Name"
                 value={formData.riceMillName}
                 onChange={handleChange}
                 className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 required
               />
             </div>
-
-            {/* Address */}
             <div>
               <label className="block text-sm font-medium text-gray-700">
                 Address
@@ -109,14 +104,13 @@ function RiceMillForm() {
               <input
                 type="text"
                 name="address"
+                placeholder="Enter Address"
                 value={formData.address}
                 onChange={handleChange}
                 className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 required
               />
             </div>
-
-            {/* State */}
             <div>
               <label className="block text-sm font-medium text-gray-700">
                 State
@@ -136,8 +130,6 @@ function RiceMillForm() {
                 ))}
               </select>
             </div>
-
-            {/* Pin */}
             <div>
               <label className="block text-sm font-medium text-gray-700">
                 Pin
@@ -145,14 +137,15 @@ function RiceMillForm() {
               <input
                 type="text"
                 name="pin"
+                placeholder="Enter Pin"
                 value={formData.pin}
                 onChange={handleChange}
                 className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 required
+                maxLength={6}
+                minLength={6}
               />
             </div>
-
-            {/* District */}
             <div>
               <label className="block text-sm font-medium text-gray-700">
                 District
@@ -160,14 +153,13 @@ function RiceMillForm() {
               <input
                 type="text"
                 name="district"
+                placeholder="Enter District"
                 value={formData.district}
                 onChange={handleChange}
                 className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 required
               />
             </div>
-
-            {/* Phone Number */}
             <div>
               <label className="block text-sm font-medium text-gray-700">
                 Phone Number
@@ -175,14 +167,15 @@ function RiceMillForm() {
               <input
                 type="tel"
                 name="phoneNumber"
+                placeholder="Enter Mobile Number"
                 value={formData.phoneNumber}
                 onChange={handleChange}
                 className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 required
+                maxLength={10}
+                minLength={10}
               />
             </div>
-
-            {/* Email ID */}
             <div>
               <label className="block text-sm font-medium text-gray-700">
                 Email ID
@@ -190,6 +183,7 @@ function RiceMillForm() {
               <input
                 type="email"
                 name="email"
+                placeholder="Enter Email"
                 value={formData.email}
                 onChange={handleChange}
                 className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
