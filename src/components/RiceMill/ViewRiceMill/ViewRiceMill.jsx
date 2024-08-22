@@ -36,7 +36,7 @@ function ViewRiceMill() {
       style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1562564055-71e051d94454")' }}
     >
       <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-2xl">
-        <h2 className="text-2xl font-bold mb-4 text-center">{riceMill.riceMillName} Details</h2>
+        <h2 className="text-2xl font-bold mb-4 text-center">Rice Mill Details</h2>
         {riceMill ? (
           <div>
             <table className="table-auto w-full mb-4 text-sm">
@@ -99,7 +99,6 @@ function ViewRiceMill() {
           <Loading/>
         )}
       </div>
-      {/* Print Styles */}
       <style>
         {`
           @media print {
