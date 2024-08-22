@@ -37,7 +37,7 @@ const BuyerList = () => {
   const handleDelete = async (id) => {
     try {
       await axios.delete(`https://main-server-2kc5.onrender.com/api/buyers/${id}`);
-      setBuyers(buyers.filter(buyer => buyer._id !== id));
+      setBuyers(buyers.filter((buyer) => buyer._id !== id));
     } catch (error) {
       console.error("Error deleting buyer:", error);
     }

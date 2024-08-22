@@ -1,11 +1,12 @@
 import React from "react";
 
-const SearchBar = ({ handleSearch }) => {
+const SearchBar = ({ searchTerm, setSearchTerm }) => {
   return (
     <input
       type="text"
+      value={searchTerm}
       placeholder="Search by name or company..."
-      onChange={handleSearch}
+      onChange={(e) => setSearchTerm(e.target.value)}
       className="border rounded px-4 py-2"
     />
   );
