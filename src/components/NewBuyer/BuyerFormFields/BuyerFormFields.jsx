@@ -229,14 +229,14 @@ const BuyerFormFields = ({
           </select>
         </div>
         <div>
-          <label className="block text-gray-700 text-sm font-bold mb-2">City</label>
+          <label className="block text-gray-700 text-sm font-bold mb-2">District</label>
           <select
             name="city"
             value={formData.city}
             onChange={handleChange}
             className="border border-gray-300 rounded px-3 py-2 w-full"
           >
-            <option value="">Select City</option>
+            <option value="">Select District</option>
             {cities.map((city) => (
               <option key={city} value={city}>
                 {city}
