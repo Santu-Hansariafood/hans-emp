@@ -19,21 +19,28 @@ const BuyerList = () => {
 
   const fetchBuyers = async () => {
     try {
-      const response = await axios.get(
-        "https://main-server-2kc5.onrender.com/api/buyers"
-      );
+      const response = await axios.get("https://main-server-2kc5.onrender.com/api/buyers");
       setBuyers(response.data);
     } catch (error) {
       console.error("Error fetching buyers:", error);
     }
   };
 
-  const handlePreviousPage = () => {
-    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  const handleView = (buyer) => {
+    navigate(`/buyer/${buyer._id}`);
   };
 
-  const handleNextPage = () => {
-    if (currentPage * pageSize < buyers.length) setCurrentPage(currentPage + 1);
+  const handleEdit = (buyer) => {
+    navigate(`/edit-buyer/${buyer._id}`);
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`https://main-server-2kc5.onrender.com/api/buyers/${id}`);
+      setBuyers(buyers.filter(buyer => buyer._id !== id));
+    } catch (error) {
+      console.error("Error deleting buyer:", error);
+    }
   };
 
   const handleAddBuyer = () => {
@@ -61,14 +68,18 @@ const BuyerList = () => {
           Add Buyer
         </button>
       </div>
-      <BuyerTable buyers={paginatedBuyers} />
+      <BuyerTable
+        buyers={paginatedBuyers}
+        handleView={handleView}
+        handleEdit={handleEdit}
+        handleDelete={handleDelete}
+      />
       <Pagination
         currentPage={currentPage}
         totalItems={filteredBuyers.length}
         pageSize={pageSize}
-        handlePreviousPage={handlePreviousPage}
-        handleNextPage={handleNextPage}
-        navigate={navigate}
+        handlePreviousPage={() => setCurrentPage(currentPage - 1)}
+        handleNextPage={() => setCurrentPage(currentPage + 1)}
       />
     </div>
   );
