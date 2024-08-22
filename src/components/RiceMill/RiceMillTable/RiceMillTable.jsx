@@ -9,6 +9,7 @@ function RiceMillTable() {
   const [riceMills, setRiceMills] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
+  const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -63,7 +64,17 @@ function RiceMillTable() {
   };
 
   const handleGenerateExcel = () => {
-    const worksheet = XLSX.utils.json_to_sheet(riceMills);
+    const millsForExcel = riceMills.map((mill, index) => ({
+      ID: index + 1,
+      Name: mill.name,
+      Role: mill.role,
+      "Rice Mill Name": mill.riceMillName,
+      State: mill.state,
+      District: mill.district,
+      "Phone Number": mill.phoneNumber,
+      "Email ID": mill.email,
+    }));
+    const worksheet = XLSX.utils.json_to_sheet(millsForExcel);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Rice Mills");
     XLSX.writeFile(workbook, "RiceMills.xlsx");
@@ -72,8 +83,14 @@ function RiceMillTable() {
   // Pagination logic
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = riceMills.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(riceMills.length / itemsPerPage);
+  const filteredRiceMills = riceMills.filter((mill) =>
+    mill.riceMillName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  const currentItems = filteredRiceMills.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
+  const totalPages = Math.ceil(filteredRiceMills.length / itemsPerPage);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -98,10 +115,21 @@ function RiceMillTable() {
           </button>
         </div>
 
+        <div className="mb-4">
+          <input
+            type="text"
+            placeholder="Search by Rice Mill Name"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full px-4 py-2 border border-gray-300 rounded"
+          />
+        </div>
+
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white border border-gray-300 rounded-lg">
             <thead className="bg-gray-100">
               <tr>
+                <th className="px-3 py-4 border border-gray-300">ID</th>
                 <th className="py-3 px-4 border border-gray-300">Name</th>
                 <th className="py-3 px-4 border border-gray-300">Role</th>
                 <th className="py-3 px-4 border border-gray-300">
@@ -117,8 +145,11 @@ function RiceMillTable() {
               </tr>
             </thead>
             <tbody>
-              {currentItems.map((mill) => (
+              {currentItems.map((mill, index) => (
                 <tr key={mill._id} className="hover:bg-gray-100">
+                  <td className="py-2 px-4 border border-gray-300">
+                    {indexOfFirstItem + index + 1}
+                  </td>
                   <td className="py-2 px-4 border border-gray-300">
                     {mill.name}
                   </td>

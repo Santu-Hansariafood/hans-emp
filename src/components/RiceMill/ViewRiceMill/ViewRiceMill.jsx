@@ -35,47 +35,47 @@ function ViewRiceMill() {
       className="min-h-screen bg-cover bg-center bg-no-repeat flex justify-center items-center" 
       style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1562564055-71e051d94454")' }}
     >
-      <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-2xl">
-        <h2 className="text-3xl font-bold mb-6 text-center">Rice Mill Details</h2>
+      <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-2xl">
+        <h2 className="text-2xl font-bold mb-4 text-center">{riceMill.riceMillName} Details</h2>
         {riceMill ? (
           <div>
-            <table className="table-auto w-full mb-6">
+            <table className="table-auto w-full mb-4 text-sm">
               <tbody>
                 <tr>
-                  <td className="border px-4 py-2 font-semibold">Name</td>
-                  <td className="border px-4 py-2">{riceMill.name}</td>
+                  <td className="border px-3 py-1 font-semibold">Name</td>
+                  <td className="border px-3 py-1">{riceMill.name}</td>
                 </tr>
                 <tr>
-                  <td className="border px-4 py-2 font-semibold">Role</td>
-                  <td className="border px-4 py-2">{riceMill.role}</td>
+                  <td className="border px-3 py-1 font-semibold">Role</td>
+                  <td className="border px-3 py-1">{riceMill.role}</td>
                 </tr>
                 <tr>
-                  <td className="border px-4 py-2 font-semibold">Rice Mill Name</td>
-                  <td className="border px-4 py-2">{riceMill.riceMillName}</td>
+                  <td className="border px-3 py-1 font-semibold">Rice Mill Name</td>
+                  <td className="border px-3 py-1">{riceMill.riceMillName}</td>
                 </tr>
                 <tr>
-                  <td className="border px-4 py-2 font-semibold">Address</td>
-                  <td className="border px-4 py-2">{riceMill.address}</td>
+                  <td className="border px-3 py-1 font-semibold">Address</td>
+                  <td className="border px-3 py-1">{riceMill.address}</td>
                 </tr>
                 <tr>
-                  <td className="border px-4 py-2 font-semibold">State</td>
-                  <td className="border px-4 py-2">{riceMill.state}</td>
+                  <td className="border px-3 py-1 font-semibold">State</td>
+                  <td className="border px-3 py-1">{riceMill.state}</td>
                 </tr>
                 <tr>
-                  <td className="border px-4 py-2 font-semibold">Pin</td>
-                  <td className="border px-4 py-2">{riceMill.pin}</td>
+                  <td className="border px-3 py-1 font-semibold">Pin</td>
+                  <td className="border px-3 py-1">{riceMill.pin}</td>
                 </tr>
                 <tr>
-                  <td className="border px-4 py-2 font-semibold">District</td>
-                  <td className="border px-4 py-2">{riceMill.district}</td>
+                  <td className="border px-3 py-1 font-semibold">District</td>
+                  <td className="border px-3 py-1">{riceMill.district}</td>
                 </tr>
                 <tr>
-                  <td className="border px-4 py-2 font-semibold">Phone Number</td>
-                  <td className="border px-4 py-2">{riceMill.phoneNumber}</td>
+                  <td className="border px-3 py-1 font-semibold">Phone Number</td>
+                  <td className="border px-3 py-1">{riceMill.phoneNumber}</td>
                 </tr>
                 <tr>
-                  <td className="border px-4 py-2 font-semibold">Email ID</td>
-                  <td className="border px-4 py-2">{riceMill.email}</td>
+                  <td className="border px-3 py-1 font-semibold">Email ID</td>
+                  <td className="border px-3 py-1">{riceMill.email}</td>
                 </tr>
               </tbody>
             </table>
@@ -83,13 +83,13 @@ function ViewRiceMill() {
             <div className="flex justify-between">
               <button
                 onClick={handleBack}
-                className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+                className="bg-gray-500 text-white px-3 py-1 rounded hover:bg-gray-600"
               >
                 Back
               </button>
               <button
                 onClick={handlePrint}
-                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
               >
                 Print
               </button>
@@ -99,6 +99,48 @@ function ViewRiceMill() {
           <Loading/>
         )}
       </div>
+      {/* Print Styles */}
+      <style>
+        {`
+          @media print {
+            body * {
+              visibility: hidden;
+            }
+            .bg-white, .bg-white * {
+              visibility: visible;
+            }
+            .bg-white {
+              position: absolute;
+              left: 0;
+              top: 0;
+              width: 100%;
+              padding: 10px;
+              margin: 0;
+              box-shadow: none;
+              background: white;
+              font-size: 10px;
+              line-height: 1.2;
+            }
+            table, th, td {
+              font-size: 10px;
+              border: 1px solid black;
+              padding: 4px;
+            }
+            .flex {
+              display: block;
+            }
+            .flex button {
+              display: none;
+            }
+            h2 {
+              font-size: 18px;
+            }
+            @page {
+              margin: 10mm;
+            }
+          }
+        `}
+      </style>
     </div>
   );
 }
