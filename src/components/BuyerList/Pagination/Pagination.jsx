@@ -1,5 +1,6 @@
 import React from "react";
 import { FaHome } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const Pagination = ({
   currentPage,
@@ -7,8 +8,9 @@ const Pagination = ({
   pageSize,
   handlePreviousPage,
   handleNextPage,
-  navigate,
 }) => {
+  const navigate = useNavigate();
+
   return (
     <div className="flex justify-between items-center mt-4">
       <div className="flex space-x-2">

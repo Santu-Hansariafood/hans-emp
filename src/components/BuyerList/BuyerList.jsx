@@ -19,7 +19,9 @@ const BuyerList = () => {
 
   const fetchBuyers = async () => {
     try {
-      const response = await axios.get("https://main-server-2kc5.onrender.com/api/buyers");
+      const response = await axios.get(
+        "https://main-server-2kc5.onrender.com/api/buyers"
+      );
       setBuyers(response.data);
     } catch (error) {
       console.error("Error fetching buyers:", error);
@@ -36,7 +38,9 @@ const BuyerList = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`https://main-server-2kc5.onrender.com/api/buyers/${id}`);
+      await axios.delete(
+        `https://main-server-2kc5.onrender.com/api/buyers/${id}`
+      );
       setBuyers(buyers.filter((buyer) => buyer._id !== id));
     } catch (error) {
       console.error("Error deleting buyer:", error);

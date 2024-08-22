@@ -18,8 +18,17 @@ const FarmerDataInput = () => {
     mobile: "",
   });
 
+  const [districts, setDistricts] = useState([]); // State to store districts
+
   const handleChange = (e) => {
-    setFarmerData({ ...farmerData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFarmerData({ ...farmerData, [name]: value });
+
+    // When state changes, update districts
+    if (name === "state") {
+      const selectedState = stateData.find((state) => state.name === value);
+      setDistricts(selectedState ? selectedState.cities : []);
+    }
   };
 
   const handleSubmit = (e) => {
@@ -43,6 +52,7 @@ const FarmerDataInput = () => {
           state: "",
           mobile: "",
         });
+        setDistricts([]); // Clear districts after submission
       })
       .catch((error) => {
         Swal.fire({
@@ -84,7 +94,6 @@ const FarmerDataInput = () => {
               value={farmerData.fatherName}
               onChange={handleChange}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              // required
             />
           </div>
 
@@ -134,20 +143,6 @@ const FarmerDataInput = () => {
 
           <div>
             <label className="block text-sm font-medium text-gray-700">
-              District
-            </label>
-            <input
-              type="text"
-              name="district"
-              value={farmerData.district}
-              onChange={handleChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
               State
             </label>
             <select
@@ -161,6 +156,27 @@ const FarmerDataInput = () => {
               {stateData.map((state, index) => (
                 <option key={index} value={state.name}>
                   {state.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              District
+            </label>
+            <select
+              name="district"
+              value={farmerData.district}
+              onChange={handleChange}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              required
+              disabled={!farmerData.state}
+            >
+              <option value="">Select District</option>
+              {districts.map((district, index) => (
+                <option key={index} value={district}>
+                  {district}
                 </option>
               ))}
             </select>

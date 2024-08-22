@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import BuyerFormFields from "./BuyerFormFields/BuyerFormFields";
 import statesData from "../../data/state.json";
-import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const NewBuyer = () => {
   const navigate = useNavigate();
@@ -35,7 +35,9 @@ const NewBuyer = () => {
   useEffect(() => {
     const fetchCompanies = async () => {
       try {
-        const response = await axios.get("https://main-server-2kc5.onrender.com/api/companies");
+        const response = await axios.get(
+          "https://main-server-2kc5.onrender.com/api/companies"
+        );
         setCompanies(response.data);
       } catch (error) {
         console.error("Error fetching companies:", error);
@@ -44,7 +46,9 @@ const NewBuyer = () => {
 
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("https://main-server-2kc5.onrender.com/api/products");
+        const response = await axios.get(
+          "https://main-server-2kc5.onrender.com/api/products"
+        );
         setProducts(response.data);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -110,7 +114,9 @@ const NewBuyer = () => {
   const handleRemoveProduct = (productToRemove) => {
     setFormData((prevFormData) => ({
       ...prevFormData,
-      products: prevFormData.products.filter(product => product !== productToRemove),
+      products: prevFormData.products.filter(
+        (product) => product !== productToRemove
+      ),
     }));
   };
 
@@ -126,17 +132,22 @@ const NewBuyer = () => {
   const handleRemoveConsignee = (consigneeToRemove) => {
     setFormData((prevFormData) => ({
       ...prevFormData,
-      consignees: prevFormData.consignees.filter(consignee => consignee !== consigneeToRemove),
+      consignees: prevFormData.consignees.filter(
+        (consignee) => consignee !== consigneeToRemove
+      ),
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("https://main-server-2kc5.onrender.com/api/buyers", formData);
+      const response = await axios.post(
+        "https://main-server-2kc5.onrender.com/api/buyers",
+        formData
+      );
       Swal.fire({
-        icon: 'success',
-        title: 'Buyer created successfully',
+        icon: "success",
+        title: "Buyer created successfully",
         text: response.data.message,
       });
       setFormData({
@@ -159,9 +170,9 @@ const NewBuyer = () => {
       });
     } catch (error) {
       Swal.fire({
-        icon: 'error',
-        title: 'Error creating buyer',
-        text: error.response?.data?.message || 'An error occurred',
+        icon: "error",
+        title: "Error creating buyer",
+        text: error.response?.data?.message || "An error occurred",
       });
     }
   };
