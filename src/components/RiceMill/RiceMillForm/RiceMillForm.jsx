@@ -17,6 +17,7 @@ function RiceMillForm() {
     email: "",
   });
 
+  const [districts, setDistricts] = useState([]);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -24,6 +25,22 @@ function RiceMillForm() {
       ...formData,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const handleStateChange = (e) => {
+    const selectedState = e.target.value;
+    setFormData({
+      ...formData,
+      state: selectedState,
+      district: "",
+    });
+
+    const state = stateData.find((stateObj) => stateObj.name === selectedState);
+    if (state) {
+      setDistricts(state.cities);
+    } else {
+      setDistricts([]);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -43,7 +60,7 @@ function RiceMillForm() {
     } catch (error) {
       Swal.fire({
         title: "Error",
-        text: error.response.data.error || "An error occurred",
+        text: error.response?.data?.error || "An error occurred",
         icon: "error",
         confirmButtonText: "OK",
       });
@@ -121,7 +138,7 @@ function RiceMillForm() {
               <select
                 name="state"
                 value={formData.state}
-                onChange={handleChange}
+                onChange={handleStateChange}
                 className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 required
               >
@@ -153,15 +170,20 @@ function RiceMillForm() {
               <label className="block text-sm font-medium text-gray-700">
                 District
               </label>
-              <input
-                type="text"
+              <select
                 name="district"
-                placeholder="Enter District"
                 value={formData.district}
                 onChange={handleChange}
                 className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 required
-              />
+              >
+                <option value="">Select District</option>
+                {districts.map((district, index) => (
+                  <option key={index} value={district}>
+                    {district}
+                  </option>
+                ))}
+              </select>
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700">
@@ -198,7 +220,7 @@ function RiceMillForm() {
             <button
               type="button"
               className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600"
-              onClick={() => navigate(-1)} 
+              onClick={() => navigate(-1)}
             >
               Back
             </button>

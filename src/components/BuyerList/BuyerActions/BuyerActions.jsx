@@ -27,7 +27,7 @@ const BuyerActions = ({ buyer, onEdit, handleDelete }) => {
 
   const handleEditBuyer = () => {
     Swal.fire({
-      title: 'Edit Buyer',
+      title: "Edit Buyer",
       html: `
         <input id="name" class="swal2-input" placeholder="Name" value="${buyer.name}" />
         <input id="mobile" class="swal2-input" placeholder="Mobile" value="${buyer.mobile}" />
@@ -39,18 +39,18 @@ const BuyerActions = ({ buyer, onEdit, handleDelete }) => {
         <input id="shippingAddress" class="swal2-input" placeholder="Shipping Address" value="${buyer.shippingAddress}" />
       `,
       showCancelButton: true,
-      confirmButtonText: 'Save',
+      confirmButtonText: "Save",
       preConfirm: () => {
         const editedBuyer = {
           ...buyer,
-          name: document.getElementById('name').value,
-          mobile: document.getElementById('mobile').value,
-          email: document.getElementById('email').value,
-          companyName: document.getElementById('companyName').value,
-          location: document.getElementById('location').value,
-          gstNo: document.getElementById('gstNo').value,
-          billingAddress: document.getElementById('billingAddress').value,
-          shippingAddress: document.getElementById('shippingAddress').value,
+          name: document.getElementById("name").value,
+          mobile: document.getElementById("mobile").value,
+          email: document.getElementById("email").value,
+          companyName: document.getElementById("companyName").value,
+          location: document.getElementById("location").value,
+          gstNo: document.getElementById("gstNo").value,
+          billingAddress: document.getElementById("billingAddress").value,
+          shippingAddress: document.getElementById("shippingAddress").value,
         };
         onEdit(editedBuyer);
       },

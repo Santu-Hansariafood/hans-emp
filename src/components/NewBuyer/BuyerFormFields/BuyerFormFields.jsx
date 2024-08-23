@@ -17,7 +17,9 @@ const BuyerFormFields = ({
   useEffect(() => {
     const fetchConsignees = async () => {
       try {
-        const response = await axios.get("https://main-server-2kc5.onrender.com/api/consignees");
+        const response = await axios.get(
+          "https://main-server-2kc5.onrender.com/api/consignees"
+        );
         setConsignees(response.data);
       } catch (error) {
         console.error("Error fetching consignees:", error);
@@ -35,7 +37,9 @@ const BuyerFormFields = ({
     <div className="space-y-4">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
-          <label htmlFor="name" className="block">Name :</label>
+          <label htmlFor="name" className="block">
+            Name :
+          </label>
           <input
             type="text"
             id="name"
@@ -47,7 +51,9 @@ const BuyerFormFields = ({
           />
         </div>
         <div>
-          <label htmlFor="mobile" className="block">Mobile :</label>
+          <label htmlFor="mobile" className="block">
+            Mobile :
+          </label>
           <input
             type="text"
             id="mobile"
@@ -59,7 +65,9 @@ const BuyerFormFields = ({
           />
         </div>
         <div>
-          <label htmlFor="email" className="block">Email :</label>
+          <label htmlFor="email" className="block">
+            Email :
+          </label>
           <input
             type="email"
             id="email"
@@ -73,7 +81,9 @@ const BuyerFormFields = ({
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
-          <label htmlFor="password" className="block">Password :</label>
+          <label htmlFor="password" className="block">
+            Password :
+          </label>
           <input
             type="password"
             id="password"
@@ -85,7 +95,9 @@ const BuyerFormFields = ({
           />
         </div>
         <div>
-          <label htmlFor="gstNo" className="block">GST No :</label>
+          <label htmlFor="gstNo" className="block">
+            GST No :
+          </label>
           <input
             type="text"
             id="gstNo"
@@ -97,7 +109,9 @@ const BuyerFormFields = ({
           />
         </div>
         <div>
-          <label htmlFor="billingAddress" className="block">Billing Address :</label>
+          <label htmlFor="billingAddress" className="block">
+            Billing Address :
+          </label>
           <input
             type="text"
             id="billingAddress"
@@ -111,7 +125,9 @@ const BuyerFormFields = ({
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
-          <label htmlFor="panNo" className="block">PAN No :</label>
+          <label htmlFor="panNo" className="block">
+            PAN No :
+          </label>
           <input
             type="text"
             id="panNo"
@@ -123,7 +139,9 @@ const BuyerFormFields = ({
           />
         </div>
         <div>
-          <label htmlFor="bidingLocations" className="block">Biding Locations :</label>
+          <label htmlFor="bidingLocations" className="block">
+            Biding Locations :
+          </label>
           <input
             type="text"
             id="bidingLocations"
@@ -144,22 +162,29 @@ const BuyerFormFields = ({
           >
             <option value="">Select Delivery Address</option>
             {consignees.map((consignee) => (
-              <option key={consignee._id} value={`${consignee.address}, ${consignee.location}, ${consignee.state}`}>
-              {consignee.address}, {consignee.location}, {consignee.state}
-            </option>
+              <option
+                key={consignee._id}
+                value={`${consignee.address}, ${consignee.location}, ${consignee.state}`}
+              >
+                {consignee.address}, {consignee.location}, {consignee.state}
+              </option>
             ))}
           </select>
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
-          <label className="block text-gray-700 text-sm font-bold mb-2">Products</label>
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Products
+          </label>
           <select
             value=""
             onChange={handleProductChange}
             className="border border-gray-300 rounded px-3 py-2 w-full"
           >
-            <option value="" disabled>Select Product</option>
+            <option value="" disabled>
+              Select Product
+            </option>
             {products.map((product) => (
               <option key={product._id} value={product.productName}>
                 {product.productName}
@@ -168,7 +193,10 @@ const BuyerFormFields = ({
           </select>
           <div className="mt-2">
             {formData.products.map((product, index) => (
-              <div key={index} className="bg-gray-200 p-2 rounded-lg flex justify-between items-center mb-2">
+              <div
+                key={index}
+                className="bg-gray-200 p-2 rounded-lg flex justify-between items-center mb-2"
+              >
                 {product}
                 <button
                   type="button"
@@ -182,13 +210,17 @@ const BuyerFormFields = ({
           </div>
         </div>
         <div>
-          <label className="block text-gray-700 text-sm font-bold mb-2">Group of Company</label>
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Group of Company
+          </label>
           <select
             value=""
             onChange={handleConsigneeChange}
             className="border border-gray-300 rounded px-3 py-2 w-full"
           >
-            <option value="" disabled>Group of Company</option>
+            <option value="" disabled>
+              Group of Company
+            </option>
             {consignees.map((consignee) => (
               <option key={consignee._id} value={consignee.name}>
                 {consignee.name}
@@ -197,7 +229,10 @@ const BuyerFormFields = ({
           </select>
           <div className="mt-2">
             {formData.consignees.map((consignee, index) => (
-              <div key={index} className="bg-gray-200 p-2 rounded-lg flex justify-between items-center mb-2">
+              <div
+                key={index}
+                className="bg-gray-200 p-2 rounded-lg flex justify-between items-center mb-2"
+              >
                 {consignee}
                 <button
                   type="button"
@@ -213,7 +248,9 @@ const BuyerFormFields = ({
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
-          <label className="block text-gray-700 text-sm font-bold mb-2">State</label>
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            State
+          </label>
           <select
             name="state"
             value={formData.state}
@@ -229,7 +266,9 @@ const BuyerFormFields = ({
           </select>
         </div>
         <div>
-          <label className="block text-gray-700 text-sm font-bold mb-2">District</label>
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            District
+          </label>
           <select
             name="city"
             value={formData.city}
