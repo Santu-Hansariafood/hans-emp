@@ -18,13 +18,12 @@ const FarmerDataInput = () => {
     mobile: "",
   });
 
-  const [districts, setDistricts] = useState([]); // State to store districts
+  const [districts, setDistricts] = useState([]); 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFarmerData({ ...farmerData, [name]: value });
 
-    // When state changes, update districts
     if (name === "state") {
       const selectedState = stateData.find((state) => state.name === value);
       setDistricts(selectedState ? selectedState.cities : []);
@@ -33,7 +32,7 @@ const FarmerDataInput = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+  
     axios
       .post("https://main-server-2kc5.onrender.com/api/farmer-data", farmerData)
       .then((response) => {
@@ -52,17 +51,25 @@ const FarmerDataInput = () => {
           state: "",
           mobile: "",
         });
-        setDistricts([]); // Clear districts after submission
+        setDistricts([]);
       })
       .catch((error) => {
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: "There was an error submitting the data!",
-        });
+        if (error.response && error.response.data.message === "Mobile number already exists") {
+          Swal.fire({
+            icon: "error",
+            title: "Duplicate Mobile Number",
+            text: "This mobile number is already registered. Please use a different number.",
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "There was an error submitting the data!",
+          });
+        }
       });
   };
-
+  
   return (
     <div className="max-w-2xl mx-auto mt-10 p-6 bg-white shadow-md rounded-md">
       <h1 className="text-2xl font-bold mb-6 text-center">

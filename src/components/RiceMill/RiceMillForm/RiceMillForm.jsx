@@ -209,8 +209,13 @@ function RiceMillForm() {
                 type="email"
                 name="email"
                 placeholder="Enter Email"
-                value={formData.email}
-                onChange={handleChange}
+                value={formData.email.toLowerCase()}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    email: e.target.value.toLowerCase(),
+                  })
+                }
                 className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
