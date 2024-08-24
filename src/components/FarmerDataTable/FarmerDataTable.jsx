@@ -185,6 +185,7 @@ const FarmerTable = () => {
         <table className="min-w-full bg-white">
           <thead className="bg-gray-800 text-white">
             <tr>
+              <th className="px-2 py-4">Id</th>
               <th className="py-2 px-4">Name</th>
               <th className="py-2 px-4">Father's Name</th>
               <th className="py-2 px-4">Village</th>
@@ -197,8 +198,12 @@ const FarmerTable = () => {
             </tr>
           </thead>
           <tbody>
-            {currentFarmers.map((farmer) => (
-              <tr key={farmer._id} className="text-center">
+            {currentFarmers.map((farmer, index) => (
+              <tr
+                key={farmer._id}
+                className="text-center hover:bg-gray-100"
+              >
+                <td className="px-2 py-4">{indexOfFirstFarmer + index + 1}</td>
                 <td className="py-2 px-4">{farmer.name}</td>
                 <td className="py-2 px-4">{farmer.fatherName}</td>
                 <td className="py-2 px-4">{farmer.village}</td>
@@ -235,21 +240,17 @@ const FarmerTable = () => {
         </table>
       </div>
       <div className="flex justify-center mt-4">
-        {Array.from({ length: totalPages }, (_, index) => index + 1).map(
-          (page) => (
-            <button
-              key={page}
-              onClick={() => handlePageChange(page)}
-              className={`px-4 py-2 border ${
-                currentPage === page
-                  ? "bg-blue-500 text-white"
-                  : "bg-white text-blue-500"
-              } mx-1 rounded`}
-            >
-              {page}
-            </button>
-          )
-        )}
+        {Array.from({ length: totalPages }, (_, index) => (
+          <button
+            key={index}
+            onClick={() => handlePageChange(index + 1)}
+            className={`mx-1 px-3 py-1 border ${
+              currentPage === index + 1 ? "bg-blue-500 text-white" : ""
+            }`}
+          >
+            {index + 1}
+          </button>
+        ))}
       </div>
     </div>
   );
