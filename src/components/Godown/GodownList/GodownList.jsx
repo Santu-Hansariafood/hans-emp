@@ -104,11 +104,11 @@ const GodownList = ({ userRole }) => {
       location: { name: "", landmark: "", pin: "", state: "" },
       rate: 0,
       quality: [
-        { parameter: "Moisture", accepted: "10%", upto: "12%" },
-        { parameter: "Broken", accepted: "12%", upto: "15%" },
-        { parameter: "F.M.", accepted: "2%", upto: "3%" },
-        { parameter: "Damage", accepted: "12%", upto: "15%" },
-        { parameter: "Small Gain", accepted: "2%", upto: "3%" },
+        { parameter: "Moisture", accepted: "", upto: "", claim: "" },
+        { parameter: "Broken", accepted: "", upto: "", claim: "" },
+        { parameter: "F.M.", accepted: "", upto: "", claim: "" },
+        { parameter: "Damage", accepted: "", upto: "", claim: "" },
+        { parameter: "Small Gain", accepted: "", upto: "", claim: "" },
       ],
     });
     setNewGodownMode(true);
@@ -160,7 +160,9 @@ const GodownList = ({ userRole }) => {
     indexOfFirstItem,
     indexOfLastItem
   );
+
   const title = "Godown List";
+
   return (
     <div className="container mx-auto mt-10 bg-white p-8 rounded-lg shadow-lg pt-10">
       <h2 className="text-3xl font-bold mb-6 text-center text-gray-700">

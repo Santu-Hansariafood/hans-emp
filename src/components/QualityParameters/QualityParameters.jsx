@@ -8,7 +8,7 @@ const QualityParameters = ({ parameters, setParameters, disabled }) => {
   };
 
   const handleAddParameter = () => {
-    setParameters([...parameters, { parameter: "", accepted: "", upto: "" }]);
+    setParameters([...parameters, { parameter: "", accepted: "", upto: "", claim: "" }]);
   };
 
   const handleRemoveParameter = (index) => {
@@ -19,7 +19,7 @@ const QualityParameters = ({ parameters, setParameters, disabled }) => {
   return (
     <div className="space-y-4">
       {parameters.map((param, index) => (
-        <div key={index} className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div key={index} className="grid grid-cols-1 sm:grid-cols-4 gap-4">
           <div>
             <label className="block text-gray-700 mb-2">Parameter</label>
             <input
@@ -58,6 +58,18 @@ const QualityParameters = ({ parameters, setParameters, disabled }) => {
               required
               disabled={disabled}
               placeholder="Upto value"
+            />
+          </div>
+          <div>
+            <label className="block text-gray-700 mb-2">Claim</label>
+            <input
+              type="text"
+              value={param.claim}
+              onChange={(e) => handleInputChange(index, "claim", e.target.value)}
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+              required
+              disabled={disabled}
+              placeholder="Claim value"
             />
           </div>
           {!disabled && (

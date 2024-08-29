@@ -32,7 +32,6 @@ const GodownTable = ({
           <th className="px-6 py-3 border-b">Rate</th>
           <th className="px-6 py-3 border-b">Capacity</th>
           <th className="px-6 py-3 border-b">Quality Parameters</th>
-          {/* <th className="px-6 py-3 border-b">Sale</th> */}
           <th className="px-6 py-3 border-b">Actions</th>
         </tr>
       </thead>
@@ -61,18 +60,11 @@ const GodownTable = ({
               {collection.quality?.map((q, index) => (
                 <div key={index}>
                   <strong>{q.parameter}:</strong> Accepted - {q.accepted},
-                  Upto - {q.upto}
+                  Upto - {q.upto},
+                  Claim - {q.claim}
                 </div>
               ))}
             </td>
-            {/* <td className="px-6 py-4 border-b">
-              <button
-                onClick={() => handleSaleClick(collection)}
-                className="text-red-500 hover:text-red-700"
-              >
-                <IoSendSharp className="inline-block mr-1" title="Sale" />
-              </button>
-            </td> */}
             <td className="px-6 py-4 border-b">
               <button
                 onClick={() => handleEdit(collection)}
