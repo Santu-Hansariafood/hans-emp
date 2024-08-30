@@ -150,6 +150,15 @@ const EditGodownForm = ({
                   className="w-full px-3 py-2 border rounded-lg"
                   placeholder="Upto"
                 />
+                <input
+                  type="text"
+                  value={q.claim}
+                  onChange={(e) =>
+                    handleQualityChange(index, "claim", e.target.value)
+                  }
+                  className="w-full px-3 py-2 border rounded-lg"
+                  placeholder="Claim"
+                />
               </div>
             ))}
           </div>

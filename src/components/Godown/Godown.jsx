@@ -15,11 +15,11 @@ const Godown = ({ user }) => {
   const [rate, setRate] = useState("");
   const [totalCapacity, setTotalCapacity] = useState("");
   const [quality, setQuality] = useState([
-    { parameter: "Moisture", accepted: "10%", upto: "12%" },
-    { parameter: "Broken", accepted: "12%", upto: "15%" },
-    { parameter: "F.M.", accepted: "2%", upto: "3%" },
-    { parameter: "Damage", accepted: "12%", upto: "15%" },
-    { parameter: "Small Gain", accepted: "2%", upto: "3%" },
+    { parameter: "Moisture", accepted: "", upto: "", claim: "" },
+    { parameter: "Broken", accepted: "", upto: "", claim: "" },
+    { parameter: "F.M.", accepted: "", upto: "", claim: "" },
+    { parameter: "Damage", accepted: "", upto: "", claim: "" },
+    { parameter: "Small Gain", accepted: "", upto: "", claim: "" },
   ]);
 
   const navigate = useNavigate();
@@ -70,11 +70,11 @@ const Godown = ({ user }) => {
         setRate("");
         setTotalCapacity("");
         setQuality([
-          { parameter: "Moisture", accepted: "10%", upto: "12%" },
-          { parameter: "Broken", accepted: "12%", upto: "15%" },
-          { parameter: "F.M.", accepted: "2%", upto: "3%" },
-          { parameter: "Damage", accepted: "12%", upto: "15%" },
-          { parameter: "Small Gain", accepted: "2%", upto: "3%" },
+          { parameter: "Moisture", accepted: "", upto: "", claim:"" },
+          { parameter: "Broken", accepted: "", upto: "", claim:"" },
+          { parameter: "F.M.", accepted: "", upto: "", claim:"" },
+          { parameter: "Damage", accepted: "", upto: "", claim:"" },
+          { parameter: "Small Gain", accepted: "", upto: "", claim:"" },
         ]);
       }
     } catch (error) {

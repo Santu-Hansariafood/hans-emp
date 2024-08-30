@@ -11,7 +11,6 @@ const QualityDetails = ({
 }) => {
   const [godowns, setGodowns] = useState([]);
   const [localSelectedGodown, setLocalSelectedGodown] = useState("");
-  const claimValues = ["1:0", "1:0", "1:0", "1:0", "1:0"];
 
   useEffect(() => {
     const fetchGodowns = async () => {
@@ -32,17 +31,20 @@ const QualityDetails = ({
     if (localSelectedGodown) {
       const godown = godowns.find((g) => g._id === localSelectedGodown);
       if (godown && godown.quality.length > 0) {
-        const newQualityParams = qualityParams.map((param, index) => ({
-          ...param,
-          basic: godown.quality[index]
-            ? godown.quality[index].accepted.replace("%", "")
-            : "",
-          claim: claimValues[index],
-        }));
+        const newQualityParams = qualityParams.map((param, index) => {
+          const qualityItem = godown.quality[index];
+          // const claimValue = qualityItem && qualityItem.claim ? qualityItem.claim.split(":")[1] : "0";
+          const claimValue = qualityItem.claim;
+          return {
+            ...param,
+            basic: qualityItem ? qualityItem.accepted.replace("%", "") : "",
+            claim: `1:${claimValue}`,
+          };
+        });
         setQualityParams(newQualityParams);
       }
     }
-  }, [localSelectedGodown, godowns, setQualityParams]);
+  }, [localSelectedGodown, godowns, setQualityParams, qualityParams]);
 
   const handleGodownChange = (e) => {
     setLocalSelectedGodown(e.target.value);
@@ -59,13 +61,16 @@ const QualityDetails = ({
     if (!isNaN(basic) && !isNaN(actual)) {
       newQualityParams[index]["excess"] = (actual - basic).toFixed(2);
 
-      const claimRatio = parseFloat(newQualityParams[index]["claim"].split(":")[1]);
+      const claimRatio = parseFloat(
+        newQualityParams[index]["claim"].split(":")[1]
+      );
 
       newQualityParams[index]["claimPercentage"] = (
         newQualityParams[index]["excess"] * claimRatio
       ).toFixed(2);
       newQualityParams[index]["claimAmount"] = (
-        (grossPayment * newQualityParams[index]["claimPercentage"]) / 100
+        (grossPayment * newQualityParams[index]["claimPercentage"]) /
+        100
       ).toFixed(2);
     }
 
@@ -134,7 +139,9 @@ const QualityDetails = ({
             type="number"
             step="0.01"
             value={param.actual}
-            onChange={(e) => handleQualityChange(index, "actual", e.target.value)}
+            onChange={(e) =>
+              handleQualityChange(index, "actual", e.target.value)
+            }
             required
             className="col-span-1 p-2 border border-gray-300 rounded-md"
           />
