@@ -83,6 +83,8 @@ function RiceMillTable() {
   // Pagination logic
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+  // Filter rice mills based on search term
   const filteredRiceMills = riceMills.filter((mill) =>
     mill.riceMillName.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -120,7 +122,10 @@ function RiceMillTable() {
             type="text"
             placeholder="Search by Rice Mill Name"
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setCurrentPage(1); // Reset to first page on search
+            }}
             className="w-full px-4 py-2 border border-gray-300 rounded"
           />
         </div>
@@ -207,7 +212,7 @@ function RiceMillTable() {
               className={`mx-1 px-4 py-2 rounded-md ${
                 index + 1 === currentPage
                   ? "bg-blue-500 text-white"
-                  : "bg-gray-300 text-gray-700"
+                  : "bg-gray-300 text-black"
               }`}
             >
               {index + 1}
