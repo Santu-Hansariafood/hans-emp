@@ -5,7 +5,7 @@ import axios from "axios";
 import EmployeeInfo from "./EmployeeInfo/EmployeeInfo";
 import QRCodeDisplay from "./QRCodeDisplay/QRCodeDisplay";
 import EmployeeTaskList from "./EmployeeTaskList/EmployeeTaskList";
-import GivenTaskStatus from "./GivenTaskStatus/GivenTaskStatus"; // Import GivenTaskStatus
+import GivenTaskStatus from "./GivenTaskStatus/GivenTaskStatus";
 
 const EmployeeDetails = () => {
   const location = useLocation();
@@ -43,6 +43,8 @@ const EmployeeDetails = () => {
   };
 
   const handleNext = () => {
+    const employeeFullName = `${employee.firstname} ${employee.lastname}`;
+
     Swal.fire({
       title: "Proceed to Work Details?",
       text: "You will be navigated to the next component.",
@@ -53,7 +55,9 @@ const EmployeeDetails = () => {
       confirmButtonText: "Yes, proceed!",
     }).then((result) => {
       if (result.isConfirmed) {
-        navigate("/work-details", { state: { employee } });
+        navigate("/work-details", {
+          state: { employee, fullName: employeeFullName },
+        });
       }
     });
   };

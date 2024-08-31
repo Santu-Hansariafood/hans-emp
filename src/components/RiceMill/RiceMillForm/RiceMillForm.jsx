@@ -2,10 +2,16 @@ import React, { useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import stateData from "../../../data/state.json";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function RiceMillForm() {
+  const [districts, setDistricts] = useState([]);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { fullName } = location.state || {};
+
   const [formData, setFormData] = useState({
+    registerBy: { fullName },
     name: "",
     role: "owner",
     riceMillName: "",
@@ -13,12 +19,9 @@ function RiceMillForm() {
     state: "",
     pin: "",
     district: "",
-    phoneNumbers: [""], // Initialize as an array with one empty string
+    phoneNumbers: [""],
     email: "",
   });
-
-  const [districts, setDistricts] = useState([]);
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({

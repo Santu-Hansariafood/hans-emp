@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import stateData from "../../data/state.json";
 
 const FarmerDataInput = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { fullName } = location.state || {};
 
   const [farmerData, setFarmerData] = useState({
+    registerBy: { fullName },
     name: "",
     fatherName: "",
     village: "",
@@ -18,7 +21,7 @@ const FarmerDataInput = () => {
     mobile: "",
   });
 
-  const [districts, setDistricts] = useState([]); 
+  const [districts, setDistricts] = useState([]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,7 +35,7 @@ const FarmerDataInput = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  
+
     axios
       .post("https://main-server-2kc5.onrender.com/api/farmer-data", farmerData)
       .then((response) => {
@@ -42,6 +45,7 @@ const FarmerDataInput = () => {
           text: "Farmer data has been successfully submitted!",
         });
         setFarmerData({
+          registerBy: { fullName },
           name: "",
           fatherName: "",
           village: "",
@@ -54,7 +58,10 @@ const FarmerDataInput = () => {
         setDistricts([]);
       })
       .catch((error) => {
-        if (error.response && error.response.data.message === "Mobile number already exists") {
+        if (
+          error.response &&
+          error.response.data.message === "Mobile number already exists"
+        ) {
           Swal.fire({
             icon: "error",
             title: "Duplicate Mobile Number",
@@ -69,7 +76,7 @@ const FarmerDataInput = () => {
         }
       });
   };
-  
+
   return (
     <div className="max-w-2xl mx-auto mt-10 p-6 bg-white shadow-md rounded-md">
       <h1 className="text-2xl font-bold mb-6 text-center">

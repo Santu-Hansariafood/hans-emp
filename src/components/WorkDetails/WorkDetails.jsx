@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const WorkDetails = ({ user, userRole }) => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { fullName } = location.state || {};
 
   const [options, setOptions] = useState([
     { id: "registerFarmer", label: "Register Farmer", checked: false },
@@ -170,7 +172,7 @@ const WorkDetails = ({ user, userRole }) => {
       confirmButtonText: "Yes, proceed!",
     }).then((result) => {
       if (result.isConfirmed) {
-        navigate(nextRoute, { state: { user } });
+        navigate(nextRoute, { state: { user, fullName } });
       }
     });
   };
