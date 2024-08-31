@@ -5,6 +5,7 @@ import FarmerInfo from "./FarmerInfo/FarmerInfo";
 import LoadingIndicator from "./LoadingIndicator/LoadingIndicator";
 import ErrorMessage from "./ErrorMessage/ErrorMessage";
 import QRCodeDisplay from "./QRCodeDisplay/QRCodeDisplay";
+import { FaCheckCircle } from "react-icons/fa";
 
 const FarmerDetails = () => {
   const { id } = useParams();
@@ -48,13 +49,12 @@ const FarmerDetails = () => {
     return JSON.stringify(farmer, null, 2);
   };
 
-  const title = "Register Farmer Details";
-
   return (
     <div className="flex flex-col items-center mt-10">
       <div className="max-w-4xl bg-white p-8 rounded-lg shadow-lg w-full">
-        <h2 className="text-3xl font-bold mb-6 text-center text-gray-700">
-          {title}
+        <h2 className="text-3xl font-bold mb-6 text-center text-gray-700 flex items-center justify-center">
+          Register Farmer Details
+          <FaCheckCircle className="text-blue-500 ml-2" />
         </h2>
         {farmer && <FarmerInfo farmer={farmer} />}
         {farmer && <QRCodeDisplay value={generateQRValue(farmer)} />}

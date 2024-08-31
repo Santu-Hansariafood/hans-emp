@@ -24,6 +24,7 @@ const FarmerTable = ({ farmers, handleViewDetails }) => {
             <th className="py-2 px-4 border-b">Branch Name</th>
             <th className="py-2 px-4 border-b">Account Holder Name</th>
             <th className="py-2 px-4 border-b">Bank Name</th>
+            <th className="py-2 px-4 border-b">Veryfied By</th>
             <th className="py-2 px-4 border-b">Action</th>
           </tr>
         </thead>
@@ -48,6 +49,7 @@ const FarmerTable = ({ farmers, handleViewDetails }) => {
                 <td className="py-2 px-4 border-b">{farmer.branchName}</td>
                 <td className="py-2 px-4 border-b">{farmer.accountHolderName}</td>
                 <td className="py-2 px-4 border-b">{farmer.bankName}</td>
+                <td className="py-2 px-4 border-b">{farmer.verifiedBy}</td>
                 <td className="py-2 px-4 border-b text-center">
                   <button
                     onClick={() => handleViewDetails(farmer._id)}

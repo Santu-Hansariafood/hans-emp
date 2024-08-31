@@ -9,7 +9,7 @@ import FormSection from "./FormSection/FormSection";
 const RegisterFarmer = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { employee } = location.state || {};
+  const { fullName } = location.state || {};
 
   const [formData, setFormData] = useState({
     name: "",
@@ -30,6 +30,7 @@ const RegisterFarmer = () => {
     accountHolderName: "",
     bankName: "",
     password: "",
+    verifiedBy: fullName,
   });
 
   const [files, setFiles] = useState({
@@ -103,8 +104,7 @@ const RegisterFarmer = () => {
       </h2>
       <div className="space-y-4">
         <p className="text-lg font-semibold text-gray-700">
-          <strong>Register By:</strong> {employee?.firstname}{" "}
-          {employee?.lastname}
+          <strong>Veryfied By:</strong> {fullName}
         </p>
         <form onSubmit={handleSubmit} className="space-y-4">
           <FormSection>
