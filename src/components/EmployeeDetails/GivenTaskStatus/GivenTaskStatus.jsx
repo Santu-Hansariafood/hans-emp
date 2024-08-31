@@ -43,7 +43,6 @@ const GivenTaskStatus = () => {
       const response = await axios.get(
         "https://main-server-2kc5.onrender.com/api/employees"
       );
-      console.log("Assignees fetched: ", response.data.employees);
       setAssignees(response.data);
     } catch (error) {
       console.error("Error fetching assignees:", error);
@@ -131,38 +130,47 @@ const GivenTaskStatus = () => {
           </thead>
           <tbody>
             {tasks.length > 0 ? (
-              tasks.map((task) => (
-                <tr key={task._id}>
-                  <td className="border p-2 text-xs md:text-sm">
-                    {task.taskName}
-                  </td>
-                  <td className="border p-2 text-xs md:text-sm">
-                    {task.taskDescription}
-                  </td>
-                  <td className="border p-2 text-xs md:text-sm">
-                    {task.priority}
-                  </td>
-                  <td className="border p-2 text-xs md:text-sm">
-                    {task.assignTo}
-                  </td>
-                  <td className="border p-2 text-xs md:text-sm">
-                    {task.status}
-                  </td>
-                  <td className="border p-2 text-xs md:text-sm">
-                    {task.feedback || "No Feedback"}
-                  </td>
-                  <td className="border p-2 text-xs md:text-sm">
-                    {task.status === "Rejected" && (
-                      <button
-                        onClick={() => handleReassign(task._id)}
-                        className="bg-blue-500 text-white p-1 md:p-2 rounded"
-                      >
-                        <MdAssignmentTurnedIn title="Re-Assign" />
-                      </button>
-                    )}
-                  </td>
-                </tr>
-              ))
+              tasks.map((task) => {
+                if (task.status === "Complete") {
+                  return null; // Skip rendering this row
+                }
+                return (
+                  <tr key={task._id}>
+                    <td className="border p-2 text-xs md:text-sm">
+                      {task.taskName}
+                    </td>
+                    <td className="border p-2 text-xs md:text-sm">
+                      {task.taskDescription}
+                    </td>
+                    <td className="border p-2 text-xs md:text-sm">
+                      {task.priority}
+                    </td>
+                    <td className="border p-2 text-xs md:text-sm">
+                      {task.assignTo}
+                    </td>
+                    <td
+                      className={`border p-2 text-xs md:text-sm ${
+                        task.status === "Rejected" ? "text-red-500" : ""
+                      } ${task.status === "Accepted" ? "text-green-500" : ""}`}
+                    >
+                      {task.status}
+                    </td>
+                    <td className="border p-2 text-xs md:text-sm">
+                      {task.feedback || "No Feedback"}
+                    </td>
+                    <td className="border p-2 text-xs md:text-sm">
+                      {task.status === "Rejected" && (
+                        <button
+                          onClick={() => handleReassign(task._id)}
+                          className="bg-blue-500 text-white p-1 md:p-2 rounded"
+                        >
+                          <MdAssignmentTurnedIn title="Re-Assign" />
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })
             ) : (
               <tr>
                 <td colSpan="7" className="text-center p-2 text-xs md:text-sm">
