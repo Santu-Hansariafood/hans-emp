@@ -194,15 +194,13 @@ const FarmerTable = () => {
               <th className="py-2 px-4">District</th>
               <th className="py-2 px-4">State</th>
               <th className="py-2 px-4">Mobile</th>
+              <th className="py-2 px-4">Register By</th>
               <th className="py-2 px-4">Actions</th>
             </tr>
           </thead>
           <tbody>
             {currentFarmers.map((farmer, index) => (
-              <tr
-                key={farmer._id}
-                className="text-center hover:bg-gray-100"
-              >
+              <tr key={farmer._id} className="text-center hover:bg-gray-100">
                 <td className="px-2 py-4">{indexOfFirstFarmer + index + 1}</td>
                 <td className="py-2 px-4">{farmer.name}</td>
                 <td className="py-2 px-4">{farmer.fatherName}</td>
@@ -212,6 +210,7 @@ const FarmerTable = () => {
                 <td className="py-2 px-4">{farmer.district}</td>
                 <td className="py-2 px-4">{farmer.state}</td>
                 <td className="py-2 px-4">{farmer.mobile}</td>
+                <td className="py-2 px-4">{farmer.registerBy?.fullName}</td>
                 <td className="py-2 px-4">
                   <div className="flex justify-center space-x-2">
                     <button

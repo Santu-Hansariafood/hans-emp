@@ -75,6 +75,7 @@ function RiceMillTable() {
         ? mill.phoneNumber
         : mill.phoneNumbers.join(", "),
       "Email ID": mill.email,
+      "Register By": mill.registerBy?.fullName,
     }));
     const worksheet = XLSX.utils.json_to_sheet(millsForExcel);
     const workbook = XLSX.utils.book_new();
@@ -146,6 +147,7 @@ function RiceMillTable() {
                   Phone Numbers
                 </th>
                 <th className="py-3 px-4 border border-gray-300">Email ID</th>
+                <th className="py-3 px-4 border border-gray-300">Register By</th>
                 <th className="py-3 px-4 border border-gray-300">Actions</th>
               </tr>
             </thead>
@@ -177,6 +179,9 @@ function RiceMillTable() {
                   </td>
                   <td className="py-2 px-4 border border-gray-300">
                     {mill.email}
+                  </td>
+                  <td className="py-2 px-4 border border-gray-300">
+                    {mill.registerBy?.fullName}
                   </td>
                   <td className="py-2 px-4 border border-gray-300">
                     <div className="flex justify-center">
