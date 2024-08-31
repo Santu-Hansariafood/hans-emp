@@ -13,7 +13,7 @@ function RiceMillForm() {
     state: "",
     pin: "",
     district: "",
-    phoneNumber: "",
+    phoneNumbers: [""], // Initialize as an array with one empty string
     email: "",
   });
 
@@ -41,6 +41,19 @@ function RiceMillForm() {
     } else {
       setDistricts([]);
     }
+  };
+
+  const handlePhoneNumberChange = (index, value) => {
+    const updatedPhoneNumbers = [...formData.phoneNumbers];
+    updatedPhoneNumbers[index] = value;
+    setFormData({ ...formData, phoneNumbers: updatedPhoneNumbers });
+  };
+
+  const addPhoneNumberField = () => {
+    setFormData({
+      ...formData,
+      phoneNumbers: [...formData.phoneNumbers, ""],
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -186,23 +199,37 @@ function RiceMillForm() {
                 ))}
               </select>
             </div>
-            <div>
+            <div className="col-span-2">
               <label className="block text-sm font-medium text-gray-700">
-                Phone Number
+                Phone Numbers
               </label>
-              <input
-                type="tel"
-                name="phoneNumber"
-                placeholder="Enter Mobile Number"
-                value={formData.phoneNumber}
-                onChange={handleChange}
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                required
-                maxLength={10}
-                minLength={10}
-              />
+              {formData.phoneNumbers.map((phone, index) => (
+                <div key={index} className="flex items-center mb-2">
+                  <input
+                    type="tel"
+                    placeholder="Enter Mobile Number"
+                    value={phone}
+                    onChange={(e) =>
+                      handlePhoneNumberChange(index, e.target.value)
+                    }
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                    required
+                    maxLength={10}
+                    minLength={10}
+                  />
+                  {index === formData.phoneNumbers.length - 1 && (
+                    <button
+                      type="button"
+                      className="ml-2 p-2 bg-blue-500 text-white rounded-md"
+                      onClick={addPhoneNumberField}
+                    >
+                      +
+                    </button>
+                  )}
+                </div>
+              ))}
             </div>
-            <div>
+            <div className="col-span-2">
               <label className="block text-sm font-medium text-gray-700">
                 Email ID
               </label>

@@ -71,7 +71,9 @@ function RiceMillTable() {
       "Rice Mill Name": mill.riceMillName,
       State: mill.state,
       District: mill.district,
-      "Phone Number": mill.phoneNumber,
+      "Phone Numbers": mill.phoneNumber
+        ? mill.phoneNumber
+        : mill.phoneNumbers.join(", "),
       "Email ID": mill.email,
     }));
     const worksheet = XLSX.utils.json_to_sheet(millsForExcel);
@@ -80,11 +82,9 @@ function RiceMillTable() {
     XLSX.writeFile(workbook, "RiceMills.xlsx");
   };
 
-  // Pagination logic
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
-  // Filter rice mills based on search term
   const filteredRiceMills = riceMills.filter((mill) =>
     mill.riceMillName.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -124,7 +124,7 @@ function RiceMillTable() {
             value={searchTerm}
             onChange={(e) => {
               setSearchTerm(e.target.value);
-              setCurrentPage(1); // Reset to first page on search
+              setCurrentPage(1);
             }}
             className="w-full px-4 py-2 border border-gray-300 rounded"
           />
@@ -143,7 +143,7 @@ function RiceMillTable() {
                 <th className="py-3 px-4 border border-gray-300">State</th>
                 <th className="py-3 px-4 border border-gray-300">District</th>
                 <th className="py-3 px-4 border border-gray-300">
-                  Phone Number
+                  Phone Numbers
                 </th>
                 <th className="py-3 px-4 border border-gray-300">Email ID</th>
                 <th className="py-3 px-4 border border-gray-300">Actions</th>
@@ -171,7 +171,9 @@ function RiceMillTable() {
                     {mill.district}
                   </td>
                   <td className="py-2 px-4 border border-gray-300">
-                    {mill.phoneNumber}
+                    {mill.phoneNumber
+                      ? mill.phoneNumber
+                      : mill.phoneNumbers.join(", ")}
                   </td>
                   <td className="py-2 px-4 border border-gray-300">
                     {mill.email}
@@ -212,7 +214,7 @@ function RiceMillTable() {
               className={`mx-1 px-4 py-2 rounded-md ${
                 index + 1 === currentPage
                   ? "bg-blue-500 text-white"
-                  : "bg-gray-300 text-black"
+                  : "bg-gray-300 text-gray-700"
               }`}
             >
               {index + 1}

@@ -70,8 +70,10 @@ function ViewRiceMill() {
                   <td className="border px-3 py-1">{riceMill.district}</td>
                 </tr>
                 <tr>
-                  <td className="border px-3 py-1 font-semibold">Phone Number</td>
-                  <td className="border px-3 py-1">{riceMill.phoneNumber}</td>
+                  <td className="border px-3 py-1 font-semibold">Phone Numbers</td>
+                  <td className="border px-3 py-1">
+                    {riceMill.phoneNumbers.length > 0 ? riceMill.phoneNumbers.join(", ") : riceMill.phoneNumber}
+                  </td>
                 </tr>
                 <tr>
                   <td className="border px-3 py-1 font-semibold">Email ID</td>
@@ -96,7 +98,7 @@ function ViewRiceMill() {
             </div>
           </div>
         ) : (
-          <Loading/>
+          <Loading />
         )}
       </div>
       <style>
@@ -113,7 +115,6 @@ function ViewRiceMill() {
               left: 0;
               top: 0;
               width: 100%;
-              padding: 10px;
               margin: 0;
               box-shadow: none;
               background: white;
@@ -135,6 +136,7 @@ function ViewRiceMill() {
               font-size: 18px;
             }
             @page {
+              size: A4;
               margin: 10mm;
             }
           }
