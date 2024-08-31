@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const TaskManager = () => {
   const [tasks, setTasks] = useState([]);
@@ -13,12 +13,18 @@ const TaskManager = () => {
   const [appointedBy, setAppointedBy] = useState("");
   const [creationDateTime, setCreationDateTime] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+  const { fullName } = location.state || {};
 
   useEffect(() => {
     fetchTasks();
     fetchEmployees();
     setCreationDateTime(new Date().toLocaleString());
-  }, []);
+    
+    if (fullName) {
+      setAppointedBy(fullName);  // Setting the fullName as appointedBy when available
+    }
+  }, [fullName]);
 
   const fetchTasks = async () => {
     try {
@@ -63,12 +69,11 @@ const TaskManager = () => {
         title: "Task Created",
         text: "Task created successfully!",
       });
-      // Reset form
       setTaskName("");
       setTaskDescription("");
       setAssignTo("");
       setPriority("High");
-      setAppointedBy("");
+      setAppointedBy(fullName);  // Resetting appointedBy back to fullName or empty if no fullName
       setCreationDateTime(new Date().toLocaleString());
     } catch (error) {
       console.error("Error Creating Task:", error);
@@ -79,7 +84,6 @@ const TaskManager = () => {
       });
     }
   };
-  
 
   return (
     <div className="container mx-auto p-4 max-w-4xl mt-10 rounded-lg shadow-lg bg-gradient-to-r from-green-200 via-yellow-100 to-green-200">
@@ -127,15 +131,7 @@ const TaskManager = () => {
           value={appointedBy}
           onChange={(e) => setAppointedBy(e.target.value)}
         >
-          <option value="">Appointed By</option>
-          {employees.map((employee) => (
-            <option
-              key={employee._id}
-              value={`${employee.firstname} ${employee.lastname}`}
-            >
-              {employee.firstname} {employee.lastname}
-            </option>
-          ))}
+          <option value={appointedBy}>{appointedBy}</option>
         </select>
         <input
           type="text"

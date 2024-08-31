@@ -23,14 +23,16 @@ const EmployeeTaskList = ({ employee }) => {
       const employeeFullName = `${employee.firstname} ${employee.lastname}`;
       const employeeTasks = response.data.tasks
         .filter((task) => task.assignTo === employeeFullName)
-        .filter((task) => task.status !== "Complete"); // Exclude "Complete" tasks
+        .filter(
+          (task) => task.status !== "Complete" && task.status !== "Rejected"
+        );
       setTasks(employeeTasks);
       setTotalPages(Math.ceil(employeeTasks.length / itemsPerPage));
     } catch (error) {
       Swal.fire("Error", "Failed to fetch tasks", "error");
     }
   };
-  
+
   const handleChangeStatus = async (taskId, currentStatus) => {
     setUpdatingTask(taskId);
     const { value: status } = await Swal.fire({
@@ -108,7 +110,9 @@ const EmployeeTaskList = ({ employee }) => {
 
   return (
     <div className="mt-8 px-4">
-      <h3 className="text-xl md:text-2xl font-bold mb-4 items-center">Assigned Tasks</h3>
+      <h3 className="text-xl md:text-2xl font-bold mb-4 items-center">
+        Assigned Tasks
+      </h3>
       <div className="overflow-x-auto">
         <table className="w-full border-collapse text-sm md:text-base">
           <thead>
