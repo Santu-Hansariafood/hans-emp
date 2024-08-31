@@ -13,8 +13,7 @@ function EditRiceMill() {
     address: "",
     state: "",
     pin: "",
-    district: "",
-    phoneNumber: "",
+    phoneNumbers: [""], // Initialize with an array containing one empty string
     email: "",
   });
 
@@ -24,8 +23,18 @@ function EditRiceMill() {
 
   const fetchRiceMillDetails = async () => {
     try {
-      const response = await axios.get(`https://main-server-2kc5.onrender.com/api/rice-mills/${id}`);
-      setFormData(response.data);
+      const response = await axios.get(
+        `https://main-server-2kc5.onrender.com/api/rice-mills/${id}`
+      );
+
+      const data = response.data;
+
+      // Check if phoneNumber is available
+      if (data.phoneNumber) {
+        setFormData({ ...data, phoneNumbers: [data.phoneNumber] });
+      } else {
+        setFormData(data);
+      }
     } catch (error) {
       Swal.fire("Error", "Failed to fetch rice mill details", "error");
     }
@@ -36,10 +45,30 @@ function EditRiceMill() {
     setFormData({ ...formData, [name]: value });
   };
 
+  const handlePhoneNumberChange = (index, value) => {
+    const updatedPhoneNumbers = [...formData.phoneNumbers];
+    updatedPhoneNumbers[index] = value;
+    setFormData({ ...formData, phoneNumbers: updatedPhoneNumbers });
+  };
+
+  const addPhoneNumber = () => {
+    setFormData({ ...formData, phoneNumbers: [...formData.phoneNumbers, ""] });
+  };
+
+  const removePhoneNumber = (index) => {
+    const updatedPhoneNumbers = formData.phoneNumbers.filter(
+      (_, i) => i !== index
+    );
+    setFormData({ ...formData, phoneNumbers: updatedPhoneNumbers });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`https://main-server-2kc5.onrender.com/api/rice-mills/${id}`, formData);
+      await axios.put(
+        `https://main-server-2kc5.onrender.com/api/rice-mills/${id}`,
+        formData
+      );
       Swal.fire("Success", "Rice mill details updated successfully", "success");
       navigate(-1);
     } catch (error) {
@@ -135,17 +164,36 @@ function EditRiceMill() {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700">Phone Number:</label>
-          <input
-            type="text"
-            name="phoneNumber"
-            value={formData.phoneNumber}
-            onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded"
-            required
-            maxLength={10}
-            minLength={10}
-          />
+          <label className="block text-gray-700">Phone Numbers:</label>
+          {formData.phoneNumbers.map((phoneNumber, index) => (
+            <div key={index} className="flex items-center mb-2">
+              <input
+                type="text"
+                value={phoneNumber}
+                onChange={(e) => handlePhoneNumberChange(index, e.target.value)}
+                className="w-full p-2 border border-gray-300 rounded"
+                required
+                maxLength={10}
+                minLength={10}
+              />
+              {formData.phoneNumbers.length > 1 && (
+                <button
+                  type="button"
+                  onClick={() => removePhoneNumber(index)}
+                  className="ml-2 bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+                >
+                  Remove
+                </button>
+              )}
+            </div>
+          ))}
+          <button
+            type="button"
+            onClick={addPhoneNumber}
+            className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+          >
+            Add Phone Number
+          </button>
         </div>
         <div className="mb-4">
           <label className="block text-gray-700">Email ID:</label>
