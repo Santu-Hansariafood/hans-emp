@@ -36,6 +36,8 @@ const WorkDetails = ({ user, userRole }) => {
     { id: "farmer-data-input-list", label: "Farmer Data List", checked: false },
     { id: "rice-mill-register", label: "Ricemill Register", checked: false },
     { id: "rice-mill-list", label: "Rice Mill List", checked: false },
+    {id:"travels-entry", label: "Travel Entry", checked: false},
+    {id:"travels-list", label: "Travel List", checked: false},
   ]);
 
   const handleBack = () => {
@@ -157,6 +159,12 @@ const WorkDetails = ({ user, userRole }) => {
         break;
       case "rice-mill-list":
         nextRoute = "/rice-mill-list";
+        break;
+      case "travels-entry":
+        nextRoute = "/travels-entry";
+        break;
+      case "travels-list":
+        nextRoute = "/travels-list";
         break;
       default:
         return;

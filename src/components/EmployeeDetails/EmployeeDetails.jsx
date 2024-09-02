@@ -6,6 +6,7 @@ import EmployeeInfo from "./EmployeeInfo/EmployeeInfo";
 import QRCodeDisplay from "./QRCodeDisplay/QRCodeDisplay";
 import EmployeeTaskList from "./EmployeeTaskList/EmployeeTaskList";
 import GivenTaskStatus from "./GivenTaskStatus/GivenTaskStatus";
+import TravelList from "../Travel/TravelList/TravelList";
 
 const EmployeeDetails = () => {
   const location = useLocation();
@@ -62,6 +63,8 @@ const EmployeeDetails = () => {
     });
   };
 
+  const employeeFullName = `${employee.firstname} ${employee.lastname}`;
+
   return (
     <div className="max-w-4xl mx-auto mt-10 p-8 rounded-lg shadow-lg bg-gradient-to-r from-green-200 via-yellow-100 to-green-200">
       <h2 className="text-4xl font-extrabold mb-6 text-center text-gray-800 bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-yellow-500">
@@ -72,8 +75,16 @@ const EmployeeDetails = () => {
         <QRCodeDisplay employee={employee} />
       </div>
       <EmployeeTaskList employee={employee} />
-
       <GivenTaskStatus employee={employee} />
+
+      {(employeeFullName === "Santu De" ||
+        employeeFullName === "Gopal Agarwal" ||
+        employeeFullName === "Bishwajit Kumar Shaw" ||
+        employeeFullName === "Sudeep Das") && (
+        <div>
+          <TravelList employee={employee} />
+        </div>
+      )}
 
       <div className="mt-8 flex justify-between">
         <button
