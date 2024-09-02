@@ -18,7 +18,7 @@ const TravelList = () => {
     const fetchTravelDetails = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/travel-details/travel-details"
+          "https://main-server-2kc5.onrender.com/api/travel-details/travel-details"
         );
         setTravelDetails(response.data);
         setFilteredTravelDetails(response.data);

@@ -23,7 +23,7 @@ const TravelDetails = () => {
     const checkSubmission = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/travel-details/check-entry?employeeName=${encodeURIComponent(
+          `https://main-server-2kc5.onrender.com/api/travel-details/check-entry?employeeName=${encodeURIComponent(
             fullName
           )}`
         );
@@ -62,7 +62,7 @@ const TravelDetails = () => {
       };
 
       await axios.post(
-        "http://localhost:3000/api/travel-details/travel-details",
+        "https://main-server-2kc5.onrender.com/api/travel-details/travel-details",
         travelData
       );
 

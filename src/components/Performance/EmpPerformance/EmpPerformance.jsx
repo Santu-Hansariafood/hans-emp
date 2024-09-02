@@ -45,7 +45,7 @@ const EmpPerformance = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://localhost:3000/api/travel-details/travel-details"
+          "https://main-server-2kc5.onrender.com/api/travel-details/travel-details"
         );
         const data = await response.json();
 

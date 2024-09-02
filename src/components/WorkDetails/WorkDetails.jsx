@@ -39,8 +39,16 @@ const WorkDetails = ({ user, userRole }) => {
     { id: "travels-entry", label: "Travel Entry", checked: false },
     { id: "travels-list", label: "Travel List", checked: false },
     { id: "performance", label: "Performance", checked: false },
-    {id:"rice-mill-performance", label:"rice mill performance", checked: false},
-    {id:"farmer-visit-performance", label:"Farmer Visit Performance", checked: false}
+    {
+      id: "rice-mill-performance",
+      label: "rice mill performance",
+      checked: false,
+    },
+    {
+      id: "farmer-visit-performance",
+      label: "Farmer Visit Performance",
+      checked: false,
+    },
   ]);
 
   const handleBack = () => {
@@ -175,9 +183,9 @@ const WorkDetails = ({ user, userRole }) => {
       case "rice-mill-performance":
         nextRoute = "/rice-mill-performance";
         break;
-        case "farmer-visit-performance":
-          nextRoute = "/farmer-visit-performance";
-          break;
+      case "farmer-visit-performance":
+        nextRoute = "/farmer-visit-performance";
+        break;
       default:
         return;
     }

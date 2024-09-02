@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
+import Loading from "../../common/Loading/Loading";
 
 const RiceMillPerformance = () => {
   const location = useLocation();
@@ -149,7 +150,7 @@ const RiceMillPerformance = () => {
         Rice Mill Performance - {fullName}
       </h2>
       {loading ? (
-        <div className="text-center">Loading...</div>
+        <Loading/>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <div className="p-2 bg-gray-100 rounded shadow h-64">

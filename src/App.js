@@ -3,23 +3,6 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Header from "./components/common/Header/Header";
 import LoginForm from "./components/Login/Login";
 import Loading from "./components/common/Loading/Loading";
-import LoadingEntry from "./components/EntryLoading/LoadingEntry/LoadingEntry";
-import AddProduct from "./components/Products/AddProduct/AddProduct";
-import ProductMaster from "./components/Products/ProductMaster/ProductMaster";
-import AddSelfCompany from "./components/SelfCompany/AddSelfCompany/AddSelfCompany";
-import SelfCompanyMaster from "./components/SelfCompany/SelfCompanyMaster/SelfCompanyMaster";
-import BidBuyerMaster from "./components/Bid/BidBuyerMaster/BidBuyerMaster";
-import FarmerDataInput from "./components/FarmerDataInput/FarmerDataInput";
-import FarmerDataTable from "./components/FarmerDataTable/FarmerDataTable";
-import RiceMillForm from "./components/RiceMill/RiceMillForm/RiceMillForm";
-import RiceMillTable from "./components/RiceMill/RiceMillTable/RiceMillTable";
-import ViewRiceMill from "./components/RiceMill/ViewRiceMill/ViewRiceMill";
-import EditRiceMill from "./components/RiceMill/EditRiceMill/EditRiceMill";
-import TravelDetails from "./components/Travel/TravelDetails/TravelDetails";
-import TravelList from "./components/Travel/TravelList/TravelList";
-import EmpPerformance from "./components/Performance/EmpPerformance/EmpPerformance";
-import RiceMillPerformance from "./components/Performance/RiceMillPerformance/RiceMillPerformance";
-import FarmerVisitPerformance from "./components/Performance/FarmerVisitPerformance/FarmerVisitPerformance";
 
 const TaskList =lazy(()=>import("./components/Task/TaskList/TaskList"));
 const TaskManager =lazy(()=>import("./components/Task/TaskManager/TaskManager"));
@@ -52,6 +35,24 @@ const WarehouseManagement = lazy(() => import("./components/WarehouseManagement/
 const SupplierBidMaster = lazy(() => import("./components/SupplierBidMaster/SupplierBidMaster"));
 const EditBid = lazy(() => import("./components/EditBid/EditBid"));
 const PlaceBid = lazy(() => import("./components/PlaceBid/PlaceBid"));
+const LoadingEntry = lazy(() => import("./components/EntryLoading/LoadingEntry/LoadingEntry"));
+const AddProduct = lazy(() => import("./components/Products/AddProduct/AddProduct"));
+const ProductMaster = lazy(() => import("./components/Products/ProductMaster/ProductMaster"));
+const AddSelfCompany = lazy(() => import("./components/SelfCompany/AddSelfCompany/AddSelfCompany"));
+const SelfCompanyMaster = lazy(() => import("./components/SelfCompany/SelfCompanyMaster/SelfCompanyMaster"));
+const BidBuyerMaster = lazy(() => import("./components/Bid/BidBuyerMaster/BidBuyerMaster"));
+const FarmerDataInput = lazy(() => import("./components/FarmerDataInput/FarmerDataInput"));
+const FarmerDataTable = lazy(() => import("./components/FarmerDataTable/FarmerDataTable"));
+const RiceMillForm = lazy(() => import("./components/RiceMill/RiceMillForm/RiceMillForm"));
+const RiceMillTable = lazy(() => import("./components/RiceMill/RiceMillTable/RiceMillTable"));
+const ViewRiceMill = lazy(() => import("./components/RiceMill/ViewRiceMill/ViewRiceMill"));
+const EditRiceMill = lazy(() => import("./components/RiceMill/EditRiceMill/EditRiceMill"));
+const TravelDetails = lazy(() => import("./components/Travel/TravelDetails/TravelDetails"));
+const TravelList = lazy(() => import("./components/Travel/TravelList/TravelList"));
+const EmpPerformance = lazy(() => import("./components/Performance/EmpPerformance/EmpPerformance"));
+const RiceMillPerformance = lazy(() => import("./components/Performance/RiceMillPerformance/RiceMillPerformance"));
+const FarmerVisitPerformance = lazy(() => import("./components/Performance/FarmerVisitPerformance/FarmerVisitPerformance"));
+
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

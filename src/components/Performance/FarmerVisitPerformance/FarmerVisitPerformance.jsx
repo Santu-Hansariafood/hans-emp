@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
+import Loading from "../../common/Loading/Loading";
 
 const FarmerVisitPerformance = () => {
   const location = useLocation();
@@ -142,7 +143,7 @@ const FarmerVisitPerformance = () => {
     },
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <Loading/>;
 
   return (
     <div className="max-w-4xl mx-auto mt-5 p-4 bg-white">
@@ -150,7 +151,7 @@ const FarmerVisitPerformance = () => {
         Farmer Visits - {fullName}
       </h2>
       {loading ? (
-        <div className="text-center">Loading...</div>
+        <Loading/>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <div className="p-2 bg-gray-100 rounded shadow h-64">
