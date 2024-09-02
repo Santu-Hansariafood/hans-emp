@@ -19,6 +19,7 @@ import TravelDetails from "./components/Travel/TravelDetails/TravelDetails";
 import TravelList from "./components/Travel/TravelList/TravelList";
 import EmpPerformance from "./components/Performance/EmpPerformance/EmpPerformance";
 import RiceMillPerformance from "./components/Performance/RiceMillPerformance/RiceMillPerformance";
+import FarmerVisitPerformance from "./components/Performance/FarmerVisitPerformance/FarmerVisitPerformance";
 
 const TaskList =lazy(()=>import("./components/Task/TaskList/TaskList"));
 const TaskManager =lazy(()=>import("./components/Task/TaskManager/TaskManager"));
@@ -166,7 +167,8 @@ const App = () => {
           <Route path="/travels-entry" element={<ProtectedRoute element={<TravelDetails/>} roles={["admin"]}/>}/>
           <Route path="/travels-list" element={<ProtectedRoute element={<TravelList/>} roles={["admin"]}/>}/>
           <Route path="/rice-mill-performance" element={<ProtectedRoute element={<RiceMillPerformance/>} roles={["admin"]} />}/>
-    <Route path="/performance" element={<ProtectedRoute element={<EmpPerformance/>} roles={["admin"]}/>}/>
+          <Route path="/performance" element={<ProtectedRoute element={<EmpPerformance/>} roles={["admin"]}/>}/>
+          <Route path="/farmer-visit-performance" element={<ProtectedRoute element={<FarmerVisitPerformance/>} roles={["admin"]}/>}/>
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
