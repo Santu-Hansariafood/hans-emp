@@ -17,6 +17,7 @@ import ViewRiceMill from "./components/RiceMill/ViewRiceMill/ViewRiceMill";
 import EditRiceMill from "./components/RiceMill/EditRiceMill/EditRiceMill";
 import TravelDetails from "./components/Travel/TravelDetails/TravelDetails";
 import TravelList from "./components/Travel/TravelList/TravelList";
+import EmpPerformance from "./components/Performance/EmpPerformance/EmpPerformance";
 
 const TaskList =lazy(()=>import("./components/Task/TaskList/TaskList"));
 const TaskManager =lazy(()=>import("./components/Task/TaskManager/TaskManager"));
@@ -163,7 +164,7 @@ const App = () => {
           <Route path="/rice-mills/edit/:id" element={<ProtectedRoute element={<EditRiceMill/>} roles={["admin"]}/> }/>
           <Route path="/travels-entry" element={<ProtectedRoute element={<TravelDetails/>} roles={["admin"]}/>}/>
           <Route path="/travels-list" element={<ProtectedRoute element={<TravelList/>} roles={["admin"]}/>}/>
-
+    <Route path="/performance" element={<ProtectedRoute element={<EmpPerformance/>} roles={["admin"]}/>}/>
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
