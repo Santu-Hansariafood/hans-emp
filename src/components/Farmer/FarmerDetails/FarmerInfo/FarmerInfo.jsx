@@ -21,7 +21,7 @@ const FarmerInfo = ({ farmer }) => {
         <p>Branch Name:</p>
         <p>Account Holder Name:</p>
         <p>Bank Name:</p>
-        <p>This Person is Verified By:</p>
+        <p>Verified By:</p>
       </div>
       <div className="text-left text-gray-700">
         <p>{farmer.name}</p>
@@ -41,7 +41,8 @@ const FarmerInfo = ({ farmer }) => {
         <p>{farmer.branchName}</p>
         <p>{farmer.accountHolderName}</p>
         <p>{farmer.bankName}</p>
-        <p>{farmer.verifiedBy}</p>
+        {/* <p>{farmer.verifiedBy}</p> */}
+        <p>Hansaria Food Private Limited</p>
       </div>
     </div>
   );
