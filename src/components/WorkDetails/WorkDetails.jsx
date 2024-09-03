@@ -38,7 +38,7 @@ const WorkDetails = ({ user, userRole }) => {
     { id: "rice-mill-list", label: "Rice Mill List", checked: false },
     { id: "travels-entry", label: "Travel Entry", checked: false },
     { id: "travels-list", label: "Travel List", checked: false },
-    { id: "performance", label: "Performance", checked: false },
+    { id: "performance", label: "Travel Report", checked: false },
     {
       id: "rice-mill-performance",
       label: "rice mill performance",

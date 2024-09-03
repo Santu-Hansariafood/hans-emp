@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Line, Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -25,13 +25,13 @@ ChartJS.register(
 );
 
 const EmpPerformance = () => {
-  const location = useLocation();
-  const { fullName } = location.state || {};
+  const navigate = useNavigate();
 
+  const [employees, setEmployees] = useState([]);
+  const [selectedEmployee, setSelectedEmployee] = useState("");
   const [weeklyData, setWeeklyData] = useState({ labels: [], datasets: [] });
   const [monthlyData, setMonthlyData] = useState({ labels: [], datasets: [] });
   const [yearlyData, setYearlyData] = useState({ labels: [], datasets: [] });
-
   const [totalWeeklyDistance, setTotalWeeklyDistance] = useState(0);
   const [totalMonthlyDistance, setTotalMonthlyDistance] = useState(0);
   const [totalYearlyDistance, setTotalYearlyDistance] = useState(0);
@@ -42,11 +42,26 @@ const EmpPerformance = () => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
+    // Fetch employee list from API
+    const fetchEmployees = async () => {
       try {
-        const response = await fetch(
-          "https://main-server-2kc5.onrender.com/api/travel-details/travel-details"
-        );
+        const response = await fetch("https://main-server-2kc5.onrender.com/api/employees");
+        const data = await response.json();
+        setEmployees(data);
+      } catch (error) {
+        console.error("Error fetching employee list:", error);
+      }
+    };
+
+    fetchEmployees();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!selectedEmployee) return;
+
+      try {
+        const response = await fetch("https://main-server-2kc5.onrender.com/api/travel-details/travel-details");
         const data = await response.json();
 
         // Weekly Report
@@ -55,7 +70,7 @@ const EmpPerformance = () => {
         startDate.setDate(today.getDate() - 6);
 
         const weeklyFilteredData = data
-          .filter((item) => item.employeeName === fullName)
+          .filter((item) => item.employeeName === selectedEmployee)
           .map((item) => {
             const date = parseDate(item.date);
             const distance = Math.max(
@@ -103,7 +118,7 @@ const EmpPerformance = () => {
         const currentMonth = today.getMonth();
         const monthlyFilteredData = data.filter(
           (item) =>
-            item.employeeName === fullName &&
+            item.employeeName === selectedEmployee &&
             parseDate(item.date).getMonth() === currentMonth
         );
 
@@ -146,7 +161,7 @@ const EmpPerformance = () => {
 
         // Yearly Report
         const yearlyFilteredData = data.filter(
-          (item) => item.employeeName === fullName
+          (item) => item.employeeName === selectedEmployee
         );
         const yearlyDistances = Array(12).fill(0);
         let totalYearly = 0;
@@ -190,16 +205,36 @@ const EmpPerformance = () => {
         });
         setTotalYearlyDistance(totalYearly);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching travel data:", error);
       }
     };
 
     fetchData();
-  }, [fullName]);
+  }, [selectedEmployee]);
 
   return (
     <div className="container mx-auto p-6">
-      <h2 className="text-2xl font-bold mb-4">{fullName} - Travel Reports</h2>
+      <h2 className="text-2xl font-bold mb-4">Travel Reports</h2>
+
+      {/* Employee Selection */}
+      <div className="mb-6">
+        <label className="block text-lg font-medium mb-2" htmlFor="employee-select">
+          Select Employee:
+        </label>
+        <select
+          id="employee-select"
+          className="w-full p-2 border rounded"
+          value={selectedEmployee}
+          onChange={(e) => setSelectedEmployee(e.target.value)}
+        >
+          <option value="">Select an employee</option>
+          {employees.map((employee) => (
+            <option key={employee._id} value={`${employee.firstname} ${employee.lastname}`}>
+              {employee.firstname} {employee.lastname}
+            </option>
+          ))}
+        </select>
+      </div>
 
       {/* Weekly Report */}
       <div className="mb-8 bg-white p-4 rounded-lg shadow-md">
@@ -232,6 +267,16 @@ const EmpPerformance = () => {
         <div className="mt-4 text-xl font-semibold">
           Total Yearly Distance: {totalYearlyDistance} KM
         </div>
+      </div>
+
+      {/* Back Button */}
+      <div className="mt-6">
+        <button
+          className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded"
+          onClick={() => navigate(-1)}
+        >
+          Back
+        </button>
       </div>
     </div>
   );
