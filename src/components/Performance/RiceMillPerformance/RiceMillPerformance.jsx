@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
 import Loading from "../../common/Loading/Loading";
 
 const RiceMillPerformance = () => {
-  const location = useLocation();
-  const { fullName } = location.state || {};
-
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
+  const [employees, setEmployees] = useState([]);
+  const [selectedFullName, setSelectedFullName] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -29,11 +27,31 @@ const RiceMillPerformance = () => {
   }, []);
 
   useEffect(() => {
-    const filtered = data.filter(
-      (item) => item.registerBy?.fullName === fullName
-    );
-    setFilteredData(filtered);
-  }, [data, fullName]);
+    const fetchEmployees = async () => {
+      try {
+        const response = await axios.get(
+          "https://main-server-2kc5.onrender.com/api/employees"
+        );
+        const employeeList = response.data.map((employee) => ({
+          fullName: `${employee.firstname} ${employee.lastname}`,
+          employeeId: employee._id,
+        }));
+        setEmployees(employeeList);
+      } catch (error) {
+        console.error("Error fetching employee data", error);
+      }
+    };
+    fetchEmployees();
+  }, []);
+
+  useEffect(() => {
+    if (selectedFullName) {
+      const filtered = data.filter(
+        (item) => item.registerBy?.fullName === selectedFullName
+      );
+      setFilteredData(filtered);
+    }
+  }, [data, selectedFullName]);
 
   const filterDataByTimeframe = (timeframe) => {
     const now = new Date();
@@ -147,31 +165,51 @@ const RiceMillPerformance = () => {
   return (
     <div className="max-w-4xl mx-auto mt-5 p-4 bg-white">
       <h2 className="text-3xl font-bold mb-4 text-center">
-        Rice Mill Performance - {fullName}
+        Rice Mill Performance
       </h2>
       {loading ? (
-        <Loading/>
+        <Loading />
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <div className="p-2 bg-gray-100 rounded shadow h-64">
-            <h3 className="text-lg font-semibold text-center mb-2">
-              Last 7 Days
-            </h3>
-            <Line data={getChartData("7-days")} options={chartOptions} />
+        <>
+          <div className="mb-4">
+            <label htmlFor="employee-select" className="block mb-2 text-lg">
+              Select Employee:
+            </label>
+            <select
+              id="employee-select"
+              className="w-full p-2 border border-gray-300 rounded"
+              value={selectedFullName}
+              onChange={(e) => setSelectedFullName(e.target.value)}
+            >
+              <option value="">Select an employee</option>
+              {employees.map((employee) => (
+                <option key={employee.employeeId} value={employee.fullName}>
+                  {employee.fullName}
+                </option>
+              ))}
+            </select>
           </div>
-          <div className="p-2 bg-gray-100 rounded shadow h-64">
-            <h3 className="text-lg font-semibold text-center mb-2">
-              Last Month
-            </h3>
-            <Line data={getChartData("month")} options={chartOptions} />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="p-2 bg-gray-100 rounded shadow h-64">
+              <h3 className="text-lg font-semibold text-center mb-2">
+                Last 7 Days
+              </h3>
+              <Line data={getChartData("7-days")} options={chartOptions} />
+            </div>
+            <div className="p-2 bg-gray-100 rounded shadow h-64">
+              <h3 className="text-lg font-semibold text-center mb-2">
+                Last Month
+              </h3>
+              <Line data={getChartData("month")} options={chartOptions} />
+            </div>
+            <div className="p-2 bg-gray-100 rounded shadow h-64">
+              <h3 className="text-lg font-semibold text-center mb-2">
+                Last Year
+              </h3>
+              <Line data={getChartData("year")} options={chartOptions} />
+            </div>
           </div>
-          <div className="p-2 bg-gray-100 rounded shadow h-64">
-            <h3 className="text-lg font-semibold text-center mb-2">
-              Last Year
-            </h3>
-            <Line data={getChartData("year")} options={chartOptions} />
-          </div>
-        </div>
+        </>
       )}
     </div>
   );

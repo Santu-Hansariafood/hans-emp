@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
 import Loading from "../../common/Loading/Loading";
 
 const FarmerVisitPerformance = () => {
-  const location = useLocation();
-  const { fullName } = location.state || {}; // Access fullName from state
   const [farmerData, setFarmerData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
+  const [employees, setEmployees] = useState([]);
+  const [selectedEmployee, setSelectedEmployee] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchFarmerData = async () => {
       try {
         const response = await axios.get(
           "https://main-server-2kc5.onrender.com/api/farmer-data"
@@ -20,19 +19,35 @@ const FarmerVisitPerformance = () => {
         setFarmerData(response.data);
         setLoading(false);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching farmer data:", error);
         setLoading(false);
       }
     };
-    fetchData();
+    fetchFarmerData();
   }, []);
 
   useEffect(() => {
-    const filtered = farmerData.filter(
-      (farmer) => farmer.registerBy?.fullName === fullName
-    );
-    setFilteredData(filtered);
-  }, [farmerData, fullName]);
+    const fetchEmployeeData = async () => {
+      try {
+        const response = await axios.get(
+          "https://main-server-2kc5.onrender.com/api/employees"
+        );
+        setEmployees(response.data);
+      } catch (error) {
+        console.error("Error fetching employee data:", error);
+      }
+    };
+    fetchEmployeeData();
+  }, []);
+
+  useEffect(() => {
+    if (selectedEmployee) {
+      const filtered = farmerData.filter(
+        (farmer) => farmer.registerBy?.fullName === selectedEmployee
+      );
+      setFilteredData(filtered);
+    }
+  }, [farmerData, selectedEmployee]);
 
   const filterDataByTimeframe = (timeframe) => {
     const now = new Date();
@@ -143,15 +158,41 @@ const FarmerVisitPerformance = () => {
     },
   };
 
-  if (loading) return <Loading/>;
+  const handleEmployeeChange = (e) => {
+    setSelectedEmployee(e.target.value);
+  };
+
+  if (loading) return <Loading />;
 
   return (
     <div className="max-w-4xl mx-auto mt-5 p-4 bg-white">
-      <h2 className="text-3xl font-bold mb-4 text-center">
-        Farmer Visits - {fullName}
-      </h2>
+      <h2 className="text-3xl font-bold mb-4 text-center">Farmer Visits</h2>
+      <div className="mb-4">
+        <label
+          htmlFor="employeeSelect"
+          className="block text-lg font-semibold mb-2"
+        >
+          Select Employee:
+        </label>
+        <select
+          id="employeeSelect"
+          value={selectedEmployee}
+          onChange={handleEmployeeChange}
+          className="w-full p-2 border border-gray-300 rounded"
+        >
+          <option value="">-- Select an Employee --</option>
+          {employees.map((employee) => (
+            <option
+              key={employee._id}
+              value={`${employee.firstname} ${employee.lastname}`}
+            >
+              {employee.firstname} {employee.lastname}
+            </option>
+          ))}
+        </select>
+      </div>
       {loading ? (
-        <Loading/>
+        <Loading />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <div className="p-2 bg-gray-100 rounded shadow h-64">
