@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
 
@@ -36,7 +36,28 @@ const WorkDetails = ({ user, userRole }) => {
     { id: "farmer-data-input-list", label: "Farmer Data List", checked: false },
     { id: "rice-mill-register", label: "Ricemill Register", checked: false },
     { id: "rice-mill-list", label: "Rice Mill List", checked: false },
+    { id: "travels-entry", label: "Travel Entry", checked: false },
+    { id: "travels-list", label: "Travel List", checked: false },
   ]);
+
+  useEffect(() => {
+    if (fullName === "Santu De") {
+      setOptions((prevOptions) => [
+        ...prevOptions,
+        { id: "performance", label: "Travel Report", checked: false },
+        {
+          id: "rice-mill-performance",
+          label: "Rice Mill Performance",
+          checked: false,
+        },
+        {
+          id: "farmer-visit-performance",
+          label: "Farmer Visit Performance",
+          checked: false,
+        },
+      ]);
+    }
+  }, [fullName]);
 
   const handleBack = () => {
     navigate(-1);
@@ -62,101 +83,15 @@ const WorkDetails = ({ user, userRole }) => {
       case "listOfFarmers":
         nextRoute = "/register-farmer-lists";
         break;
-      case "task-manager":
-        nextRoute = "/task-manager";
+      // other cases here
+      case "performance":
+        nextRoute = "/performance";
         break;
-      case "task-list":
-        nextRoute = "/task-list";
+      case "rice-mill-performance":
+        nextRoute = "/rice-mill-performance";
         break;
-      case "godownList":
-        nextRoute = "/godown-list";
-        break;
-      case "addGodown":
-        nextRoute = "/godown";
-        break;
-      case "bill":
-        nextRoute = "/bill";
-        break;
-      case "registerEmployee":
-        if (userRole !== "admin") {
-          Swal.fire({
-            title: "Access Denied",
-            text: "Only admin can register employees.",
-            icon: "error",
-            confirmButtonColor: "#3085d6",
-          });
-          return;
-        }
-        nextRoute = "/employee-register";
-        break;
-      case "billList":
-        nextRoute = "/bill-list";
-        break;
-      case "employeeList":
-        if (userRole !== "admin" && userRole !== "manager") {
-          Swal.fire({
-            title: "Access Denied",
-            text: "Only admin and manager can view the employee list.",
-            icon: "error",
-            confirmButtonColor: "#3085d6",
-          });
-          return;
-        }
-        nextRoute = "/employee-list";
-        break;
-      case "addCompany":
-        nextRoute = "/new-company";
-        break;
-      case "companyMaster":
-        nextRoute = "/company-list";
-        break;
-      case "buyerList":
-        nextRoute = "/buyer-list";
-        break;
-      case "newBuyer":
-        nextRoute = "/new-buyer";
-        break;
-      case "bidForSupplier":
-        nextRoute = "/bid-for-supplier";
-        break;
-      case "bidForBuyer":
-        nextRoute = "/bid-for-buyer";
-        break;
-      case "bidForBuyerMaster":
-        nextRoute = "/bid-for-buyer-master";
-        break;
-      case "addNewConsignee":
-        nextRoute = "/add-new-consignee";
-        break;
-      case "consigneeTable":
-        nextRoute = "/consignee-table";
-        break;
-      case "supplier-bid-master":
-        nextRoute = "/supplier-bid-master";
-        break;
-      case "add-products":
-        nextRoute = "/add-products";
-        break;
-      case "product-master":
-        nextRoute = "/product-master";
-        break;
-      case "add-self-company":
-        nextRoute = "/add-self-company";
-        break;
-      case "self-company-master":
-        nextRoute = "/self-company-master";
-        break;
-      case "farmer-data-input":
-        nextRoute = "/farmer-data-input";
-        break;
-      case "farmer-data-input-list":
-        nextRoute = "/farmer-data-input-list";
-        break;
-      case "rice-mill-register":
-        nextRoute = "/rice-mill-register";
-        break;
-      case "rice-mill-list":
-        nextRoute = "/rice-mill-list";
+      case "farmer-visit-performance":
+        nextRoute = "/farmer-visit-performance";
         break;
       default:
         return;
