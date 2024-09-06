@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
 import axios from "axios";
 import Loading from "../../common/Loading/Loading";
+import { Chart, registerables } from 'chart.js';
+
+Chart.register(...registerables);
 
 const FarmerVisitPerformance = () => {
   const [farmerData, setFarmerData] = useState([]);
