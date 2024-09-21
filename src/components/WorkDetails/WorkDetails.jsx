@@ -49,6 +49,11 @@ const WorkDetails = ({ user, userRole }) => {
       label: "Farmer Visit Performance",
       checked: false,
     },
+    {
+      id: "employee-travel-map",
+      label: "Employee Travel Map",
+      checked: false,
+    }
   ]);
 
   const handleBack = () => {
@@ -185,6 +190,9 @@ const WorkDetails = ({ user, userRole }) => {
         break;
       case "farmer-visit-performance":
         nextRoute = "/farmer-visit-performance";
+        break;
+      case "employee-travel-map":
+        nextRoute = "/employee-travel-map";
         break;
       default:
         return;

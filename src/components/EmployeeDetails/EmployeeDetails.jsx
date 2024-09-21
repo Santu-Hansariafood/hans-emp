@@ -7,16 +7,20 @@ import QRCodeDisplay from "./QRCodeDisplay/QRCodeDisplay";
 import EmployeeTaskList from "./EmployeeTaskList/EmployeeTaskList";
 import GivenTaskStatus from "./GivenTaskStatus/GivenTaskStatus";
 import TravelList from "../Travel/TravelList/TravelList";
+import LocationTracker from "../LocationTracker/LocationTracker";
 
 const EmployeeDetails = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { employee } = location.state || {};
   const [tasks, setTasks] = useState([]);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [showLocationTracker, setShowLocationTracker] = useState(false);
 
   useEffect(() => {
     if (employee) {
       fetchTasks();
+      checkAdminRole();
     }
   }, [employee]);
 
@@ -33,6 +37,20 @@ const EmployeeDetails = () => {
     } catch (error) {
       console.error("Error fetching tasks:", error);
     }
+  };
+
+  const checkAdminRole = () => {
+    if (employee?.role === "admin") {
+      setIsAdmin(true);
+      activateLocationTracker();
+    }
+  };
+
+  const activateLocationTracker = () => {
+    setShowLocationTracker(true);
+    setTimeout(() => {
+      setShowLocationTracker(false);
+    }, 10 * 60 * 60 * 1000);
   };
 
   if (!employee) {
@@ -84,6 +102,10 @@ const EmployeeDetails = () => {
         <div>
           <TravelList employee={employee} />
         </div>
+      )}
+
+      {isAdmin && showLocationTracker && (
+        <LocationTracker employee={employee} />
       )}
 
       <div className="mt-8 flex justify-between">

@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Header from "./components/common/Header/Header";
 import LoginForm from "./components/Login/Login";
 import Loading from "./components/common/Loading/Loading";
+import LocationTracker from "./components/LocationTracker/LocationTracker"; 
 
 const TaskList =lazy(()=>import("./components/Task/TaskList/TaskList"));
 const TaskManager =lazy(()=>import("./components/Task/TaskManager/TaskManager"));
@@ -52,6 +53,7 @@ const TravelList = lazy(() => import("./components/Travel/TravelList/TravelList"
 const EmpPerformance = lazy(() => import("./components/Performance/EmpPerformance/EmpPerformance"));
 const RiceMillPerformance = lazy(() => import("./components/Performance/RiceMillPerformance/RiceMillPerformance"));
 const FarmerVisitPerformance = lazy(() => import("./components/Performance/FarmerVisitPerformance/FarmerVisitPerformance"));
+const EmployeeTravelMap = lazy(() => import("./components/EmployeeTravelMap/EmployeeTravelMap"));
 
 
 const App = () => {
@@ -111,8 +113,8 @@ const App = () => {
     if (!loggedIn) return <Navigate to="/" replace />;
     if (roles && roles.indexOf(user?.role) === -1 && user?.role !== "admin") return <NoAccess />;
 
-    return React.cloneElement(element, { userRole: user?.role, user });
-  };
+    return React.cloneElement(element, { userRole: user?.role, user, LocationTracker });
+    };
 
   if (isLoading) {
     return <Loading />;
@@ -170,6 +172,10 @@ const App = () => {
           <Route path="/rice-mill-performance" element={<ProtectedRoute element={<RiceMillPerformance/>} roles={["admin"]} />}/>
           <Route path="/performance" element={<ProtectedRoute element={<EmpPerformance/>} roles={["admin"]}/>}/>
           <Route path="/farmer-visit-performance" element={<ProtectedRoute element={<FarmerVisitPerformance/>} roles={["admin"]}/>}/>
+          <Route
+            path="/employee-travel-map"
+            element={<ProtectedRoute element={<EmployeeTravelMap />} roles={["admin", "manager"]} />}
+          />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
