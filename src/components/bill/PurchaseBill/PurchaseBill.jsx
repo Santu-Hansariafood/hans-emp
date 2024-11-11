@@ -15,7 +15,7 @@ const PurchaseBill = () => {
   const { mobileNumber, farmerId } = location.state || {};
 
   const [lorryNumber, setLorryNumber] = useState("");
-  const [productName] = useState("Maize");
+  const [productName, setProductName] = useState("Maize");
   const [company, setCompany] = useState("");
   const [totalBag, setTotalBag] = useState("");
   const [grossWeight, setGrossWeight] = useState("");
@@ -221,6 +221,7 @@ const PurchaseBill = () => {
           lorryNumber={lorryNumber}
           setLorryNumber={setLorryNumber}
           productName={productName}
+          setProductName={setProductName}
           company={company}
           setCompany={setCompany}
         />

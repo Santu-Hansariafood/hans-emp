@@ -1,6 +1,6 @@
 import React from "react";
 
-const LorryDetails = ({ lorryNumber, setLorryNumber, productName, company, setCompany }) => {
+const LorryDetails = ({ lorryNumber, setLorryNumber, productName, setProductName, company, setCompany }) => {
 
   const handleLorryNumberChange = (e) => {
     const inputValue = e.target.value.toUpperCase();
@@ -25,7 +25,8 @@ const LorryDetails = ({ lorryNumber, setLorryNumber, productName, company, setCo
         <option value="Balaji Enterprise">Balaji Enterprise</option>
         <option value="Shavans Trading Co">Shavans Trading Co</option>
       </select>
-      <label className="block text-sm font-medium text-gray-700">
+      
+      <label className="block text-sm font-medium text-gray-700 mt-4">
         Lorry Number (10 digits and letters):
       </label>
       <input
@@ -37,15 +38,20 @@ const LorryDetails = ({ lorryNumber, setLorryNumber, productName, company, setCo
         required
         className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
       />
+
       <label className="block text-sm font-medium text-gray-700 mt-4">
         Product Name:
       </label>
-      <input
-        type="text"
+      <select
         value={productName}
-        readOnly
-        className="mt-1 block w-full p-2 border border-gray-300 rounded-md bg-gray-100"
-      />
+        onChange={(e) => setProductName(e.target.value)}
+        required
+        className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+      >
+        <option value="" disabled>Select a product</option>
+        <option value="Maize">Maize</option>
+        <option value="Paddy">Paddy</option>
+      </select>
     </div>
   );
 };

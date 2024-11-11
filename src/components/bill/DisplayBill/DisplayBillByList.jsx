@@ -191,6 +191,9 @@ const DisplayBillByList = () => {
               <p>
                 <strong>Bill No:</strong> {billData.billNumber}
               </p>
+              <p>
+                  <strong>Product Name:</strong> {billData.productName}
+                </p>
             </td>
           </tr>
         </tbody>
