@@ -23,18 +23,18 @@ const TaskList = () => {
         "https://main-server-2kc5.onrender.com/api/tasks"
       );
       const tasksData = response.data.tasks || [];
-
+  
       const filteredTasks = tasksData.filter((task) =>
         selectedStatuses.length ? selectedStatuses.includes(task.status) : true
       );
-
-      setTasks(filteredTasks);
+  
+      setTasks(filteredTasks.reverse());
     } catch (error) {
       console.error("Error fetching tasks:", error);
       setTasks([]);
     }
   };
-
+  
   const handleEditTask = async (task) => {
     const { value: formValues } = await Swal.fire({
       title: "Edit Task",
